@@ -141,6 +141,10 @@
   <ItemGroup>
     <ClCompile Include="Trivia.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="JsonResponsePacketSerializer.h" />
+    <ClInclude Include="Response.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
