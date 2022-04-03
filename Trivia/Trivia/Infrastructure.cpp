@@ -62,9 +62,11 @@ this function will handle a new client
 input: none
 output: none
 */
-void Communicator::handleNewClient() 
+void Communicator::handleNewClient(SOCKET clientSocket)
 {
+	LoginRequestHandler newLogin;
 	string check;
+	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, &newLogin));
 	std::cout << "hello" << std::endl;
 	std::cin >> check;
 	std::cout << check << std::endl;
@@ -77,12 +79,10 @@ output: none
 */
 void Communicator::acceptUsers()
 {
-	LoginRequestHandler newLogin;
 	SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
-	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(client_socket, &newLogin));
-	thread clientThread(&Communicator::handleNewClient, this);
+	thread clientThread(&Communicator::handleNewClient, this, client_socket);
 	clientThread.detach();
 }
 

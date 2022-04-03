@@ -21,7 +21,7 @@ public:
 	
 private:
 	void bindAndListen();
-	void handleNewClient();
+	void handleNewClient(SOCKET clientSocket);
 	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	void acceptUsers();
