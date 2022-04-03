@@ -139,11 +139,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Trivia.cpp" />
+    <ClCompile Include="Infrastructure.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="WSAIntializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Handlers.h" />
+    <ClInclude Include="Infrastructure.h" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
     <ClInclude Include="Response.h" />
+    <ClInclude Include="WSAIntializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
