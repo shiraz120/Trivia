@@ -139,9 +139,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="Trivia.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
     <ClInclude Include="Response.h" />
   </ItemGroup>

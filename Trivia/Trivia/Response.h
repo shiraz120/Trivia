@@ -1,7 +1,10 @@
 #pragma once
 #include <string>
 #include <iostream>
+#include "json.hpp"
+
 using std::string;
+using nlohmann::json;
 
 struct loginResponse
 {
