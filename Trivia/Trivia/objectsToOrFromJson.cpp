@@ -1,31 +1,49 @@
 #include "objectsToOrFromJson.h"
 
-void to_json(json& jsonLogin, const loginResponse& login)
+void to_json(json& jsonLoginResponse, const loginResponse& login)
 {
-	jsonLogin = json{ { "status", login.status} };
+	jsonLoginResponse = json{ { "status", login.status} };
 }
 
-void to_json(json& jsonSignUp, const signUpResponse& signup)
+void to_json(json& jsonSignUpResponse, const signUpResponse& signup)
 {
-	jsonSignUp = json{ { "status", signup.status } };
+	jsonSignUpResponse = json{ { "status", signup.status } };
 }
 
-void to_json(json& jsonError, const ErrorResponse& error)
+void to_json(json& jsonErrorResponse, const ErrorResponse& error)
 {
-	jsonError = json{ { "message", error.message } };
+	jsonErrorResponse = json{ { "message", error.message } };
 }
 
-void from_json(const json& jsonLogin, loginResponse& login)
+void to_json(json& jsonLoginRequest, const loginRequest& login)
 {
-	jsonLogin.at("status").get_to(login.status);
+	jsonLoginRequest = json{ {"username", login.username}, {"password", login.password} };
 }
 
-void from_json(const json& jsonSignUp, signUpResponse& signup)
+void from_json(const json& jsonLoginResponse, loginResponse& login)
 {
-	jsonSignUp.at("status").get_to(signup.status);
+	jsonLoginResponse.at("status").get_to(login.status);
 }
 
-void from_json(const json& jsonError, ErrorResponse& error)
+void from_json(const json& jsonSignUpResponse, signUpResponse& signup)
 {
-	jsonError.at("message").get_to(error.message);
+	jsonSignUpResponse.at("status").get_to(signup.status);
+}
+
+void from_json(const json& jsonErrorResponse, ErrorResponse& error)
+{
+	jsonErrorResponse.at("message").get_to(error.message);
+}
+
+void from_json(const json& jsonLoginRequest, loginRequest& login)
+{
+	jsonLoginRequest.at("username").get_to(login.username);
+	jsonLoginRequest.at("password").get_to(login.password);
+}
+
+void from_json(const json& jsonSignupRequest, signupRequest& signup)
+{
+	jsonSignupRequest.at("username").get_to(signup.username);
+	jsonSignupRequest.at("password").get_to(signup.password);
+	jsonSignupRequest.at("email").get_to(signup.email);
 }
