@@ -44,6 +44,6 @@ output: the length as string with padded zeros
 string JsonResponsePacketSerializer::addPaddingZeros(int length)
 {
 	string paddedLength = std::to_string(length);
-	paddedLength.append(MAX_DATA_LENGTH - length, '0');
+	paddedLength.append(MAX_DATA_LENGTH - std::to_string(length).size(), '0');
 	return paddedLength;
 }
