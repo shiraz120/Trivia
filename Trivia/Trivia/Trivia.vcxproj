@@ -140,11 +140,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
-    <ClCompile Include="Trivia.cpp" />
+    <ClCompile Include="objectsToOrFromJson.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
+    <ClInclude Include="objectsToOrFromJson.h" />
     <ClInclude Include="Response.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
