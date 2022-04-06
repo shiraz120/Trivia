@@ -20,6 +20,11 @@ void to_json(json& jsonLoginRequest, const loginRequest& login)
 	jsonLoginRequest = json{ {"username", login.username}, {"password", login.password} };
 }
 
+void to_json(json& jsonSignupRequest, const signupRequest& signup)
+{
+	jsonSignupRequest = json{ {"username", signup.username}, {"password", signup.password}, {"email", signup.email} };
+}
+
 void from_json(const json& jsonLoginResponse, loginResponse& login)
 {
 	jsonLoginResponse.at("status").get_to(login.status);

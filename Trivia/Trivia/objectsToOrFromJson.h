@@ -12,7 +12,7 @@ void from_json(const json& jsonSignUpResponse, signUpResponse& signup);
 void from_json(const json& jsonErrorResponse, ErrorResponse& error);
 
 /* Request */
-void to_json(json& jsonLoginRequest, const loginRequest& error);
-void to_json(json& jsonLoginRequest, const loginRequest& error);
+void to_json(json& jsonLoginRequest, const loginRequest& login);
+void to_json(json& jsonSignupRequest, const signupRequest& signup);
 void from_json(const json& jsonLoginRequest, loginRequest& login);
 void from_json(const json& jsonSignupRequest, signupRequest& signup);
