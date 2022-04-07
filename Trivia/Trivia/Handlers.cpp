@@ -24,12 +24,14 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	if (request.id == LOGIN_REQUEST)
 	{
 		loginResponse data;
-		data.status = 5; // need to add status options, right now '5' doesnt mean any thing
+		loginRequest clientData = JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer);
+		data.status = 5; // need to add status options, right now '5' doesnt mean any thing, need to add desirializer for checking the user data
 		result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	}
 	else
 	{
 		signUpResponse data;
+		signupRequest clientData = JsonRequestPacketDeserializer::deserializeSignupRequest(request.buffer);
 		data.status = 5; // need to add status options, right now '5' doesnt mean any thing
 		result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	}
