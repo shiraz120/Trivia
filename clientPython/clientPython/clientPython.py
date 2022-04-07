@@ -1,7 +1,22 @@
 import socket
+import json
 
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 8826
+LEN_OF_BITS = 4
+CODE_SIZE = 1
+
+
+def print_recv(sock):
+    """
+    prints the recieved message
+    input: socket
+    return: none
+    """
+    print(sock.recv(CODE_SIZE).decode())
+    len = int(sock.recv(LEN_OF_BITS).decode())
+    print(sock.recv(len).decode())
+
 
 def client_conv_with_server():
     """
@@ -13,18 +28,23 @@ def client_conv_with_server():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_address = (SERVER_IP, SERVER_PORT)
         sock.connect(server_address)
-        server_msg = sock.recv(5)
-        server_msg = server_msg.decode()
-        print(server_msg)
-        msg = "hello"
-        sock.sendall(msg.encode())
+        msg = json.loads('{username: "user1", password: "1234", mail:user1@gmail.com}')
+        print('b' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        sock.sendall('b' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        print_recv(sock)
+        msg = json.loads('{username: "user1", password: "1234"}')
+        print('a' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        sock.sendall('a' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        print_recv(sock)
     except Exception as e:
+        sock.close()
         print("Error!: ", e)
     sock.close()
 
 
 def main():
     client_conv_with_server()
+
 
 if __name__ == "__main__":
     main()
