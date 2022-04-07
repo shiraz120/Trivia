@@ -30,7 +30,7 @@ this function will call to bindAndListen function and then start to accept users
 input: none
 output: none
 */
-void Communicator::startHandleRequest() 
+void Communicator::startHandleRequest()
 {
 	bindAndListen();
 	while (true)
@@ -46,7 +46,7 @@ this function will bind and listen to clients connect requests
 input: none
 output: none
 */
-void Communicator::bindAndListen() 
+void Communicator::bindAndListen()
 {
 	int port = PORT;
 	struct sockaddr_in sa = { 0 };
@@ -83,7 +83,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			time(&curentTime);
 			infoFromClient.receivalTime = ctime(&curentTime);
 			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getIntPartFromSocket(clientSocket, MAX_DATA_LENGTH));
-			
+
 			/* if the request is valid for the current handler, create and send the response and replace the handler to a new handler */
 			if (!handler->isRequestRelevant(infoFromClient))
 			{

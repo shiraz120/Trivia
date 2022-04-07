@@ -14,10 +14,6 @@ def print_recv(sock):
     return: none
     """
     print(sock.recv(128).decode())
-    # print("Recived:     "  + sock.recv(CODE_SIZE).decode(), end='')
-    # len = sock.recv(LEN_OF_BITS).decode()
-    # print(len, end='')
-    # print(sock.recv(int(len)).decode())
 
 
 def client_conv_with_server():
