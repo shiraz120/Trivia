@@ -139,25 +139,32 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="dataBase.cpp" />
     <ClCompile Include="Handlers.cpp" />
     <ClCompile Include="Infrastructure.cpp" />
     <ClCompile Include="JsonRequestPacketDeserializer.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Managers.cpp" />
     <ClCompile Include="objectsToOrFromJson.cpp" />
     <ClCompile Include="severHelper.cpp" />
+    <ClCompile Include="sqlite3.c" />
     <ClCompile Include="WSAIntializer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="dataBase.h" />
+    <ClInclude Include="dataBaseException.h" />
     <ClInclude Include="Handlers.h" />
     <ClInclude Include="Infrastructure.h" />
     <ClInclude Include="json.hpp" />
     <ClInclude Include="JsonRequestPacketDeserializer.h" />
     <ClInclude Include="JsonResponsePacketSerializer.h" />
+    <ClInclude Include="Managers.h" />
     <ClInclude Include="objectsToOrFromJson.h" />
     <ClInclude Include="Request.h" />
     <ClInclude Include="Response.h" />
     <ClInclude Include="serverHelper.h" />
+    <ClInclude Include="sqlite3.h" />
     <ClInclude Include="WSAIntializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

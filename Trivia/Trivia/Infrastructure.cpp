@@ -71,7 +71,6 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	RequestResult infoToClient;
 	ErrorResponse error;
 	time_t curentTime;
-	int size;
 	std::unique_lock<std::mutex> clientLock(cLock);
 	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, handler));
 	clientLock.unlock();
@@ -100,7 +99,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			}
 		}
 	}
-	catch (const std::exception& e)
+	catch (...)
 	{
 		std::unique_lock<std::mutex> clientLock(cLock);
 		m_clients.erase(clientSocket);

@@ -9,6 +9,7 @@
 #include <string>
 #include <mutex>
 #include "serverHelper.h"
+#include "Managers.h"
 
 #define PORT 8826;
 static const unsigned int IFACE = 0;
@@ -16,6 +17,18 @@ using std::thread;
 using std::string;
 using std::mutex;
 
+
+class RequestHandlerFactory
+{
+public:
+	LoginRequestHandler* createLoginRequestHandler();
+	LoginManager& getLoginManager();
+
+private:
+	LoginManager m_loginManager;
+	IDatabase* m_database;
+
+};
 
 class Communicator
 {
@@ -25,6 +38,7 @@ public:
 	void startHandleRequest();
 	
 private:
+	//RequestHandlerFactory& m_handlerFactory;
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
 	void acceptUsers();
@@ -41,5 +55,7 @@ public:
 	void run();
 
 private:
+	IDatabase* m_database;
+	RequestHandlerFactory m_handlerFactory;
 	Communicator m_communicator;
 };
