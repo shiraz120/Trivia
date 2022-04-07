@@ -71,30 +71,41 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	RequestResult infoToClient;
 	ErrorResponse error;
 	time_t curentTime;
+	std::unique_lock<std::mutex> clientLock;
 	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, handler));
-	while (true)
-	{
-		/* init the request info with the user request */
-		infoFromClient.id = *((Helper::getStringPartFromSocket(clientSocket, CODE_LENGTH)).c_str());
-		time(&curentTime);
-		infoFromClient.receivalTime = ctime(&curentTime);
-		infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getIntPartFromSocket(clientSocket, MAX_DATA_LENGTH));
+	clientLock.unlock();
+	try {
+		while (true)
+		{
+			/* init the request info with the user request */
+			infoFromClient.id = *((Helper::getStringPartFromSocket(clientSocket, CODE_LENGTH)).c_str());
+			time(&curentTime);
+			infoFromClient.receivalTime = ctime(&curentTime);
+			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getIntPartFromSocket(clientSocket, MAX_DATA_LENGTH));
 
-		/* if the request is valid create and send the response and replace the handler to a new handler */
-		if(!handler->isRequestRelevant(infoFromClient))
-		{
-			error.message = "Error: request isnt relevant for the current handler.";
-			Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse(error));
+			/* if the request is valid create and send the response and replace the handler to a new handler */
+			if (!handler->isRequestRelevant(infoFromClient))
+			{
+				error.message = "Error: request isnt relevant for the current handler.";
+				Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse(error));
+			}
+			else
+			{
+				infoToClient = handler->handleRequest(infoFromClient);
+				delete handler;
+				handler = infoToClient.newHandler;
+				Helper::sendData(clientSocket, infoToClient.response);
+			}
 		}
-		else
-		{
-			infoToClient = handler->handleRequest(infoFromClient);
-			delete handler;
-			handler = infoToClient.newHandler;
-			Helper::sendData(clientSocket, infoToClient.response);
-		}
+		delete handler;
 	}
-	delete handler;
+	catch (const std::exception& e)
+	{
+		std::unique_lock<std::mutex> clientLock;
+		m_clients.erase(std::find(m_clients.begin(), m_clients.end(), std::pair<SOCKET, IRequestHandler*>(clientSocket, handler)));
+		clientLock.unlock();
+		closesocket(clientSocket);
+	}
 }
 
 /*
