@@ -15,13 +15,16 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Infrastructure.cpp">
+    <ClCompile Include="JsonResponsePacketSerializer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="objectsToOrFromJson.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="JsonRequestPacketDeserializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="WSAIntializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,13 +35,16 @@
     <ClInclude Include="JsonResponsePacketSerializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Handlers.h">
+    <ClInclude Include="json.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Infrastructure.h">
+    <ClInclude Include="objectsToOrFromJson.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="WSAIntializer.h">
+    <ClInclude Include="Request.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JsonRequestPacketDeserializer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
