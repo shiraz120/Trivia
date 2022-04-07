@@ -47,8 +47,9 @@ output: none
 */
 void Communicator::bindAndListen() 
 {
+	int port = PORT;
 	struct sockaddr_in sa = { 0 };
-	sa.sin_port = htons(PORT);
+	sa.sin_port = htons(port);
 	sa.sin_family = AF_INET;
 	sa.sin_addr.s_addr = IFACE;
 	if (::bind(m_serverSocket, (struct sockaddr*)&sa, sizeof(sa)) == SOCKET_ERROR)
@@ -65,11 +66,10 @@ output: none
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
 	LoginRequestHandler newLogin;
-	string check;
+	string check = "hello";
 	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, &newLogin));
-	std::cout << "hello" << std::endl;
-	std::cin >> check;
-	std::cout << check << std::endl;
+	Helper::sendData(clientSocket, check);
+	std::cout << Helper::getStringPartFromSocket(clientSocket, 5) << std::endl;
 }
 
 /*
@@ -82,6 +82,7 @@ void Communicator::acceptUsers()
 	SOCKET client_socket = accept(m_serverSocket, NULL, NULL);
 	if (client_socket == INVALID_SOCKET)
 		throw std::exception(__FUNCTION__);
+	std::cout << "client accepted!" << std::endl;
 	thread clientThread(&Communicator::handleNewClient, this, client_socket);
 	clientThread.detach();
 }

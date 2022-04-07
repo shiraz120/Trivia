@@ -6,7 +6,9 @@
 #include <thread>
 #include "Handlers.h"
 #include <string>
-static const unsigned short PORT = 8826;
+#include "serverHelper.h"
+#define PORT 8826;
+
 static const unsigned int IFACE = 0;
 using std::thread;
 using std::string;
