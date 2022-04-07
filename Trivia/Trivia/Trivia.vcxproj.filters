@@ -13,6 +13,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\exceptions">
+      <UniqueIdentifier>{f75b2ab8-ca64-4763-829e-50bfd4b014bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\jsons">
+      <UniqueIdentifier>{1e3f9301-0b4e-448e-bb31-71a3be5b3f54}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\server">
+      <UniqueIdentifier>{e164325c-12c0-4dda-8166-8261072b8ed8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dataBases">
+      <UniqueIdentifier>{9a02ed6d-0afa-4847-bee1-808b5d37b792}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\userDataManagment">
+      <UniqueIdentifier>{b1f9d824-5bff-48c7-9c8c-2ecda2996839}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="JsonResponsePacketSerializer.cpp">
@@ -39,37 +54,58 @@
     <ClCompile Include="severHelper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="dataBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="sqlite3.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Managers.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Response.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="json.hpp">
+      <Filter>Header Files\jsons</Filter>
     </ClInclude>
     <ClInclude Include="JsonResponsePacketSerializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="json.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="objectsToOrFromJson.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Request.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\jsons</Filter>
     </ClInclude>
     <ClInclude Include="JsonRequestPacketDeserializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="WSAIntializer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Infrastructure.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Handlers.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\jsons</Filter>
     </ClInclude>
     <ClInclude Include="serverHelper.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\server</Filter>
+    </ClInclude>
+    <ClInclude Include="Infrastructure.h">
+      <Filter>Header Files\server</Filter>
+    </ClInclude>
+    <ClInclude Include="objectsToOrFromJson.h">
+      <Filter>Header Files\jsons</Filter>
+    </ClInclude>
+    <ClInclude Include="dataBase.h">
+      <Filter>Header Files\dataBases</Filter>
+    </ClInclude>
+    <ClInclude Include="sqlite3.h">
+      <Filter>Header Files\dataBases</Filter>
+    </ClInclude>
+    <ClInclude Include="Response.h">
+      <Filter>Header Files\userDataManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="Handlers.h">
+      <Filter>Header Files\userDataManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="WSAIntializer.h">
+      <Filter>Header Files\server</Filter>
+    </ClInclude>
+    <ClInclude Include="Request.h">
+      <Filter>Header Files\userDataManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="Managers.h">
+      <Filter>Header Files\userDataManagment</Filter>
+    </ClInclude>
+    <ClInclude Include="dataBaseException.h">
+      <Filter>Header Files\exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
