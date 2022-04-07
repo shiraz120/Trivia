@@ -7,8 +7,7 @@ output: loginRequest
 */
 loginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(string& buffer)
 {
-	string jsonString = buffer.substr(START_OF_DATA, buffer.size());
-	json jsonFromData = json::parse(jsonString);
+	json jsonFromData = json::parse(buffer);
 	loginRequest loginFromJson = jsonFromData;
 	return loginFromJson;
 }
@@ -20,8 +19,7 @@ output: signupRequest
 */
 signupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(string& buffer)
 {
-	string jsonString = buffer.substr(START_OF_DATA, buffer.size());
-	json jsonFromData = json::parse(jsonString);
+	json jsonFromData = json::parse(buffer);
 	signupRequest signupFromJson = jsonFromData;
 	return signupFromJson;
 }

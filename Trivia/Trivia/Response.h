@@ -3,7 +3,9 @@
 #include <iostream>
 #include "json.hpp"
 #define MAX_DATA_LENGTH 4 
-enum responseCodes { LOGIN_RESPONSE = '1', SIGNUP_RESPONSE, ERROR_RESPONSE };
+#define LOGIN_RESPONSE '1'
+#define SIGNUP_RESPONSE '2'
+#define ERROR_RESPONSE '3'
 
 using std::string;
 using json = nlohmann::json;

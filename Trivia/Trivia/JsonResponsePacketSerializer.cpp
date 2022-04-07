@@ -1,5 +1,6 @@
 #include "JsonResponsePacketSerializer.h"
 
+
 /*
 this function will return error protocol buffer
 input: error
@@ -43,7 +44,7 @@ output: the length as string with padded zeros
 */
 string JsonResponsePacketSerializer::addPaddingZeros(int length)
 {
-	string paddedLength = std::to_string(length);
-	paddedLength.append(MAX_DATA_LENGTH - std::to_string(length).size(), '0');
-	return paddedLength;
+	std::ostringstream ostr;
+	ostr << std::setw(MAX_DATA_LENGTH) << std::setfill('0') << length;
+	return ostr.str();
 }

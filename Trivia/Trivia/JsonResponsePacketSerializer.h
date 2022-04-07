@@ -1,5 +1,7 @@
 #pragma once
 #include "objectsToOrFromJson.h"
+#include <iomanip>
+#include <sstream>
 
 class JsonResponsePacketSerializer
 {
