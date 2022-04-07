@@ -17,9 +17,9 @@ using std::string;
 class Communicator
 {
 public:
+	Communicator();
+	~Communicator();
 	void startHandleRequest();
-	void initServerSocket();
-	void closeServerSocket();
 	
 private:
 	void bindAndListen();

@@ -1,7 +1,7 @@
 #pragma once
 #include "objectsToOrFromJson.h"
 
-class JsonRequestPacketSerializer
+class JsonRequestPacketDeserializer
 {
 public:
 	static loginRequest deserializeLoginRequest(string& buffer);

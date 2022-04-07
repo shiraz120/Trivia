@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
+#include "JsonRequestPacketDeserializer.h"
+#include "JsonResponsePacketSerializer.h"
 
 using std::string;
 struct RequestResult;

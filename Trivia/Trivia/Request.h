@@ -6,6 +6,8 @@
 #define CODE_LENGTH 1
 #define START_OF_DATA MAX_DATA_LENGTH + CODE_LENGTH
 
+enum requestCodes { LOGIN_REQUEST = 'a', SIGNUP_REQUEST = 'b' };
+
 using std::string;
 using json = nlohmann::json;
 

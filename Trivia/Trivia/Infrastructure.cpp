@@ -1,6 +1,31 @@
 #include "Infrastructure.h"
 
 /*
+this function will open a server socket and init Communicator object
+input: none
+output: none
+*/
+Communicator::Communicator()
+{
+	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+	if (m_serverSocket == INVALID_SOCKET)
+		throw std::exception(__FUNCTION__ " - socket");
+}
+
+/*
+this function will close a server socket
+input: none
+output: none
+*/
+Communicator::~Communicator()
+{
+	try {
+		closesocket(m_serverSocket);
+	}
+	catch (...) {};
+}
+
+/*
 this function will call to bindAndListen function and then start to accept users
 input: none
 output: none
@@ -15,30 +40,6 @@ void Communicator::startHandleRequest()
 	}
 }
 
-/*
-this function will open a server socket
-input: none
-output: none
-*/
-void Communicator::initServerSocket()
-{
-	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-	if (m_serverSocket == INVALID_SOCKET)
-		throw std::exception(__FUNCTION__ " - socket");
-}
-
-/*
-this function will close a server socket
-input: none
-output: none
-*/
-void Communicator::closeServerSocket()
-{
-	try {
-		closesocket(m_serverSocket);
-	}
-	catch (...) {};
-}
 
 /*
 this function will bind and listen to clients connect requests
@@ -65,11 +66,35 @@ output: none
 */
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	LoginRequestHandler newLogin;
-	string check = "hello";
-	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, &newLogin));
-	Helper::sendData(clientSocket, check);
-	std::cout << Helper::getStringPartFromSocket(clientSocket, 5) << std::endl;
+	IRequestHandler* handler = new LoginRequestHandler();
+	RequestInfo infoFromClient;
+	RequestResult infoToClient;
+	ErrorResponse error;
+	time_t curentTime;
+	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, handler));
+	while (true)
+	{
+		/* init the request info with the user request */
+		infoFromClient.id = *((Helper::getStringPartFromSocket(clientSocket, CODE_LENGTH)).c_str());
+		time(&curentTime);
+		infoFromClient.receivalTime = ctime(&curentTime);
+		infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getIntPartFromSocket(clientSocket, MAX_DATA_LENGTH));
+
+		/* if the request is valid create and send the response and replace the handler to a new handler */
+		if(!handler->isRequestRelevant(infoFromClient))
+		{
+			error.message = "Error: request isnt relevant for the current handler.";
+			Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse(error));
+		}
+		else
+		{
+			infoToClient = handler->handleRequest(infoFromClient);
+			delete handler;
+			handler = infoToClient.newHandler;
+			Helper::sendData(clientSocket, infoToClient.response);
+		}
+	}
+	delete handler;
 }
 
 /*
@@ -94,7 +119,6 @@ output: none
 */
 server::server()
 {
-	m_communicator.initServerSocket();
 }
 
 /*
@@ -104,7 +128,6 @@ output: none
 */
 server::~server()
 {
-	m_communicator.closeServerSocket();
 }
 
 /*

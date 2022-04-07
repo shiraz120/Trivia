@@ -5,7 +5,7 @@ this function will receive a buffer with a json data in it and return a loginReq
 input: buffer
 output: loginRequest
 */
-loginRequest JsonRequestPacketSerializer::deserializeLoginRequest(string& buffer)
+loginRequest JsonRequestPacketDeserializer::deserializeLoginRequest(string& buffer)
 {
 	string jsonString = buffer.substr(START_OF_DATA, buffer.size());
 	json jsonFromData = json::parse(jsonString);
@@ -18,7 +18,7 @@ this function will receive a buffer with a json data in it and return a signupRe
 input: buffer
 output: signupRequest
 */
-signupRequest JsonRequestPacketSerializer::deserializeSignupRequest(string& buffer)
+signupRequest JsonRequestPacketDeserializer::deserializeSignupRequest(string& buffer)
 {
 	string jsonString = buffer.substr(START_OF_DATA, buffer.size());
 	json jsonFromData = json::parse(jsonString);
