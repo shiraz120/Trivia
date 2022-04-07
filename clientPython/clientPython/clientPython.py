@@ -13,9 +13,10 @@ def print_recv(sock):
     input: socket
     return: none
     """
-    print(sock.recv(CODE_SIZE).decode())
-    len = int(sock.recv(LEN_OF_BITS).decode())
-    print(sock.recv(len).decode())
+    print("Recived:     "  + sock.recv(CODE_SIZE).decode(), end='')
+    len = sock.recv(LEN_OF_BITS).decode()
+    print(len, end='')
+    print(sock.recv(int(len)).decode())
 
 
 def client_conv_with_server():
@@ -28,14 +29,15 @@ def client_conv_with_server():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_address = (SERVER_IP, SERVER_PORT)
         sock.connect(server_address)
-        msg = json.loads('{username: "user1", password: "1234", mail:user1@gmail.com}')
-        print('b' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
-        sock.sendall('b' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        msg = json.loads('{"username": "user1", "password": "1234", "mail":"user1@gmail.com"}')
+        print("Send:    " + 'b' + str(len(json.dumps(msg))).ljust(LEN_OF_BITS, "0") + json.dumps(msg)) # print the message we send
+        sock.sendall(str('b' + str(len(json.dumps(msg))).ljust(LEN_OF_BITS, "0") + json.dumps(msg)).encode())
         print_recv(sock)
-        msg = json.loads('{username: "user1", password: "1234"}')
-        print('a' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
-        sock.sendall('a' + format(msg.length(), "b").zfill(LEN_OF_BITS) + msg)
+        msg = json.loads('{"username": "user1", "password": "1234"}')
+        print("Send:    " + 'a' + str(len(json.dumps(msg))).ljust(LEN_OF_BITS, "0") + json.dumps(msg)) # print the message we send
+        sock.sendall(str('a' + str(len(json.dumps(msg))).ljust(LEN_OF_BITS, "0") + json.dumps(msg)).encode())
         print_recv(sock)
+    
     except Exception as e:
         sock.close()
         print("Error!: ", e)
