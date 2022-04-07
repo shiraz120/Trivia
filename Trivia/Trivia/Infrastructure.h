@@ -6,12 +6,14 @@
 #include <thread>
 #include "Handlers.h"
 #include <string>
+#include <mutex>
 #include "serverHelper.h"
 #define PORT 8826;
 
 static const unsigned int IFACE = 0;
 using std::thread;
 using std::string;
+using std::mutex;
 
 
 class Communicator
@@ -24,9 +26,10 @@ public:
 private:
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
-	SOCKET m_serverSocket;
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	void acceptUsers();
+	mutex mapClientsMutex;
+	SOCKET m_serverSocket;
 };
 
 class server
