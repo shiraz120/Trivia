@@ -45,7 +45,7 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	else
 	{
 		result = signup(request);
-		result.newHandler = this;
+		result.newHandler = m_handlerFactory.createLoginRequestHandler();;
 	}
 	return result;
 }
@@ -75,7 +75,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	if (data.status == STATUS_SUCCESS)
 		result.newHandler = m_handlerFactory.createMenuRequestHandler();
 	else
-		result.newHandler = this;
+		result.newHandler = m_handlerFactory.createLoginRequestHandler();
 	result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	return result;
 }
