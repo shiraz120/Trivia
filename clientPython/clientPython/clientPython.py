@@ -4,7 +4,7 @@ import json
 SERVER_IP = "127.0.0.1"
 SERVER_PORT = 8826
 LEN_OF_BITS = 4
-CODE_SIZE = 1
+CODE_SIZE = 2
 
 
 def print_recv(sock):
@@ -35,7 +35,7 @@ def send_signup(sock, username, password, email):
     sock.sendall(str('b' + str(len(json.dumps(msg))).rjust(LEN_OF_BITS, "0") + json.dumps(msg)).encode())
 
 
-def send_login(sock, username, password):
+def send_login(sock, username, password):   
     """
     this function sends login request
     :param sock: socket that we send the message
