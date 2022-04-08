@@ -8,6 +8,7 @@
 using std::string;
 struct RequestResult;
 class LoginRequestHandler;
+class MenuRequestHandler;
 
 class RequestHandlerFactory
 {
@@ -15,6 +16,7 @@ public:
 	RequestHandlerFactory(IDatabase* db);
 	~RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequestHandler();
+	MenuRequestHandler* createMenuRequestHandler();
 	LoginManager& getLoginManager();
 
 private:

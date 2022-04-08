@@ -16,7 +16,7 @@ class statusException : public std::exception
 public:
 	statusException(const int status) : m_status(status) {}
 	virtual ~statusException() noexcept = default;
-	virtual const char* what() const noexcept { return std::to_string(m_status).c_str(); }
+	int statusRet() const noexcept { return m_status; }
 protected:
 	int m_status;
 };

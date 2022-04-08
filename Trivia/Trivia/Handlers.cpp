@@ -41,12 +41,11 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	if (request.id == LOGIN_REQUEST)
 	{
 		result = login(request);
-		result.newHandler = new MenuRequestHandler();
 	}
 	else
 	{
 		result = signup(request);
-		result.newHandler = new LoginRequestHandler(m_loginManager, m_handlerFactory);
+		result.newHandler = this;
 	}
 	return result;
 }
@@ -71,8 +70,12 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	}
 	catch (statusException& se)
 	{
-		data.status = atoi(se.what());
+		data.status = se.statusRet();
 	}
+	if (data.status == STATUS_SUCCESS)
+		result.newHandler = m_handlerFactory.createMenuRequestHandler();
+	else
+		result.newHandler = this;
 	result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	return result;
 }
@@ -98,7 +101,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	}
 	catch (statusException& se)
 	{
-		data.status = atoi(se.what());
+		data.status = se.statusRet();
 	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	return result;
@@ -131,6 +134,12 @@ LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 {
 	LoginRequestHandler* newLoginRequestHandler = new LoginRequestHandler(m_loginManager ,*this);
 	return newLoginRequestHandler;
+}
+
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler()
+{
+	MenuRequestHandler* newMenuRequestHandler = new MenuRequestHandler();
+	return newMenuRequestHandler;
 }
 
 /*
