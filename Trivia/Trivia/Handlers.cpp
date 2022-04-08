@@ -41,12 +41,13 @@ RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
 	if (request.id == LOGIN_REQUEST)
 	{
 		result = login(request);
+		result.newHandler = new MenuRequestHandler();
 	}
 	else
 	{
 		result = signup(request);
+		result.newHandler = new LoginRequestHandler(m_loginManager, m_handlerFactory);
 	}
-	result.newHandler = new MenuRequestHandler();
 	return result;
 }
 
