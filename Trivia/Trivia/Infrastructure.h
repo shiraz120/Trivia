@@ -18,27 +18,15 @@ using std::string;
 using std::mutex;
 
 
-class RequestHandlerFactory
-{
-public:
-	LoginRequestHandler* createLoginRequestHandler();
-	LoginManager& getLoginManager();
-
-private:
-	LoginManager m_loginManager;
-	IDatabase* m_database;
-
-};
-
 class Communicator
 {
 public:
-	Communicator();
+	Communicator(RequestHandlerFactory& handlerFactory);
 	~Communicator();
 	void startHandleRequest();
 	
 private:
-	//RequestHandlerFactory& m_handlerFactory;
+	RequestHandlerFactory& m_handlerFactory;
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
 	void acceptUsers();
@@ -50,7 +38,7 @@ private:
 class server
 {
 public:
-	server();
+	server(IDatabase* dataBase);
 	~server();
 	void run();
 

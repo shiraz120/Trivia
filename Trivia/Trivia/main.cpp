@@ -6,8 +6,9 @@ int main()
 {
 	try
 	{
+		SqliteDatabase* db = new SqliteDatabase();
 		WSAInitializer wsaInit;
-		server s;
+		server s(db);
 		s.run();
 	}
 	catch (const std::exception& e)

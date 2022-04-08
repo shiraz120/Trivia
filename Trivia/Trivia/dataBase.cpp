@@ -17,7 +17,7 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 	if (file_exist != 0)
 	{
 		try {
-			sendQuery("create table if not exists clients(user_name TEXT NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL);");
+			sendQuery("create table if not exists clients(user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL);");
 		}
 		catch (dataBaseException& e)
 		{
@@ -78,6 +78,7 @@ void SqliteDatabase::addNewUser(const string username, const string password, co
 	else
 		sendQuery("insert into clients(user_name, password, email) values ('" + username + "', '" + password + "', '" + email + "');");
 }
+
 
 /*
 this function will receive a query and send it, return true if the query succeeded and false if not, the fuunction will

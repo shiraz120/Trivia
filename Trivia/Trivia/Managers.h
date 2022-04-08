@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include "dataBase.h"
+#define STATUS_SUCCESS 5
+#define STATUS_DB_PROBLEM 10
 using std::string;
 
 class LoggedUser
@@ -18,6 +20,8 @@ private:
 class LoginManager
 {
 public:
+	LoginManager(IDatabase* db);
+	~LoginManager();
 	void signup(string username, string password, string email);
 	void login(string username, string password);
 	void logout(string username);

@@ -1,6 +1,24 @@
 #include "Managers.h"
 
 /*
+this function will init a login manager object with a data base
+input: db
+output: none
+*/
+LoginManager::LoginManager(IDatabase* db) : m_database(db)
+{
+}
+
+/*
+this function will delete a LoginManager object
+input: none
+output: none
+*/
+LoginManager::~LoginManager()
+{
+}
+
+/*
 this function will signup a user in the data base
 input: username, password, email
 output: none

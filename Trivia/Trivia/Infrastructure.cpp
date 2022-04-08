@@ -5,7 +5,7 @@ this function will open a server socket and init Communicator object
 input: none
 output: none
 */
-Communicator::Communicator()
+Communicator::Communicator(RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory)
 {
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 	if (m_serverSocket == INVALID_SOCKET)
@@ -66,7 +66,7 @@ output: none
 */
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	IRequestHandler* handler = new LoginRequestHandler();
+	IRequestHandler* handler = m_handlerFactory.createLoginRequestHandler();
 	RequestInfo infoFromClient;
 	RequestResult infoToClient;
 	ErrorResponse error;
@@ -99,8 +99,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			}
 		}
 	}
-	catch (...)
+	catch (std::exception& e)
 	{
+		std::cout << e.what() << std::endl;
 		std::unique_lock<std::mutex> clientLock(cLock);
 		m_clients.erase(clientSocket);
 		clientLock.unlock();
@@ -129,7 +130,7 @@ this function will init the server
 input: none
 output: none
 */
-server::server()
+server::server(IDatabase* dataBase) : m_database(dataBase), m_handlerFactory(m_database), m_communicator(m_handlerFactory)
 {
 }
 
@@ -140,6 +141,7 @@ output: none
 */
 server::~server()
 {
+	delete m_database;
 }
 
 /*
