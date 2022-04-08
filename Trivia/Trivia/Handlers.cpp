@@ -67,7 +67,11 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	}
 	catch (dataBaseException& dbe)
 	{
-		data.status = STATUS_DB_PROBLEM; 
+		data.status = STATUS_DB_PROBLEM;
+	}
+	catch (statusException& se)
+	{
+		data.status = atoi(se.what());
 	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	return result;
@@ -90,7 +94,11 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	}
 	catch (dataBaseException& dbe)
 	{
-		data.status = STATUS_DB_PROBLEM; 
+		data.status = STATUS_DB_PROBLEM;
+	}
+	catch (statusException& se)
+	{
+		data.status = atoi(se.what());
 	}
 	result.response = JsonResponsePacketSerializer::serializeResponse(data);
 	return result;

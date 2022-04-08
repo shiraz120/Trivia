@@ -25,7 +25,10 @@ output: none
 */
 void LoginManager::signup(string username, string password, string email)
 {
-	m_database->addNewUser(username, password, email);
+	if (!m_database->doesUserExist(username))
+		m_database->addNewUser(username, password, email);
+	else
+		throw statusException(STATUS_USER_EXIST);
 }
 
 /*
@@ -35,12 +38,20 @@ output: none
 */
 void LoginManager::login(string username, string password)
 {
-	if(m_database->doesUserExist(username))
+	if (doesUserLoggedIn(username))
+	{
+		throw statusException(STATUS_ALREADY_LOGGED_IN);
+	}
+	else if(m_database->doesUserExist(username))
 		if (m_database->doesPasswordMatch(username, password))
 		{
 			LoggedUser newClient(username);
 			m_loggedUsers.push_back(newClient);
 		}
+		else
+			throw statusException(STATUS_PASSWORD_DOESNT_MATCH);
+	else
+		throw statusException(STATUS_USER_DOESNT_EXIST);
 }
 
 /*
@@ -50,9 +61,19 @@ output: none
 */
 void LoginManager::logout(string username)
 {
+	if (!doesUserLoggedIn(username))
+		throw statusException(STATUS_DOESNT_LOGGED_IN);
 	for(int i = 0; i < m_loggedUsers.size(); i++)
 		if(m_loggedUsers[i].getUsername() == username)
 			m_loggedUsers.erase(m_loggedUsers.begin() + i);
+}
+
+bool LoginManager::doesUserLoggedIn(string username)
+{
+	for (int i = 0; i < m_loggedUsers.size(); i++)
+		if (m_loggedUsers[i].getUsername() == username)
+			return true;
+	return false;
 }
 
 /*
