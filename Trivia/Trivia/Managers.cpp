@@ -68,6 +68,11 @@ void LoginManager::logout(string username)
 			m_loggedUsers.erase(m_loggedUsers.begin() + i);
 }
 
+/*
+this function will check if a user already logged in
+input: username
+output: bool - if logged in or not
+*/
 bool LoginManager::doesUserLoggedIn(string username)
 {
 	for (int i = 0; i < m_loggedUsers.size(); i++)
