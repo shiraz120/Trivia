@@ -1,5 +1,5 @@
 #pragma comment (lib, "ws2_32.lib")
-#include "Infrastructure.h"
+#include "server.h"
 #include "WSAIntializer.h"
 
 int main()
