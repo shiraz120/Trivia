@@ -14,7 +14,7 @@ def print_recv(sock):
     return: none
     """
     print("Recieved:    " + sock.recv(CODE_SIZE).decode(), end="")
-    len = sock.recv(LEN_OF_BITS).decode()
+    len = calc_bin_to_len(sock)
     print(len + sock.recv(int(len)).decode())
 
 
@@ -31,8 +31,52 @@ def send_signup(sock, username, password, email):
     :type email: string
     """
     msg = json.loads('{"username": "' + username + '", "password": "' + password + '", "email": "' + email + '"}')
-    print("Send:    " + 'b' + str(len(json.dumps(msg))).rjust(LEN_OF_BITS, "0") + json.dumps(msg)) # print the message we send
-    sock.sendall(str('b' + str(len(json.dumps(msg))).rjust(LEN_OF_BITS, "0") + json.dumps(msg)).encode())
+    print("Send:    " + 'b' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+    sock.sendall(str('b' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
+
+
+def calc_len_to_bin(msg):
+    """
+    this function returns the len of the message in the binary format
+    :param msg: the message
+    :param return: the length in binary format
+    :type return: string
+    """
+    ln = len(msg)
+    bin_str = ""
+    while ln >= 255:
+        bin_str += chr(255)
+        ln -= 255
+    bin_str += chr(ln)
+    bin_str = bin_str[::-1]
+    ans = ""
+    needed_chars = 4 - len(bin_str)
+    for _ in range(needed_chars):
+        ans += '\0'
+    ans += bin_str
+    print(len(ans))
+    return ans
+
+
+def calc_bin_to_len(sock):
+    """
+    this function returns the len of the message in the binary format
+    :param sock: the socket
+    :type sock: socket
+    :param return: the length in binary format
+    :type return: string
+    """
+    len = 0
+    ch = sock.recv(1).decode()
+    len += int(ch) * 256**3
+    ch = sock.recv(1).decode()
+    len += int(ch) * 256**2
+    ch = sock.recv(1).decode()
+    len += int(ch) * 256
+    ch = sock.recv(1).decode()
+    len += int(ch)
+    return len
+
 
 
 def send_login(sock, username, password):   
@@ -46,8 +90,8 @@ def send_login(sock, username, password):
     :type password: string
     """
     msg = json.loads('{"username": "' + username + '", "password": "' + password + '"}')
-    print("Send:    " + 'a' + str(len(json.dumps(msg))).rjust(LEN_OF_BITS, "0") + json.dumps(msg)) # print the message we send
-    sock.sendall(str('a' + str(len(json.dumps(msg))).rjust(LEN_OF_BITS, "0") + json.dumps(msg)).encode())
+    print("Send:    " + 'a' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+    sock.sendall(str('a' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
 
 
 def client_conv_with_server():
