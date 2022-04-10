@@ -81,7 +81,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			infoFromClient.id = *((Helper::getStringPartFromSocket(clientSocket, CODE_LENGTH)).c_str());
 			time(&curentTime);
 			infoFromClient.receivalTime = ctime(&curentTime);
-			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getIntPartFromSocket(clientSocket, MAX_DATA_LENGTH));
+			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getSizePart(clientSocket, MAX_DATA_LENGTH));
 
 			/* if the request is valid for the current handler, create and send the response and replace the handler to a new handler */
 			if (!handler->isRequestRelevant(infoFromClient))
@@ -97,6 +97,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				delete handler;
 				handler = infoToClient.newHandler;
 				Helper::sendData(clientSocket, infoToClient.response);
+				delete[] infoToClient.response;
 			}
 		}
 	}

@@ -11,8 +11,9 @@ using std::string;
 // and returns the code. if no message found in the socket returns 0 (which means the client disconnected)
 int Helper::getMessageTypeCode(const SOCKET sc)
 {
-	std::string msg = getPartFromSocket(sc, 3, 0);
-
+	char* msgAsArrayOfChars = getPartFromSocket(sc, 3, 0);
+	std::string msg(msgAsArrayOfChars);
+	delete[] msgAsArrayOfChars;
 	if (msg == "")
 		return 0;
 
@@ -21,24 +22,27 @@ int Helper::getMessageTypeCode(const SOCKET sc)
 }
 
 // recieve data from socket according byteSize
-// returns the data as int
-int Helper::getIntPartFromSocket(const SOCKET sc, const int bytesNum)
-{
-	return atoi(getPartFromSocket(sc, bytesNum, 0).c_str());
-}
-
-// recieve data from socket according byteSize
 // returns the data as string
 string Helper::getStringPartFromSocket(const SOCKET sc, const int bytesNum)
 {
-	return getPartFromSocket(sc, bytesNum, 0);
+	char* partFromSocketArr = getPartFromSocket(sc, bytesNum, 0);
+	if (partFromSocketArr == nullptr)
+		return "";
+	std::string str(partFromSocketArr);
+	delete[] partFromSocketArr;
+	return str;
 }
 
 // recieve data from socket according byteSize
 // this is private function
 std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum)
 {
-	return getPartFromSocket(sc, bytesNum, 0);
+	char* partFromSocketArr = getPartFromSocket(sc, bytesNum, 0);
+	string str(partFromSocketArr);
+	if (partFromSocketArr == nullptr)
+		return "";
+	delete[] partFromSocketArr;
+	return str;
 }
 
 // send data to socket
@@ -53,11 +57,21 @@ void Helper::sendData(const SOCKET sc, const std::string message)
 	}
 }
 
-std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags)
+int Helper::getSizePart(const SOCKET sc, const int bytesNum)
+{
+	char* sizeAsBytes = getPartFromSocket(sc, bytesNum, 0);
+	if (sizeAsBytes == nullptr)
+		return 0;
+	int sizeAsInt = (int)sizeAsBytes[0] * pow(256, 3) + (int)sizeAsBytes[1] * pow(256, 2) + (int)sizeAsBytes[2] * 256 + (int)sizeAsBytes[3];
+	delete[] sizeAsBytes;
+	return sizeAsInt;
+}
+
+char* Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags)
 {
 	if (bytesNum == 0)
 	{
-		return "";
+		return nullptr;
 	}
 
 	char* data = new char[bytesNum + 1];
@@ -69,7 +83,5 @@ std::string Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const
 		throw std::exception(s.c_str());
 	}
 	data[bytesNum] = '\0';
-	std::string received(data);
-	delete[] data;
-	return received;
+	return data;
 }

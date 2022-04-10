@@ -1,4 +1,6 @@
 #pragma comment (lib, "ws2_32.lib")
+#define _CRTDBG_MAP_ALLOC
+#include <crtdbg.h>
 #include "server.h"
 #include "WSAIntializer.h"
 
@@ -19,5 +21,7 @@ int main()
 	{
 		std::cout << "Unknown exception in main !" << std::endl;
 	}
-	return 0;
+	malloc(100);
+	_CrtDumpMemoryLeaks();
+	return 1;
 }

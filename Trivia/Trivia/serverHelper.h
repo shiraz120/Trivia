@@ -9,14 +9,14 @@ class Helper
 {
 public:
 	static int getMessageTypeCode(const SOCKET sc);
-	static int getIntPartFromSocket(const SOCKET sc, const int bytesNum);
 	static std::string getStringPartFromSocket(SOCKET sc, const int bytesNum);
 	static void sendData(const SOCKET sc, const std::string message);
-
+	static int getSizePart(const SOCKET sc, const int bytesNum);
+	
 private:
 	static std::string getPartFromSocket(const SOCKET sc, const int bytesNum);
-	static std::string getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags);
-
+	static char* getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags);
+	
 };
 
 

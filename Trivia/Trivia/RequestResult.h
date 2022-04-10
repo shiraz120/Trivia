@@ -3,6 +3,6 @@
 class IRequestHandler;
 struct RequestResult
 {
-	string response;
+	char* response;
 	IRequestHandler* newHandler;
 };
