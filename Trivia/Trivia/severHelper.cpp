@@ -1,5 +1,4 @@
 #include "serverHelper.h"
-#include "serverHelper.h"
 #include <iostream>
 #include <fstream>
 #include <iomanip>
@@ -57,12 +56,25 @@ void Helper::sendData(const SOCKET sc, const std::string message)
 	}
 }
 
+void Helper::sendData(const SOCKET sc, const char* message, int size)
+{
+	if (send(sc, message, size, 0) == INVALID_SOCKET)
+	{
+		throw std::exception("Error while sending message to client");
+	}
+}
+
+int Helper::convertStringToInt(const char* msg)
+{
+	return (int)msg[0] * pow(BYTES_SIZE, 3) + (int)msg[1] * pow(BYTES_SIZE, 2) + (int)msg[2] * BYTES_SIZE + (int)msg[3];
+}
+
 int Helper::getSizePart(const SOCKET sc, const int bytesNum)
 {
 	char* sizeAsBytes = getPartFromSocket(sc, bytesNum, 0);
 	if (sizeAsBytes == nullptr)
 		return 0;
-	int sizeAsInt = (int)sizeAsBytes[0] * pow(256, 3) + (int)sizeAsBytes[1] * pow(256, 2) + (int)sizeAsBytes[2] * 256 + (int)sizeAsBytes[3];
+	int sizeAsInt = convertStringToInt(sizeAsBytes);
 	delete[] sizeAsBytes;
 	return sizeAsInt;
 }

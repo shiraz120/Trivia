@@ -13,9 +13,9 @@ def print_recv(sock):
     input: socket
     return: none
     """
-    print("Recieved:    " + sock.recv(CODE_SIZE).decode(), end="")
-    len = calc_bin_to_len(sock)
-    print(len + sock.recv(int(len)).decode())
+    print("Recieved:    " + sock.recv(128).decode(), end="")
+   # len = calc_bin_to_len(sock)
+   # print(len + sock.recv(int(len)).decode())
 
 
 def send_signup(sock, username, password, email):

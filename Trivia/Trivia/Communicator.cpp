@@ -96,7 +96,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				infoToClient = handler->handleRequest(infoFromClient);
 				delete handler;
 				handler = infoToClient.newHandler;
-				Helper::sendData(clientSocket, infoToClient.response);
+				Helper::sendData(clientSocket, infoToClient.response, receiveSizeOfResponde(infoToClient.response));
 				delete[] infoToClient.response;
 			}
 		}
@@ -125,4 +125,17 @@ void Communicator::acceptUsers()
 	std::cout << "client accepted!" << std::endl;
 	thread clientThread(&Communicator::handleNewClient, this, client_socket);
 	clientThread.detach();
+}
+
+/*
+this function will return the size of the responde from the server
+input: responde
+output: the size of response
+*/
+int Communicator::receiveSizeOfResponde(char* responde)
+{
+	char sizeOfResult[MAX_DATA_LENGTH];
+	for (int i = 0; i < MAX_DATA_LENGTH; i++)
+		sizeOfResult[i] = responde[CODE_LENGTH + i];
+	return Helper::convertStringToInt(sizeOfResult) + CODE_LENGTH + MAX_DATA_LENGTH;
 }

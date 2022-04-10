@@ -36,7 +36,7 @@ char* JsonResponsePacketSerializer::serializeResponse(const loginResponse& login
 	response[sizeOfResponse] = '\0';
 	addFromCharArrToAnother(response, (std::to_string(LOGIN_RESPONSE)).c_str(), 0, CODE_LENGTH);
 	addFromCharArrToAnother(response, size, CODE_LENGTH, MAX_DATA_LENGTH);
-	addFromCharArrToAnother(response, data.c_str(), MAX_DATA_LENGTH, data.size());
+	addFromCharArrToAnother(response, data.c_str(), MAX_DATA_LENGTH + 1, data.size());
 	delete[] size;
 	return response;
 }
@@ -70,14 +70,14 @@ const char* JsonResponsePacketSerializer::addPaddingZeros(int length)
 {
 	char* sizeMsg = new char[MAX_DATA_LENGTH];
 	int counter = MAX_DATA_LENGTH  - 1;
-	while (length > MAX_BYTE_NUMBER)
+	while (length >= MAX_BYTE_NUMBER) // while length is bigger than 255 we add to sizeMsg the char of 255
 	{
 		sizeMsg[counter] = (char)MAX_BYTE_NUMBER;
 		length -= MAX_BYTE_NUMBER;
-		counter--;
+		counter = counter - 1;
 	}
 	sizeMsg[counter] = (char)length;
-	for (int i = 0; i < counter; i++)
+	for (int i = 0; i < counter; i++) // add padding nulls to the missing bytes in MAX_DATA_LENGTH
 		sizeMsg[i] = '\0';
 	return sizeMsg;
 }
@@ -89,8 +89,10 @@ output: none
 */
 void JsonResponsePacketSerializer::addFromCharArrToAnother(char* dest, const char* src, const int startIndex, const int sizeOfsrc)
 {
-	for (int counter = startIndex; counter < sizeOfsrc; counter++)
+	int srcCounter = 0;
+	for (int counter = 0; counter < sizeOfsrc; counter++)
 	{
-		dest[counter] = src[counter];
+		dest[startIndex + counter] = src[srcCounter];
+		srcCounter++;
 	}
 }
