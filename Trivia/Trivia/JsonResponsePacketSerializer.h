@@ -1,8 +1,7 @@
 #pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "objectsToOrFromJson.h"
-#include <iomanip>
-#include <sstream>
-#define MAX_BYTE_NUMBER 255
+#define MAX_BYTE_NUMBER 256
 
 class JsonResponsePacketSerializer
 {
@@ -12,6 +11,5 @@ public:
 	static char* serializeResponse(const signUpResponse& signup);
 
 private:
-	static const char* addPaddingZeros(int length);
-	static void addFromCharArrToAnother(char* dest, const char* src, const int startIndex, const int sizeOfsrc);
+	static string addPaddingZeros(int length);
 };

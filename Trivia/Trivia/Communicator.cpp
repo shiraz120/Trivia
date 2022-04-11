@@ -132,10 +132,14 @@ this function will return the size of the responde from the server
 input: responde
 output: the size of response
 */
-int Communicator::receiveSizeOfResponde(char* responde)
+int Communicator::receiveSizeOfResponde(char* response)
 {
 	char sizeOfResult[MAX_DATA_LENGTH];
-	for (int i = 0; i < MAX_DATA_LENGTH; i++)
-		sizeOfResult[i] = responde[CODE_LENGTH + i];
+	int j = 0;
+	for (int i = CODE_LENGTH; i <= MAX_DATA_LENGTH; i++)
+	{
+		sizeOfResult[j] = response[i];
+		j++;
+	}
 	return Helper::convertStringToInt(sizeOfResult) + CODE_LENGTH + MAX_DATA_LENGTH;
 }

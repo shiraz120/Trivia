@@ -21,7 +21,6 @@ int main()
 	{
 		std::cout << "Unknown exception in main !" << std::endl;
 	}
-	malloc(100);
 	_CrtDumpMemoryLeaks();
 	return 1;
 }
