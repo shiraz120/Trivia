@@ -6,17 +6,19 @@ this function will return error protocol buffer
 input: error
 output: error protocol buffer - string
 */
-char* JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& error)
+string JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& error)
 {
 	json jsonError = error;
 	string data = jsonError.dump();
 	string size = addPaddingZeros(data.size());
 	string code(CODE_LENGTH, (char)ERROR_RESPONSE);
-	char* response = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strncpy(response, code.c_str(), CODE_LENGTH);
-	size.copy(response + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(response + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	response[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
+	strncpy(temp, code.c_str(), CODE_LENGTH);
+	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
+	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
+	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
+	delete[] temp;
 	return response;
 }
 
@@ -25,17 +27,19 @@ this function will return login protocol buffer
 input: login
 output: login protocol buffer - string
 */
-char* JsonResponsePacketSerializer::serializeResponse(const loginResponse& login)
+string JsonResponsePacketSerializer::serializeResponse(const loginResponse& login)
 {
 	json jsonLogin = login;
 	string data = jsonLogin.dump();
 	string size = addPaddingZeros(data.size());
 	string code(CODE_LENGTH, (char)LOGIN_RESPONSE);
-	char* response = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strcpy(response, code.c_str());
-	size.copy(response + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(response + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	response[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
+	strcpy(temp, code.c_str());
+	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
+	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
+	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
+	delete[] temp;
 	return response;
 }
 
@@ -44,17 +48,19 @@ this function will return signup protocol buffer
 input: signup
 output: signup protocol buffer - string
 */
-char* JsonResponsePacketSerializer::serializeResponse(const signUpResponse& signup)
+string JsonResponsePacketSerializer::serializeResponse(const signUpResponse& signup)
 {
 	json jsonSignup = signup;
 	string data = jsonSignup.dump();
 	string size = addPaddingZeros(data.size());
 	string code(CODE_LENGTH, (char)SIGNUP_RESPONSE);
-	char* response = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strcpy(response, code.c_str());
-	size.copy(response + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(response + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	response[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
+	strcpy(temp, code.c_str());
+	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
+	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
+	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
+	delete[] temp;
 	return response;
 }
 

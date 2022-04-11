@@ -6,9 +6,9 @@
 class JsonResponsePacketSerializer
 {
 public:
-	static char* serializeResponse(const ErrorResponse& error);
-	static char* serializeResponse(const loginResponse& login);
-	static char* serializeResponse(const signUpResponse& signup);
+	static string serializeResponse(const ErrorResponse& error);
+	static string serializeResponse(const loginResponse& login);
+	static string serializeResponse(const signUpResponse& signup);
 
 private:
 	static string addPaddingZeros(int length);

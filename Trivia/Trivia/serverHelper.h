@@ -12,7 +12,6 @@ public:
 	static std::string getStringPartFromSocket(SOCKET sc, const int bytesNum);
 	static void sendData(const SOCKET sc, const std::string message);
 	static int getSizePart(const SOCKET sc, const int bytesNum);
-	static void sendData(const SOCKET sc, const char* message, int size);
 	static int convertStringToInt(const char* msg);
 private:
 	static std::string getPartFromSocket(const SOCKET sc, const int bytesNum);

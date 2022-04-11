@@ -56,14 +56,6 @@ void Helper::sendData(const SOCKET sc, const std::string message)
 	}
 }
 
-void Helper::sendData(const SOCKET sc, const char* message, int size)
-{
-	if (send(sc, message, size, 0) == INVALID_SOCKET)
-	{
-		throw std::exception("Error while sending message to client");
-	}
-}
-
 int Helper::convertStringToInt(const char* msg)
 {
 	return (int)msg[0] * pow(BYTES_SIZE, 3) + (int)msg[1] * pow(BYTES_SIZE, 2) + (int)msg[2] * BYTES_SIZE + (int)msg[3];

@@ -29,7 +29,6 @@ private:
 	void bindAndListen();
 	void handleNewClient(SOCKET clientSocket);
 	void acceptUsers();
-	int receiveSizeOfResponde(char* response);
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	mutex cLock;
 	SOCKET m_serverSocket;
