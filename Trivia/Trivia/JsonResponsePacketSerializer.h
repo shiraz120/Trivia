@@ -12,4 +12,5 @@ public:
 
 private:
 	static string addPaddingZeros(int length);
+	static string buildSerializeResponse(string data, char code);
 };

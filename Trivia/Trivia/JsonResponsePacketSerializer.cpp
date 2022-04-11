@@ -10,16 +10,7 @@ string JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& erro
 {
 	json jsonError = error;
 	string data = jsonError.dump();
-	string size = addPaddingZeros(data.size());
-	string code(CODE_LENGTH, (char)ERROR_RESPONSE);
-	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strncpy(temp, code.c_str(), CODE_LENGTH);
-	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
-	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
-	delete[] temp;
-	return response;
+	return buildSerializeResponse(data, ERROR_RESPONSE);
 }
 
 /*
@@ -31,16 +22,7 @@ string JsonResponsePacketSerializer::serializeResponse(const loginResponse& logi
 {
 	json jsonLogin = login;
 	string data = jsonLogin.dump();
-	string size = addPaddingZeros(data.size());
-	string code(CODE_LENGTH, (char)LOGIN_RESPONSE);
-	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strcpy(temp, code.c_str());
-	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
-	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
-	delete[] temp;
-	return response;
+	return buildSerializeResponse(data, LOGIN_RESPONSE);
 }
 
 /*
@@ -52,16 +34,7 @@ string JsonResponsePacketSerializer::serializeResponse(const signUpResponse& sig
 {
 	json jsonSignup = signup;
 	string data = jsonSignup.dump();
-	string size = addPaddingZeros(data.size());
-	string code(CODE_LENGTH, (char)SIGNUP_RESPONSE);
-	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
-	strcpy(temp, code.c_str());
-	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
-	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
-	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
-	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
-	delete[] temp;
-	return response;
+	return buildSerializeResponse(data, SIGNUP_RESPONSE);
 }
 
 /*
@@ -83,5 +56,24 @@ string JsonResponsePacketSerializer::addPaddingZeros(int length)
 	sizeMsg += (char)length;
 	padded = std::string((counter), '\0').append(sizeMsg);
 	return padded;
+}
+
+/*
+this function will create the response string using data and code
+input: data, code
+output: the full response
+*/
+string JsonResponsePacketSerializer::buildSerializeResponse(string data, char code)
+{
+	string size = addPaddingZeros(data.size());
+	string codeAsString(CODE_LENGTH, code);
+	char* temp = new char[CODE_LENGTH + MAX_DATA_LENGTH + data.size() + 1];
+	strcpy(temp, codeAsString.c_str());
+	size.copy(temp + CODE_LENGTH, MAX_DATA_LENGTH);
+	strncpy(temp + MAX_DATA_LENGTH + CODE_LENGTH, data.c_str(), data.size());
+	temp[CODE_LENGTH + MAX_DATA_LENGTH + data.size()] = '\0';
+	string response(temp, CODE_LENGTH + MAX_DATA_LENGTH + data.size());
+	delete[] temp;
+	return response;
 }
 
