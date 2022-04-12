@@ -87,7 +87,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			if (!handler->isRequestRelevant(infoFromClient))
 			{
 				error.message = "Error: request isnt relevant for the current handler.";
-				Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse(error));
+				Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE));
 			}
 			else
 			{

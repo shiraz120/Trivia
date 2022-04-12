@@ -6,11 +6,22 @@
 class JsonResponsePacketSerializer
 {
 public:
-	static string serializeResponse(const ErrorResponse& error);
-	static string serializeResponse(const loginResponse& login);
-	static string serializeResponse(const signUpResponse& signup);
+	template<class T> static string serializeResponse(const T& response, const char code);
 
 private:
 	static string addPaddingZeros(int length);
 	static string buildSerializeResponse(string data, char code);
 };
+
+/*
+this function will be used to create the response for each reponse struct it receive
+input: response, code
+output: the response as a string
+*/
+template<class T> string JsonResponsePacketSerializer::serializeResponse(const T& response, const char code)
+{
+	json jsonResponse = response;
+	string data = jsonResponse.dump();
+	return buildSerializeResponse(data, code);
+}
+

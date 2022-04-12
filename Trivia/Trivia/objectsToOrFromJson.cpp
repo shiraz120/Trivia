@@ -15,30 +15,69 @@ void to_json(json& jsonErrorResponse, const ErrorResponse& error)
 	jsonErrorResponse = json{ { "message", error.message } };
 }
 
-void to_json(json& jsonLoginRequest, const loginRequest& login)
+void to_json(json& jsonGetPersonalStatsResponse, const getPersonalStatsResponse& getPersonalStats)
 {
-	jsonLoginRequest = json{ {"username", login.username}, {"password", login.password} };
+	jsonGetPersonalStatsResponse = json{ {"status", getPersonalStats.status}, {"statistics", getPersonalStats.statistics}};
 }
 
-void to_json(json& jsonSignupRequest, const signupRequest& signup)
+void to_json(json& jsonJoinRoomResponse, const JoinRoomResponse& joinRoom)
 {
-	jsonSignupRequest = json{ {"username", signup.username}, {"password", signup.password}, {"email", signup.email} };
+	jsonJoinRoomResponse = json{ {"status", joinRoom.status} };
 }
 
-void from_json(const json& jsonLoginResponse, loginResponse& login)
+void to_json(json& jsonCreateRoomResponse, const CreateRoomResponse& createRoom)
 {
-	jsonLoginResponse.at("status").get_to(login.status);
+	jsonCreateRoomResponse = json{ {"status", createRoom.status}};
 }
 
-void from_json(const json& jsonSignUpResponse, signUpResponse& signup)
+void to_json(json& jsonLogoutResponse, const LogoutResponse& logout)
 {
-	jsonSignUpResponse.at("status").get_to(signup.status);
+	jsonLogoutResponse = json{ {"status", logout.status}};
 }
 
-void from_json(const json& jsonErrorResponse, ErrorResponse& error)
+void to_json(json& jsonRoom, const RoomData& room)
 {
-	jsonErrorResponse.at("message").get_to(error.message);
+	jsonRoom = json{ {"id", room.id}, {"isActive", room.isActive}, {"maxPlayers", room.maxPlayers}, {"name", room.name}, {"numOfQuestionsInGame", room.numOfQuestionsInGame}, {"timePerQuestion", room.timePerQuestion} };
 }
+
+void to_json(json& jsonGetRoomsResponse, const GetRoomsResponse& getRooms)
+{
+	jsonGetRoomsResponse = json{ {"rooms", getRooms.rooms}, {"status", getRooms.status}};
+}
+
+void to_json(json& jsonGetPlayersInRoomResponse, const GetPlayersInRoomResponse& getPlayersInRoom)
+{
+	jsonGetPlayersInRoomResponse = json{ {"players", getPlayersInRoom.players}}; 
+}
+
+void to_json(json& jsonGetHighScoreResponse, const getHighScoreResponse& getHighScore)
+{
+	jsonGetHighScoreResponse = json{ {"statistics", getHighScore.statistics}, {"status", getHighScore.status}};
+}
+//void to_json(json& jsonLoginRequest, const loginRequest& login)
+//{
+//	jsonLoginRequest = json{ {"username", login.username}, {"password", login.password} };
+//}
+
+//void to_json(json& jsonSignupRequest, const signupRequest& signup)
+//{
+//	jsonSignupRequest = json{ {"username", signup.username}, {"password", signup.password}, {"email", signup.email} };
+//}
+
+//void from_json(const json& jsonLoginResponse, loginResponse& login)
+//{
+//	jsonLoginResponse.at("status").get_to(login.status);
+//}
+
+//void from_json(const json& jsonSignUpResponse, signUpResponse& signup)
+//{
+//	jsonSignUpResponse.at("status").get_to(signup.status);
+//}
+
+//void from_json(const json& jsonErrorResponse, ErrorResponse& error)
+//{
+//	jsonErrorResponse.at("message").get_to(error.message);
+//}
 
 void from_json(const json& jsonLoginRequest, loginRequest& login)
 {

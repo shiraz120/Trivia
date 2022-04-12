@@ -1,42 +1,4 @@
 #include "JsonResponsePacketSerializer.h"
-
-
-/*
-this function will return error protocol buffer
-input: error
-output: error protocol buffer - string
-*/
-string JsonResponsePacketSerializer::serializeResponse(const ErrorResponse& error)
-{
-	json jsonError = error;
-	string data = jsonError.dump();
-	return buildSerializeResponse(data, ERROR_RESPONSE);
-}
-
-/*
-this function will return login protocol buffer
-input: login
-output: login protocol buffer - string
-*/
-string JsonResponsePacketSerializer::serializeResponse(const loginResponse& login)
-{
-	json jsonLogin = login;
-	string data = jsonLogin.dump();
-	return buildSerializeResponse(data, LOGIN_RESPONSE);
-}
-
-/*
-this function will return signup protocol buffer
-input: signup
-output: signup protocol buffer - string
-*/
-string JsonResponsePacketSerializer::serializeResponse(const signUpResponse& signup)
-{
-	json jsonSignup = signup;
-	string data = jsonSignup.dump();
-	return buildSerializeResponse(data, SIGNUP_RESPONSE);
-}
-
 /*
 this function will add padding nulls to the length parameter by MAX_DATA_LENGTH defined variable
 input: length

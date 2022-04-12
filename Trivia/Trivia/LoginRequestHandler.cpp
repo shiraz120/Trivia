@@ -68,7 +68,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 		result.newHandler = m_handlerFactory.createMenuRequestHandler();
 	else
 		result.newHandler = m_handlerFactory.createLoginRequestHandler();
-	result.response = JsonResponsePacketSerializer::serializeResponse(data);
+	result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);
 	return result;
 }
 
@@ -95,7 +95,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 	{
 		data.status = se.statusRet();
 	}
-	result.response = JsonResponsePacketSerializer::serializeResponse(data);
+	result.response = JsonResponsePacketSerializer::serializeResponse<signUpResponse>(data, SIGNUP_RESPONSE);
 	result.newHandler = m_handlerFactory.createLoginRequestHandler();
 	return result;
 }

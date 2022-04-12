@@ -2,8 +2,8 @@
 #include <string>
 #include <iostream>
 #include "json.hpp"
-#define LOGIN_REQUEST 'a'
-#define SIGNUP_REQUEST 'b'
+#define LOGIN_REQUEST '1'
+#define SIGNUP_REQUEST '2'
 #define MAX_DATA_LENGTH 4 
 #define CODE_LENGTH 1
 #define START_OF_DATA MAX_DATA_LENGTH + CODE_LENGTH

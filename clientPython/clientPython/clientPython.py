@@ -31,8 +31,8 @@ def send_signup(sock, username, password, email):
     :type email: string
     """
     msg = json.loads('{"username": "' + username + '", "password": "' + password + '", "email": "' + email + '"}')
-    print("Send:    " + 'b' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
-    sock.sendall(str('b' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
+    print("Send:    " + '2' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+    sock.sendall(str('2' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
 
 
 def calc_len_to_bin(msg):
@@ -89,8 +89,8 @@ def send_login(sock, username, password):
     :type password: string
     """
     msg = json.loads('{"username": "' + username + '", "password": "' + password + '"}')
-    print("Send:    " + 'a' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
-    sock.sendall(str('a' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
+    print("Send:    " + '1' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+    sock.sendall(str('1' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
 
 
 def client_conv_with_server():
