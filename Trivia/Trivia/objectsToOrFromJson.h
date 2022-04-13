@@ -14,13 +14,8 @@ void to_json(json& jsonGetHighScoreResponse, const getHighScoreResponse& getHigh
 void to_json(json& jsonGetPersonalStatsResponse, const getPersonalStatsResponse& getPersonalStats);
 void to_json(json& jsonJoinRoomResponse, const JoinRoomResponse& joinRoom);
 void to_json(json& jsonCreateRoomResponse, const CreateRoomResponse& createRoom);
-//void from_json(const json& jsonLoginResponse, loginResponse& login);
-//void from_json(const json& jsonSignUpResponse, signUpResponse& signup);
-//void from_json(const json& jsonErrorResponse, ErrorResponse& error);
 
 /* Request */
-//void to_json(json& jsonLoginRequest, const loginRequest& login);
-//void to_json(json& jsonSignupRequest, const signupRequest& signup);
 void from_json(const json& jsonLoginRequest, loginRequest& login);
 void from_json(const json& jsonSignupRequest, signupRequest& signup);
 
