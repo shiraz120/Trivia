@@ -4,6 +4,17 @@
 class JsonRequestPacketDeserializer
 {
 public:
-	static loginRequest deserializeLoginRequest(string& buffer);
-	static signupRequest deserializeSignupRequest(string& buffer);
+	template<class T> static T deserializeRequest(string& buffer);
 };
+
+/*
+this function will receive a buffer and return the struct of the requested request struct
+input: buffer
+output: the struct request
+*/
+template<class T> T JsonRequestPacketDeserializer::deserializeRequest(string& buffer)
+{
+	json jsonFromData = json::parse(buffer);
+	T requestFromJson = jsonFromData;
+	return requestFromJson;
+}

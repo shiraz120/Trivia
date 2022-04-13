@@ -91,7 +91,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			}
 			else
 			{
-				std::cout << "client code: " + infoFromClient.id << std::endl;
+				std::cout << "client code: " << infoFromClient.id << std::endl;
 				std::cout << "message from client: " + infoFromClient.buffer << std::endl;
 				infoToClient = handler->handleRequest(infoFromClient);
 				delete handler;

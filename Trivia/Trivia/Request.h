@@ -24,3 +24,21 @@ struct signupRequest
 	string password;
 	string email;
 };
+
+struct GetPlayersInRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct JoinRoomRequest
+{
+	unsigned int roomId;
+};
+
+struct CreateRoomRequest
+{
+	string roomName;
+	unsigned int maxUsers;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};

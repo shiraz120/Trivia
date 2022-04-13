@@ -51,7 +51,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 {
 	RequestResult result;
 	loginResponse data;
-	loginRequest clientData = JsonRequestPacketDeserializer::deserializeLoginRequest(request.buffer);
+	loginRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<loginRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try {
 		m_loginManager.login(clientData.username, clientData.password);
@@ -81,7 +81,7 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 {
 	RequestResult result;
 	signUpResponse data;
-	signupRequest clientData = JsonRequestPacketDeserializer::deserializeSignupRequest(request.buffer);
+	signupRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<signupRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try
 	{
