@@ -6,7 +6,7 @@ class LoggedUser
 public:
 	LoggedUser(string username);
 	~LoggedUser();
-	string getUsername();
+	string getUsername() const;
 private:
 	string m_username;
 };

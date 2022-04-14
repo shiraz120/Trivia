@@ -18,6 +18,8 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 	{
 		try {
 			sendQuery("create table if not exists clients(user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL);");
+			sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT PRIMARY KEY NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
+			initQuestionsTable();
 		}
 		catch (dataBaseException& e)
 		{
@@ -92,6 +94,41 @@ template <class T> void SqliteDatabase::sendQuery(const std::string query, int(c
 	int res = sqlite3_exec(_db, query.c_str(), callBack, list, &error);
 	if (res != SQLITE_OK)
 		throw dataBaseException(error);
+}
+
+/*
+this function will add the random questions from the json file into the data base
+input: none
+output: none
+*/
+void SqliteDatabase::initQuestionsTable()
+{
+	createJsonFile();
+	std::ifstream file(URL);
+	std::string line = "";
+	std::string data = "";
+	do {
+		std::getline(file, line);
+		data += line;
+	} while (file.peek() != EOF);
+	file.close();
+	json jsonFromData = json::parse(data);
+	results qs = jsonFromData;
+	for (auto it : qs.resultsFromJson)
+	{
+		sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it.question + "', '" + it.correctAnswer + "', '" + it.inncorrectAnswers[0] + "', '" + it.inncorrectAnswers[1] + "', '" + it.inncorrectAnswers[2] + "');");
+	}
+}
+
+/*
+this function will create a json data file using the website 'opentdb.com'
+input: none
+output: none
+*/
+void SqliteDatabase::createJsonFile() const
+{
+	if (S_OK != URLDownloadToFile(NULL, L"https://opentdb.com/api.php?amount=10", L"questions.txt", 0, NULL))
+		throw dataBaseException("couldnt receive data from open api website.");
 }
 
 /*

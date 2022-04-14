@@ -22,7 +22,7 @@ this function returns the username
 input: none
 output: string - the username
 */
-string LoggedUser::getUsername()
+string LoggedUser::getUsername() const
 {
 	return m_username;
 }

@@ -140,6 +140,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
+    <ClCompile Include="convertJsonToHelpers.cpp" />
     <ClCompile Include="dataBase.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
@@ -149,6 +150,8 @@
     <ClCompile Include="MenuRequestHandler.cpp" />
     <ClCompile Include="objectsToOrFromJson.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
+    <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="severHelper.cpp" />
     <ClCompile Include="sqlite3.c" />
@@ -156,8 +159,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
+    <ClInclude Include="convertJsonToHelpers.h" />
     <ClInclude Include="dataBase.h" />
     <ClInclude Include="dataBaseException.h" />
+    <ClInclude Include="dataBaseStructsHelpers.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="LoginManager.h" />
     <ClInclude Include="LoginRequestHandler.h" />
@@ -172,10 +177,13 @@
     <ClInclude Include="Request.h" />
     <ClInclude Include="RequestInfo.h" />
     <ClInclude Include="Response.h" />
+    <ClInclude Include="Room.h" />
     <ClInclude Include="RoomData.h" />
+    <ClInclude Include="RoomManager.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="serverHelper.h" />
     <ClInclude Include="sqlite3.h" />
+    <ClInclude Include="StatisticsManager.h" />
     <ClInclude Include="WSAIntializer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
