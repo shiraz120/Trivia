@@ -19,6 +19,7 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 		try {
 			sendQuery("create table if not exists clients(user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL);");
 			sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT PRIMARY KEY NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
+			sendQuery("create table if not exists statistics(user_name TEXT NOT NULL, correct_answers INTEGER NOT NULL, amount_of_games INTEGER NOT NULL, incorrect_answers INTEGER NOT NULL, avarage_answer_time REAL NOT NULL, FOREIGN KEY user_name REFERENCES clients(user_name));");
 			initQuestionsTable();
 		}
 		catch (dataBaseException& e)
@@ -47,7 +48,7 @@ output: bool - if a user already exists in the data base
 */
 bool SqliteDatabase::doesUserExist(const string username)
 {
-	int count;
+	float count;
 	sendQuery("SELECT COUNT(*) FROM clients where user_name == '" + username + "';", callbackCounter, &count);
 	if (count > 0)
 		return true;
@@ -61,7 +62,7 @@ output: bool - if a password matches the user
 */
 bool SqliteDatabase::doesPasswordMatch(const string username, const string password)
 {
-	int count;
+	float count;
 	sendQuery("SELECT COUNT(*) FROM clients where password == '" + password + "' AND user_name == '" + username + "';", callbackCounter, &count);
 	if (count > 0)
 		return true;
@@ -75,10 +76,73 @@ output: none
 */
 void SqliteDatabase::addNewUser(const string username, const string password, const string email)
 {
-	if (doesUserExist(username)) 
-		std::cout << "username " + username + " already exists" << std::endl; 
-	else
+	if (!doesUserExist(username)) 
+	{
 		sendQuery("insert into clients(user_name, password, email) values ('" + username + "', '" + password + "', '" + email + "');");
+		sendQuery("insert into statistics(user_name, correct_answers, incorrect_answers, amount_of_games, avarage_answer_time) values ('" + username + "', 0, 0, 0, 0);");
+	}
+}
+
+/*
+this function will return all the questions and answers
+input: int 
+output: all the questions and answers
+*/
+std::list<questionMetaData> SqliteDatabase::getQuestions(const int i) // will replace questionMetaData with Question on v4.0.0
+{
+	std::list<questionMetaData> questionsData;
+	sendQuery("select * from questions;", callBackQuestion, &questionsData);
+	return questionsData;
+}
+
+/*
+this function will return the requested user amount of games played
+input: username
+output: the user amount of games played
+*/
+int SqliteDatabase::getNumOfPlayerGames(const string username)
+{
+	float numOfGames;
+	sendQuery("select amount_of_games from statistics where user_name == '" + username + "';", callbackCounter, &numOfGames);
+	return (int)numOfGames;
+}
+
+/*
+this function will return the requested user amount of answers
+input: username
+output: the user amount of answers
+*/
+int SqliteDatabase::getNumOfTotalAnswers(const string username)
+{
+	float numOfIncorrectAnswers;
+	float numOfCorrectAnswers;
+	sendQuery("select incorrect_answers from statistics where user_name == '" + username + "';", callbackCounter, &numOfIncorrectAnswers);
+	sendQuery("select correct_answers from statistics where user_name == '" + username + "';", callbackCounter, &numOfCorrectAnswers);
+	return (int)(numOfIncorrectAnswers + numOfCorrectAnswers);
+}
+
+/*
+this function will return the requested user amount of correct answers
+input: username
+output: the user amount of correct answers
+*/
+int SqliteDatabase::getNumOfCorrectAnswers(const string username)
+{
+	float numOfCorrectAnswers;
+	sendQuery("select correct_answers from statistics where user_name == '" + username + "';", callbackCounter, &numOfCorrectAnswers);
+	return (int)numOfCorrectAnswers;
+}
+
+/*
+this function will return the requested user average answer time
+input: username
+output: the avarage answer time
+*/
+float SqliteDatabase::getPlayerAverageAnswerTime(const string username)
+{
+	float avgTime;
+	sendQuery("select avarage_answer_time from statistics where user_name == '" + username + "';", callbackCounter, &avgTime);
+	return avgTime;
 }
 
 
@@ -149,7 +213,7 @@ this function will receive a callback function and a counter and send the reques
 input: query, callback, counter
 output: none
 */
-void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName) , int* counter)
+void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), float* counter)
 {
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, counter, &error);
@@ -165,7 +229,29 @@ output: int
 */
 int callbackCounter(void* data, int argc, char** argv, char** azColName)
 {
-	int* counter = static_cast<int*>(data);
+	float* counter = static_cast<float*>(data);
 	*counter = atoi(argv[0]);
+	return 0;
+}
+
+/*
+this function will receive a list of questions and insert to it the questions meta data
+input: data, argc, argv, azColName
+output: int
+*/
+int callBackQuestion(void* data, int argc, char** argv, char** azColName)
+{
+	std::list<questionMetaData>* questions = static_cast<std::list<questionMetaData>*>(data);
+	questionMetaData question;
+	for (int i = 0; i < argc; i++)
+	{
+		if (string(azColName[i]) == QUESTION)
+			question.question = argv[i];
+		else if (string(azColName[i]) == CORRECT_ANSWER)
+			question.correctAnswer = argv[i];
+		else if (string(azColName[i]) == FIRST_INCORRECT_ANSWER || string(azColName[i]) == SECOND_INCORRECT_ANSWER || string(azColName[i]) == THIRD_INCORRECT_ANSWER)
+			question.inncorrectAnswers.push_back(argv[i]);
+	}
+	questions->push_back(question);
 	return 0;
 }

@@ -65,7 +65,7 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 		data.status = se.statusRet();
 	}
 	if (data.status == STATUS_SUCCESS)
-		result.newHandler = m_handlerFactory.createMenuRequestHandler();
+		result.newHandler = m_handlerFactory.createMenuRequestHandler(LoggedUser(clientData.username));
 	else
 		result.newHandler = m_handlerFactory.createLoginRequestHandler();
 	result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);

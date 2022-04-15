@@ -20,9 +20,9 @@ void to_json(json& jsonGetPersonalStatsResponse, const getPersonalStatsResponse&
 	jsonGetPersonalStatsResponse = json{ {"status", getPersonalStats.status}, {"statistics", getPersonalStats.statistics}};
 }
 
-void to_json(json& jsonJoinRoomResponse, const JoinRoomResponse& joinRoom)
+void to_json(json& jsonJoinResponse, const JoinRoomResponse& joinRoom)
 {
-	jsonJoinRoomResponse = json{ {"status", joinRoom.status} };
+	jsonJoinResponse = json{ {"status", joinRoom.status} };
 }
 
 void to_json(json& jsonCreateRoomResponse, const CreateRoomResponse& createRoom)
