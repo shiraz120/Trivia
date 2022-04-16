@@ -147,6 +147,19 @@ float SqliteDatabase::getPlayerAverageAnswerTime(const string username)
 
 
 /*
+this function returns usernames with stats
+input: none
+output: usernames with stats
+*/
+std::list<std::map<string, std::pair<int, float>>> SqliteDatabase::getTopUsers()
+{
+	std::list<std::map<string, std::pair<int, float>>> users;
+	sendQuery("select user_name, correct_answers, avarage_answer_time from statistics;", callbackStats, &users);
+	return users;
+}
+
+
+/*
 this function will receive a query and send it, return true if the query succeeded and false if not, the fuunction will
 also use a template for diffenet list types
 input: query, callback function, print function, list
@@ -253,5 +266,33 @@ int callBackQuestion(void* data, int argc, char** argv, char** azColName)
 			question.inncorrectAnswers.push_back(argv[i]);
 	}
 	questions->push_back(question);
+	return 0;
+}
+
+/*
+this function will receive a list of map of the usernames and a pair of correct answers and the avarage time
+input: data, argc, argv, azColName
+output: int
+*/
+int callbackStats(void* data, int argc, char** argv, char** azColName)
+{
+	std::list<std::map<string, std::pair<int, float>>>* users = static_cast<std::list<std::map<string, std::pair<int, float>>>*>(data);
+	std::map<string, std::pair<int, float>> user;
+	std::pair<int, float> results;
+	string username;
+	for (int i = 0; i < argc; i++)
+	{
+		if (string(azColName[i]) == STATS_USER_NAME)
+		{
+			username = argv[i];
+			user[username];
+		}
+		else if (string(azColName[i]) == STATS_CORRECT_ANSWER)
+			results.first = atoi(argv[i]);
+		else if (string(azColName[i]) == STATS_AVG_ANSWER_TIME)
+			results.second = atof(argv[i]);
+	}
+	user[username] = results;
+	users->push_back(user);
 	return 0;
 }

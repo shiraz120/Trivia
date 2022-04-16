@@ -7,7 +7,11 @@ output: top 5 most scored players
 */
 std::vector<string> StatisticsManager::getHighScore() const
 {
-	return std::vector<string>();
+	std::vector<string> stats;
+	std::list<std::map<string, std::pair<int, float>>> users;
+	std::list<std::map<string, int>> score;
+	users = m_database->getTopUsers();
+	return stats;
 }
 
 /*
