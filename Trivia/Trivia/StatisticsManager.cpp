@@ -8,9 +8,14 @@ output: top 5 most scored players
 std::vector<string> StatisticsManager::getHighScore() const
 {
 	std::vector<string> stats;
-	std::list<std::map<string, std::pair<int, float>>> users;
-	std::list<std::map<string, int>> score;
-	users = m_database->getTopUsers();
+	std::map<string, std::pair<int, float>> users;
+	std::map<string, int> score;
+	users = m_database->getUsersStatsForScore();
+	for (auto it : users)
+	{
+		score[it.first] = it.second.first * SCORE_FOR_CORRECT_ANSWER;
+		score[it.first] += (int)(SCORE_FOR_AVG_TIME / it.second.second);
+	}
 	return stats;
 }
 

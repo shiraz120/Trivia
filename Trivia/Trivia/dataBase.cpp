@@ -151,9 +151,9 @@ this function returns usernames with stats
 input: none
 output: usernames with stats
 */
-std::list<std::map<string, std::pair<int, float>>> SqliteDatabase::getTopUsers()
+std::map<string, std::pair<int, float>> SqliteDatabase::getUsersStatsForScore()
 {
-	std::list<std::map<string, std::pair<int, float>>> users;
+	std::map<string, std::pair<int, float>> users;
 	sendQuery("select user_name, correct_answers, avarage_answer_time from statistics;", callbackStats, &users);
 	return users;
 }
@@ -206,6 +206,19 @@ void SqliteDatabase::createJsonFile() const
 {
 	if (S_OK != URLDownloadToFile(NULL, L"https://opentdb.com/api.php?amount=10", L"questions.txt", 0, NULL))
 		throw dataBaseException("couldnt receive data from open api website.");
+}
+
+/*
+this function will receive a callback function and a map and send the requested query
+input: query, callback, counter
+output: none
+*/
+void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::map<string, std::pair<int, float>>* map)
+{
+	char* error = nullptr;
+	int res = sqlite3_exec(_db, query.c_str(), callBack, map, &error);
+	if (res != SQLITE_OK)
+		throw dataBaseException(error);
 }
 
 /*
@@ -276,8 +289,7 @@ output: int
 */
 int callbackStats(void* data, int argc, char** argv, char** azColName)
 {
-	std::list<std::map<string, std::pair<int, float>>>* users = static_cast<std::list<std::map<string, std::pair<int, float>>>*>(data);
-	std::map<string, std::pair<int, float>> user;
+	std::map<string, std::pair<int, float>>* users = static_cast<std::map<string, std::pair<int, float>>*>(data);
 	std::pair<int, float> results;
 	string username;
 	for (int i = 0; i < argc; i++)
@@ -285,14 +297,13 @@ int callbackStats(void* data, int argc, char** argv, char** azColName)
 		if (string(azColName[i]) == STATS_USER_NAME)
 		{
 			username = argv[i];
-			user[username];
+			(*users)[username];
 		}
 		else if (string(azColName[i]) == STATS_CORRECT_ANSWER)
 			results.first = atoi(argv[i]);
 		else if (string(azColName[i]) == STATS_AVG_ANSWER_TIME)
 			results.second = atof(argv[i]);
 	}
-	user[username] = results;
-	users->push_back(user);
+	(*users)[username] = results;
 	return 0;
 }
