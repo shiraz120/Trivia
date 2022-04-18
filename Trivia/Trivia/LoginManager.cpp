@@ -44,6 +44,7 @@ void LoginManager::login(string username, string password)
 		if (m_database->doesPasswordMatch(username, password))
 		{
 			LoggedUser newClient(username);
+			std::lock_guard<std::mutex> usersListLock(loggedUsersMutex);
 			m_loggedUsers.push_back(newClient);
 		}
 		else
@@ -63,7 +64,11 @@ void LoginManager::logout(string username)
 		throw statusException(STATUS_DOESNT_LOGGED_IN);
 	for (int i = 0; i < m_loggedUsers.size(); i++)
 		if (m_loggedUsers[i].getUsername() == username)
-			m_loggedUsers.erase(m_loggedUsers.begin() + i);
+		{
+			auto it = m_loggedUsers.begin();
+			std::lock_guard<std::mutex> usersListLock(loggedUsersMutex);
+			m_loggedUsers.erase(it + i);
+		}
 }
 
 /*

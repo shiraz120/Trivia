@@ -1,3 +1,4 @@
+#pragma once
 #include "dataBaseStructsHelpers.h"
 #include "json.hpp"
 using nlohmann::json;

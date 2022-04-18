@@ -1,6 +1,8 @@
+#pragma once
 #include <string>
 #define ACTIVE 1
 #define NOT_ACTIVE 0
+
 struct RoomData
 {
 	unsigned int id;

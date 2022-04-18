@@ -3,6 +3,7 @@
 #include <vector>
 #include "LoggedUser.h"
 #include "dataBase.h"
+#include <mutex>
 
 class LoginManager
 {
@@ -16,5 +17,6 @@ public:
 private:
 	IDatabase* m_database;
 	std::vector<LoggedUser> m_loggedUsers;
+	std::mutex loggedUsersMutex;
 	bool doesUserLoggedIn(string username);
 };

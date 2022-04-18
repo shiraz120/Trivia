@@ -67,3 +67,21 @@ void from_json(const json& jsonSignupRequest, signupRequest& signup)
 	jsonSignupRequest.at("password").get_to(signup.password);
 	jsonSignupRequest.at("email").get_to(signup.email);
 }
+
+void from_json(const json& jsonGetPlayersInRoomRequest, GetPlayersInRoomRequest& getPlayers)
+{
+	jsonGetPlayersInRoomRequest.at("roomId").get_to(getPlayers.roomId);
+}
+
+void from_json(const json& jsonJoinRoomRequest, JoinRoomRequest& joinRoom)
+{
+	jsonJoinRoomRequest.at("roomId").get_to(joinRoom.roomId);
+}
+
+void from_json(const json& jsonCreateRoomRequest, CreateRoomRequest& createRoom)
+{
+	jsonCreateRoomRequest.at("answerTimeout").get_to(createRoom.answerTimeout);
+	jsonCreateRoomRequest.at("maxUsers").get_to(createRoom.maxUsers);
+	jsonCreateRoomRequest.at("questionCount").get_to(createRoom.questionCount);
+	jsonCreateRoomRequest.at("roomName").get_to(createRoom.roomName);
+}

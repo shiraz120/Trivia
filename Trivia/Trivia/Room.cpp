@@ -1,12 +1,19 @@
 #include "Room.h"
 
+Room::Room(const Room& copyFrom)
+{
+	*this = copyFrom;
+}
+
 /*
 this function will init Room object
 input: roomData
 output: none
 */
-Room::Room(RoomData roomData, LoggedUser admin) : m_metadata(roomData)
+Room::Room(const RoomData roomData, const LoggedUser admin) 
 {
+	m_metadata = roomData;
+	std::lock_guard<std::mutex> usersListLock(usersMutex);
 	m_users.push_back(admin);
 }
 
@@ -27,7 +34,10 @@ output: none
 void Room::addUser(const LoggedUser newUser)
 {
 	if (m_users.size() < m_metadata.maxPlayers)
+	{
+		std::lock_guard<std::mutex> usersListLock(usersMutex);
 		m_users.push_back(newUser);
+	}
 }
 
 /*
@@ -38,8 +48,11 @@ output: none
 void Room::removeUser(const LoggedUser existingUser)
 {
 	for(auto it = m_users.begin(); it != m_users.end(); it++)
-		if(it->getUsername() == existingUser.getUsername())
+		if (it->getUsername() == existingUser.getUsername())
+		{
+			std::lock_guard<std::mutex> usersListLock(usersMutex);
 			m_users.erase(it);
+		}
 }
 
 /*
@@ -63,4 +76,15 @@ std::vector<string> Room::getAllUsers() const
 	for (auto it : m_users)
 		users.push_back(it.getUsername());
 	return users;
+}
+
+Room& Room::operator=(const Room& other)
+{
+	if (this != &other)
+	{
+		this->m_metadata = other.m_metadata;
+		for (auto it : other.m_users)
+			this->m_users.push_back(LoggedUser(it.getUsername()));
+	}
+	return *this;
 }

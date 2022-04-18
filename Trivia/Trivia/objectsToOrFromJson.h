@@ -18,6 +18,9 @@ void to_json(json& jsonCreateRoomResponse, const CreateRoomResponse& createRoom)
 /* Request */
 void from_json(const json& jsonLoginRequest, loginRequest& login);
 void from_json(const json& jsonSignupRequest, signupRequest& signup);
+void from_json(const json& jsonGetPlayersInRoomRequest, GetPlayersInRoomRequest& getPlayers);
+void from_json(const json& jsonJoinRoomRequest, JoinRoomRequest& joinRoom);
+void from_json(const json& jsonCreateRoomRequest, CreateRoomRequest& createRoom);
 
 /*RoomData*/
 void to_json(json& jsonRoom, const RoomData& room);
