@@ -21,7 +21,8 @@ std::vector<std::pair<string, int>> StatisticsManager::getHighScore() const
 		counter++;
 	}
 	std::sort(score.begin(), score.end(), [](auto& left, auto& right) {return left.second < right.second;});
-	return score;
+	std::vector<std::pair<string, int>> firstHighScores(score.begin(), score.begin() + AMOUNT_OF_USERS);
+	return firstHighScores;
 }
 
 /*

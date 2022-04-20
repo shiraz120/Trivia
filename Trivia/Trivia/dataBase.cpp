@@ -91,7 +91,7 @@ output: all the questions and answers
 std::list<questionMetaData> SqliteDatabase::getQuestions(const int i) // will replace questionMetaData with Question on v4.0.0
 {
 	std::list<questionMetaData> questionsData;
-	sendQuery("select * from questions;", callBackQuestion, &questionsData);
+	sendQuery("select * from questions limit " + std::to_string(i) + ";", callBackQuestion, &questionsData);
 	return questionsData;
 }
 
