@@ -18,8 +18,8 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 	{
 		try {
 			sendQuery("create table if not exists clients(user_name TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, email TEXT NOT NULL);");
-			sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT PRIMARY KEY NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
-			sendQuery("create table if not exists statistics(user_name TEXT NOT NULL, correct_answers INTEGER NOT NULL, amount_of_games INTEGER NOT NULL, incorrect_answers INTEGER NOT NULL, avarage_answer_time REAL NOT NULL, FOREIGN KEY user_name REFERENCES clients(user_name));");
+			sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
+			sendQuery("create table if not exists statistics(user_name TEXT NOT NULL, correct_answers INTEGER NOT NULL, amount_of_games INTEGER NOT NULL, incorrect_answers INTEGER NOT NULL, avarage_answer_time REAL NOT NULL, FOREIGN KEY(user_name) REFERENCES clients(user_name));");
 			initQuestionsTable();
 		}
 		catch (dataBaseException& e)
@@ -181,7 +181,7 @@ output: none
 void SqliteDatabase::initQuestionsTable()
 {
 	createJsonFile();
-	std::ifstream file(URL);
+	std::ifstream file(FILE_NAME);
 	std::string line = "";
 	std::string data = "";
 	do {
@@ -191,9 +191,15 @@ void SqliteDatabase::initQuestionsTable()
 	file.close();
 	json jsonFromData = json::parse(data);
 	results qs = jsonFromData;
-	for (auto it : qs.resultsFromJson)
+	data = "";
+	for (auto it = qs.resultsFromJson.begin(); it != qs.resultsFromJson.end(); it++)
 	{
-		sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it.question + "', '" + it.correctAnswer + "', '" + it.inncorrectAnswers[0] + "', '" + it.inncorrectAnswers[1] + "', '" + it.inncorrectAnswers[2] + "');");
+		if(it->inncorrectAnswers.size() == 3)
+			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '" + it->inncorrectAnswers[1] + "', '" + it->inncorrectAnswers[2] + "');");
+		else if (it->inncorrectAnswers.size() == 2)
+			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '" + it->inncorrectAnswers[1] + "', '');");
+		else if (it->inncorrectAnswers.size() == 1)
+			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '', '');");
 	}
 }
 

@@ -14,7 +14,7 @@
 #pragma comment(lib, "urlmon.lib")
 
 #define DB_NAME "ClientsTriviaDB.sqlite"
-#define URL "https://opentdb.com/api.php?amount=10"
+#define URL "https://opentdb.com/api.php?amount=10&type=multiple"
 #define FILE_NAME "questions.txt"
 #define STATS_USER_NAME "user_name"
 #define STATS_AVG_ANSWER_TIME "avarage_answer_time"
