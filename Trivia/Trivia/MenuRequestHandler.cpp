@@ -9,12 +9,37 @@ MenuRequestHandler::~MenuRequestHandler()
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	if(<= request.id <= )
+	if (CREATE_ROOM_REQUEST <= request.id <= JOIN_ROOM_REQUEST)
+		return true;
+	return false;
 }
 
 RequestResult MenuRequestHandler::handleRequest(RequestInfo request)
 {
-	return RequestResult();
+	switch (request.id)
+	{
+	case CREATE_ROOM_REQUEST:
+		return createRoom(request);
+		break;
+	case JOIN_ROOM_REQUEST:
+		return joinRoom(request);
+		break;
+	case SIGN_OUT_REQUEST:
+		return signout(request);
+		break;
+	case GET_ROOMS_REQUEST:
+		return getRooms(request);
+		break;
+	case GET_PLAYERS_IN_ROOM_REQUEST:
+		return getPlayersInRoom(request);
+		break;
+	case GET_PERSONAL_STATS_REQUEST:
+		return getPersonalStats(request);
+		break;
+	case GET_HIGH_SCORE_REQUEST:
+		return getHighScore(request);
+		break;
+	}
 }
 
 RequestResult MenuRequestHandler::signout(const RequestInfo request)
@@ -98,7 +123,23 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
 
 RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
 {
-	return RequestResult();
+	RequestResult response;
+	getHighScoreResponse data;
+	data.status = STATUS_SUCCESS;
+	try {
+		data.statistics = m_statisticsManager.getHighScore();
+	}
+	catch (dataBaseException& dbe)
+	{
+		data.status = STATUS_DB_PROBLEM;
+	}
+	catch (statusException& se)
+	{
+		data.status = se.statusRet();
+	}
+	response.response = JsonResponsePacketSerializer::serializeResponse<getHighScoreResponse>(data, GET_HIGH_SCORE_RESPONSE);
+	response.newHandler = new MenuRequestHandler(m_user, m_roomManager, m_statisticsManager, m_handlerFactory);
+	return response;
 }
 
 RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)

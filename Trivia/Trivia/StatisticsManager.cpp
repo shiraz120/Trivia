@@ -1,22 +1,27 @@
 #include "StatisticsManager.h"
+#include "dataBaseException.h"
 
 /*
 this function will return the top 5 most scored players and their score
 input: none
 output: top 5 most scored players
 */
-std::vector<string> StatisticsManager::getHighScore() const
+std::vector<std::pair<string, int>> StatisticsManager::getHighScore() const
 {
-	std::vector<string> stats;
 	std::map<string, std::pair<int, float>> users;
-	std::map<string, int> score;
+	std::vector<std::pair<string, int>> score;
+	int counter = 0;
 	users = m_database->getUsersStatsForScore();
+	if (users.size() == 0)
+		throw statusException(STATUS_NO_USERS_LOGGED_IN);
 	for (auto it : users)
 	{
-		score[it.first] = it.second.first * SCORE_FOR_CORRECT_ANSWER;
-		score[it.first] += (int)(SCORE_FOR_AVG_TIME / it.second.second);
+		score.push_back(std::pair<string, int>(it.first, it.second.first * SCORE_FOR_CORRECT_ANSWER));
+		score[counter].second += (int)(SCORE_FOR_AVG_TIME / it.second.second);
+		counter++;
 	}
-	return stats;
+	std::sort(score.begin(), score.end(), [](auto& left, auto& right) {return left.second < right.second;});
+	return score;
 }
 
 /*

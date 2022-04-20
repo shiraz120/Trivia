@@ -256,7 +256,7 @@ output: int
 int callbackCounter(void* data, int argc, char** argv, char** azColName)
 {
 	float* counter = static_cast<float*>(data);
-	*counter = atoi(argv[0]);
+	*counter = atof(argv[0]);
 	return 0;
 }
 

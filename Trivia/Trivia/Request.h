@@ -2,9 +2,18 @@
 #include <string>
 #include <iostream>
 #include "json.hpp"
+/*LOGIN HANLDER*/
 #define LOGIN_REQUEST '1'
 #define SIGNUP_REQUEST '2'
+
+/*MENU HANDLER*/
 #define CREATE_ROOM_REQUEST '3'
+#define GET_ROOMS_REQUEST '4'
+#define SIGN_OUT_REQUEST '5'
+#define GET_PLAYERS_IN_ROOM_REQUEST '6'
+#define GET_PERSONAL_STATS_REQUEST '7'
+#define GET_HIGH_SCORE_REQUEST '8'
+#define JOIN_ROOM_REQUEST '9'
 #define MAX_DATA_LENGTH 4 
 #define CODE_LENGTH 1
 #define START_OF_DATA MAX_DATA_LENGTH + CODE_LENGTH
