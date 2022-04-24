@@ -1,6 +1,14 @@
 #include "StatisticsManager.h"
 #include "dataBaseException.h"
 
+StatisticsManager::StatisticsManager(IDatabase* db) : m_database(db)
+{
+}
+
+StatisticsManager::~StatisticsManager()
+{
+}
+
 /*
 this function will return the top 5 most scored players and their score
 input: none
