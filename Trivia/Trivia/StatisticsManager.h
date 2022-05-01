@@ -9,6 +9,8 @@ enum statsSort { USER_NAME, NUM_OF_GAMES, CORRECT_ANSWERS, INCORRECT_ANSWERS, AV
 class StatisticsManager
 {
 public:
+	StatisticsManager(IDatabase* db);
+	~StatisticsManager();
 	std::vector<std::pair<string, int>> getHighScore() const;
 	std::vector<string> getUserStatistics(string username) const;
 	

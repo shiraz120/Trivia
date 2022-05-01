@@ -103,17 +103,24 @@ def client_conv_with_server():
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_address = (SERVER_IP, SERVER_PORT)
         sock.connect(server_address)
-        send_login(sock, "Unknown", "tralala")      # login with user that has not signed up
-        print_recv(sock)
-        send_signup(sock, "user1", "pass1", "user1@gmail.com")     # regular signup
-        print_recv(sock)
-        send_signup(sock, "user1", "pass1", "user1@gmail.com")     # signup with user that already exists
-        print_recv(sock)
+        # send_login(sock, "Unknown", "tralala")      # login with user that has not signed up
+        # print_recv(sock)
+        # send_signup(sock, "user1", "pass1", "user1@gmail.com")     # regular signup
+        # print_recv(sock)
+        # send_signup(sock, "user1", "pass1", "user1@gmail.com")     # signup with user that already exists
+        # print_recv(sock)
         send_login(sock, "user1", "pass1")     # regular login
         print_recv(sock)
-        send_login(sock, "user1", "pass1")     # login with user that is already loged in 
+        # send_login(sock, "user1", "pass1")     # login with user that is already loged in 
+        # print_recv(sock)
+        # msg = json.loads('{"roomName": "room1", "maxUsers": 5, "questionCount": 8, "answerTimeout": 60}')
+        # print("Send:    " + '3' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+        # sock.sendall(str('3' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
+        # print_recv(sock)
+        msg = json.loads('{}')
+        print("Send:    " + '4' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)) # print the message we send
+        sock.sendall(str('4' + calc_len_to_bin(json.dumps(msg)) + json.dumps(msg)).encode())
         print_recv(sock)
-
     except Exception as e:
         sock.close()
         print("Error!: ", e)

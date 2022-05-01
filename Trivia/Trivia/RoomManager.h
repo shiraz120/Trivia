@@ -16,7 +16,7 @@ public:
 	std::vector<RoomData> getRooms();
 	std::vector<std::string> getAllUsersFromSpecificRoom(const unsigned id);
 	void addUserToRoom(const unsigned id, LoggedUser username);
-
+	
 private:
 	std::map<unsigned int, Room> m_rooms;
 	std::mutex roomMutex;

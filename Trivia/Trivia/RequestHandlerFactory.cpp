@@ -4,7 +4,7 @@ this function will init a RequestHandlerFactory object with a data base
 input: db
 output: none
 */
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db), m_loginManager(db)
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db), m_loginManager(db), m_statisticsManager(db)
 {
 }
 
