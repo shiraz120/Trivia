@@ -97,6 +97,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 				delete handler;
 				handler = infoToClient.newHandler;
 				Helper::sendData(clientSocket, infoToClient.response);
+				std::cout << "server response: " + infoToClient.response << std::endl;
 			}
 		}
 	}

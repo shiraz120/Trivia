@@ -29,7 +29,7 @@ std::vector<std::pair<string, int>> StatisticsManager::getHighScore() const
 		counter++;
 	}
 	std::sort(score.begin(), score.end(), [](auto& left, auto& right) {return left.second < right.second;});
-	std::vector<std::pair<string, int>> firstHighScores(score.begin(), score.begin() + AMOUNT_OF_USERS);
+	std::vector<std::pair<string, int>> firstHighScores(score.begin(), score.begin() + AMOUNT_OF_USERS); // used vector of pairs and not a map because the sort is much more simple than sorting a map, might be replaced in the future
 	return firstHighScores;
 }
 

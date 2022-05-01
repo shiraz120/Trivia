@@ -9,7 +9,7 @@ MenuRequestHandler::~MenuRequestHandler()
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	if (CREATE_ROOM_REQUEST <= request.id <= JOIN_ROOM_REQUEST)
+	if (CREATE_ROOM_REQUEST <= request.id && request.id <= JOIN_ROOM_REQUEST)
 		return true;
 	return false;
 }
