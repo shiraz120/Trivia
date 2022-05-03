@@ -55,9 +55,16 @@ namespace GUI_WPF
             DragMove();
         }
 
-        private void loginBtn_Click(object sender, RoutedEventArgs e)
+        private void loginButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void signupButton_Click(object sender, RoutedEventArgs e)
+        {
+            signUpWindow replacedWindow = new signUpWindow();
+            this.Close();
+            replacedWindow.ShowDialog();
         }
     }
 }
