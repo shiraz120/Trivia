@@ -62,9 +62,9 @@ namespace GUI_WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            //signUpWindow replacedWindow = new signUpWindow();
-            //this.Close();
-            //replacedWindow.ShowDialog();
+            Signup replacedWindow = new Signup();
+            this.Close();
+            replacedWindow.ShowDialog();
         }
     }
 }

@@ -12,7 +12,9 @@
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
-
+    <Window.DataContext>
+        <local:RegistrationVM/>
+    </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -29,11 +31,11 @@
 
                 <Image Margin="0 60 0 5" Source="Logo.png" Height="100"/>
 
-                <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Welcome Back!"/>
+                <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Sign Up"/>
 
                 <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" Text="Sign up to a new acount"/>
 
-                <TextBox Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text="" TextChanged="txtUsername_TextChanged"/>
+                <TextBox Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtUsername_TextChanged"/>
 
                 <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
 

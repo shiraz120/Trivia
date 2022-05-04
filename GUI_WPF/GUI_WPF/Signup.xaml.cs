@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -24,6 +25,7 @@ namespace GUI_WPF
             InitializeComponent();
         }
         public bool IsDarkTheme { get; set; }
+
         //private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
@@ -55,17 +57,18 @@ namespace GUI_WPF
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MainWindow newLoginWindow = new MainWindow();
+            this.Close();
+            newLoginWindow.Show();
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
         {
-
         }
     }
 }
