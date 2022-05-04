@@ -9,6 +9,7 @@ namespace GUI_WPF
 {
     public class RegistrationVM : IDataErrorInfo
     {
+        static public bool IsDarkTheme { get; set; }
         private string _username;
         private bool _canSave;
         public bool CanSave
@@ -35,7 +36,7 @@ namespace GUI_WPF
                     case "Username":
                         if (string.IsNullOrWhiteSpace(Username))
                         {
-                            result = "user name must be implemented";
+                            result = "Username must be implemented";
                         }
                         break;
                 }

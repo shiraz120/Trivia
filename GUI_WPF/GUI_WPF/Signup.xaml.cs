@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using MaterialDesignThemes.Wpf;
 
 namespace GUI_WPF
 {
@@ -24,24 +25,22 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
-        public bool IsDarkTheme { get; set; }
-
-        //private readonly PaletteHelper paletteHelper = new PaletteHelper();
+        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            //ITheme theme = paletteHelper.GetTheme();
-            //
-            //if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            //{
-            //    IsDarkTheme = false;
-            //    theme.SetBaseTheme(Theme.Light);
-            //}
-            //else
-            //{
-            //    IsDarkTheme = true;
-            //    theme.SetBaseTheme(Theme.Dark);
-            //}
-            //paletteHelper.SetTheme(theme);
+            ITheme theme = paletteHelper.GetTheme();
+            
+            if (RegistrationVM.IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
+            {
+                RegistrationVM.IsDarkTheme = false;
+                theme.SetBaseTheme(Theme.Light);
+            }
+            else
+            {
+                RegistrationVM.IsDarkTheme = true;
+                theme.SetBaseTheme(Theme.Dark);
+            }
+            paletteHelper.SetTheme(theme);
         }
 
         private void exitApp(object sender, RoutedEventArgs e)
