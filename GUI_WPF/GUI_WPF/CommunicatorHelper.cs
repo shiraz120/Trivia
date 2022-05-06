@@ -47,7 +47,7 @@ namespace GUI_WPF
         }
         public static int convertStringToInt(string msg)
         {
-            return (int)(msg[0]) * Convert.ToInt32(Math.Pow(BYTES_SIZE, 3)) + (int)(msg[1]) * Convert.ToInt32(Math.Pow(BYTES_SIZE, 2)) + (int)(msg[2]) * BYTES_SIZE + (int)(msg[3]);
+            return (int)(msg[0]) * (BYTES_SIZE* BYTES_SIZE* BYTES_SIZE) + (int)(msg[1]) * (BYTES_SIZE * BYTES_SIZE) + (int)(msg[2]) * BYTES_SIZE + (int)(msg[3]);
         }
         public static int getSizePart(int bytesNum)
         {

@@ -81,6 +81,7 @@ namespace GUI_WPF
                 System.Environment.Exit(1);
                 Communicator.closeStream();
             }
+            checkServerResponse.checkIfLoginSucceded();
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
