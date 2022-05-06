@@ -66,8 +66,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="checkServerResponse.cs" />
     <Compile Include="CommunicatorHelper.cs" />
-    <Compile Include="objectsForCommunication\loginRequest.cs" />
+    <Compile Include="jsonSerializeAndDeserialize\desirializer.cs" />
+    <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="Signup.xaml.cs">
       <DependentUpon>Signup.xaml</DependentUpon>

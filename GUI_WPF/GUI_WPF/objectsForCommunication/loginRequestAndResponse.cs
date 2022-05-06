@@ -11,4 +11,8 @@ namespace GUI_WPF
         public string username { get; set; }
         public string password { get; set; }
     }
+    public class loginResponse
+    {
+        public int status { get; set; }
+    }
 }

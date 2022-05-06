@@ -32,6 +32,7 @@ namespace GUI_WPF
             {
                 MessageBox.Show(ex.Message);
                 System.Environment.Exit(1);
+                Communicator.closeStream();
             }
         }
         public bool IsDarkTheme { get; set; }
@@ -70,7 +71,16 @@ namespace GUI_WPF
             login.username = txtUsername.Text;
             login.password = txtPassword.Password;
             string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
-            Communicator.sendData(loginAsString);
+            try
+            {
+                Communicator.sendData(loginAsString);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
