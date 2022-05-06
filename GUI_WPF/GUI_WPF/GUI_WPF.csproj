@@ -66,8 +66,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="checkServerResponse.cs" />
-    <Compile Include="CommunicatorHelper.cs" />
+    <Compile Include="communication\checkServerResponse.cs" />
+    <Compile Include="communication\CommunicatorHelper.cs" />
     <Compile Include="jsonSerializeAndDeserialize\desirializer.cs" />
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />

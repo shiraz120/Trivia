@@ -31,13 +31,13 @@ namespace GUI_WPF
         {
             byte[] buffer = new byte[TYPE_CODE_LENGTH];
             clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
-            return Convert.ToString(buffer);
+            return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static string GetStringPartFromSocket(int bytesNum)
         {
             byte[] buffer = new byte[TYPE_CODE_LENGTH];
             clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
-            return Convert.ToString(buffer);
+            return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static void sendData(string message)
         {
@@ -53,7 +53,7 @@ namespace GUI_WPF
         {
             byte[] buffer = new byte[bytesNum];
             clientStream.Read(buffer, 0, bytesNum);
-            return convertStringToInt(Convert.ToString(buffer));
+            return convertStringToInt(System.Text.Encoding.UTF8.GetString(buffer));
         }
     }
 }
