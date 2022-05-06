@@ -29,7 +29,7 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
 
-                <Image Margin="0 60 0 5" Source="Logo.png" Height="100"/>
+                <Image Margin="0 40 0 5" Source="Logo.png" Height="100"/>
                 
                 <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Welcome Back!"/>
                 
