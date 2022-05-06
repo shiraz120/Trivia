@@ -24,6 +24,15 @@ namespace GUI_WPF
         public MainWindow()
         {
             InitializeComponent();
+            try
+            {
+                Communicator.StartCommunication();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+            }
         }
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper();
@@ -57,7 +66,11 @@ namespace GUI_WPF
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-
+            loginRequest login = new loginRequest();
+            login.username = txtUsername.Text;
+            login.password = txtPassword.Password;
+            string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
+            Communicator.sendData(loginAsString);
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)

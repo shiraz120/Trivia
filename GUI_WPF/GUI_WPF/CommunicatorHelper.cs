@@ -8,28 +8,52 @@ using System.Threading.Tasks;
 
 namespace GUI_WPF
 {
-    public class CommunicatorHelper
+    public class Communicator
     {
-        private const int DEFAULT_PORT = 8826;
-        private const int TYPE_CODE_LENGTH = 1;
+        public const char LOGIN_REQUEST = '1';
+        public const char SIGNUP_REQUEST = '2';
+        const int BYTES_SIZE = 256;
+        const int TYPE_CODE_LENGTH = 1;
+        const int DEFAULT_PORT = 8826;
         static IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), DEFAULT_PORT);
         static TcpClient client = new TcpClient();
         static NetworkStream clientStream;
-        public CommunicatorHelper()
+        public static void StartCommunication()
         {
             client.Connect(serverEndPoint);
             clientStream = client.GetStream();
         }
-        static char GetMessageTypeCode()
+        public static void closeStream()
         {
-            byte[] buffer = new byte[TYPE_CODE_LENGTH];
-            return Convert.ToChar(clientStream.Read(buffer, 0, TYPE_CODE_LENGTH));
+            clientStream.Close();
         }
-        static string GetStringPartFromSocket(int bytesNum)
+        public static string GetMessageTypeCode()
         {
             byte[] buffer = new byte[TYPE_CODE_LENGTH];
-            Convert.ToString(clientStream.Read(buffer, 0, TYPE_CODE_LENGTH));
+            clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
+            return Convert.ToString(buffer);
+        }
+        public static string GetStringPartFromSocket(int bytesNum)
+        {
+            byte[] buffer = new byte[TYPE_CODE_LENGTH];
+            clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
+            return Convert.ToString(buffer);
+        }
+        public static void sendData(string message)
+        {
+            byte[] buffer = new ASCIIEncoding().GetBytes(message);
+            clientStream.Write(buffer, 0, buffer.Length);
+            clientStream.Flush();
+        }
+        public static int convertStringToInt(string msg)
+        {
+            return (int)(msg[0]) * Convert.ToInt32(Math.Pow(BYTES_SIZE, 3)) + (int)(msg[1]) * Convert.ToInt32(Math.Pow(BYTES_SIZE, 2)) + (int)(msg[2]) * BYTES_SIZE + (int)(msg[3]);
+        }
+        public static int getSizePart(int bytesNum)
+        {
+            byte[] buffer = new byte[bytesNum];
+            clientStream.Read(buffer, 0, bytesNum);
+            return convertStringToInt(Convert.ToString(buffer));
         }
     }
-
 }
