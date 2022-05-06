@@ -13,12 +13,11 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
-        <local:RegistrationVM/>
+        <local:SignUpViewModel/>
     </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
-
                 <materialDesign:PopupBox x:Name="Click" HorizontalAlignment="Right" Margin="0 20 20 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
                     <StackPanel>
                         <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
@@ -28,18 +27,17 @@
                         </StackPanel>
                     </StackPanel>
                 </materialDesign:PopupBox>
-
                 <Image Margin="0 60 0 5" Source="Logo.png" Height="100"/>
 
                 <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Sign Up"/>
 
                 <TextBlock FontSize="17" FontWeight="SemiBold" HorizontalAlignment="Center" Text="Sign up to a new acount"/>
 
-                <TextBox Text="{Binding Username, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"  Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtUsername_TextChanged"/>
+                <TextBox Text="{Binding SignUpViewModel.Username, UpdateSourceTrigger=PropertyChanged}"  Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtUsername_TextChanged"/>
 
                 <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
 
-                <Button IsEnabled="{Binding CanSave}" Margin="0 20 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="SIGN UP" Click="signupButton_Click"/>
+                <Button IsEnabled="{Binding SignUpViewModel.HasErrors}" Margin="0 20 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="SIGN UP" Click="signupButton_Click"/>
 
                 <Button Margin="0 20 0 0" x:Name="loginButton" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Login" Click="loginButton_Click"/>
             

@@ -25,19 +25,20 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
+        public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             ITheme theme = paletteHelper.GetTheme();
             
-            if (RegistrationVM.IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
+            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
             {
-                RegistrationVM.IsDarkTheme = false;
+                IsDarkTheme = false;
                 theme.SetBaseTheme(Theme.Light);
             }
             else
             {
-                RegistrationVM.IsDarkTheme = true;
+                IsDarkTheme = true;
                 theme.SetBaseTheme(Theme.Dark);
             }
             paletteHelper.SetTheme(theme);
@@ -63,7 +64,6 @@ namespace GUI_WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
