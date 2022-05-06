@@ -23,14 +23,13 @@ namespace GUI_WPF
 				counter--;
 			}
 			sizeMsg += Convert.ToChar(length);
-			padded = sizeMsg.PadLeft(MAX_DATA_LENGTH, '\0') + sizeMsg;
+			padded = sizeMsg.PadLeft(MAX_DATA_LENGTH, '\0');
 			return padded;
 		}
 		public static string serializeResponse<T>(T response, char code)
         {
 			string data = JsonConvert.SerializeObject(response);
 			string size = addPaddingZeros(data.Length);
-			string check = code + size + data;
 			return code + size + data;
         }
     }
