@@ -30,6 +30,16 @@ namespace GUI_WPF
                         LoginSuccededOrNot = "user doesnt exist.";
                         break;
                     }
+                case 4:
+                    {
+                        LoginSuccededOrNot = "login succeded!";
+                        break;
+                    }
+                case 11:
+                    {
+                        LoginSuccededOrNot = "dataBase problem.";
+                        break;
+                    }
             }
         }
     }

@@ -35,8 +35,8 @@ namespace GUI_WPF
         }
         public static string GetStringPartFromSocket(int bytesNum)
         {
-            byte[] buffer = new byte[TYPE_CODE_LENGTH];
-            clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
+            byte[] buffer = new byte[bytesNum];
+            clientStream.Read(buffer, 0, bytesNum);
             return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static void sendData(string message)
