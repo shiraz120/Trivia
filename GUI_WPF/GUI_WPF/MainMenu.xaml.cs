@@ -46,19 +46,25 @@ namespace GUI_WPF
 
         private void exitApp(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            string request = Convert.ToString(Communicator.SIGNOUT_REQUEST) + "\0\0\0\0";
+            Communicator.sendData(request);
+            int status = checkServerResponse.checkIfLogoutSucceeded();
+            if (status == 4)
+                Application.Current.Shutdown();
+            else
+                MessageBox.Show("couldnt logout, the specified user doesnt login.");
         }
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("not implemented yet hehehe");
         }
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("not implemented yet hehehe");
         }
         private void statisticsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            MessageBox.Show("not implemented yet hehehe");
         }
 
     }

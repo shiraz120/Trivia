@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GUI_WPF
 {
@@ -12,6 +13,7 @@ namespace GUI_WPF
     {
         public const char LOGIN_REQUEST = '1';
         public const char SIGNUP_REQUEST = '2';
+        public const char SIGNOUT_REQUEST = '5';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;
         const int DEFAULT_PORT = 8826;
@@ -20,8 +22,17 @@ namespace GUI_WPF
         static NetworkStream clientStream;
         public static void StartCommunication()
         {
-            client.Connect(serverEndPoint);
-            clientStream = client.GetStream();
+            try
+            {
+                client.Connect(serverEndPoint);
+                clientStream = client.GetStream();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
         }
         public static void closeStream()
         {
@@ -30,20 +41,47 @@ namespace GUI_WPF
         public static string GetMessageTypeCode()
         {
             byte[] buffer = new byte[TYPE_CODE_LENGTH];
-            clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
+            try
+            {
+                clientStream.Read(buffer, 0, TYPE_CODE_LENGTH);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
             return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static string GetStringPartFromSocket(int bytesNum)
         {
             byte[] buffer = new byte[bytesNum];
-            clientStream.Read(buffer, 0, bytesNum);
+            try
+            {
+                clientStream.Read(buffer, 0, bytesNum);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
             return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static void sendData(string message)
         {
-            byte[] buffer = new ASCIIEncoding().GetBytes(message);
-            clientStream.Write(buffer, 0, buffer.Length);
-            clientStream.Flush();
+            try
+            {
+                byte[] buffer = new ASCIIEncoding().GetBytes(message);
+                clientStream.Write(buffer, 0, buffer.Length);
+                clientStream.Flush();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
         }
         public static int convertStringToInt(string msg)
         {
@@ -52,7 +90,16 @@ namespace GUI_WPF
         public static int getSizePart(int bytesNum)
         {
             byte[] buffer = new byte[bytesNum];
-            clientStream.Read(buffer, 0, bytesNum);
+            try
+            {
+                clientStream.Read(buffer, 0, bytesNum);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
             return convertStringToInt(System.Text.Encoding.UTF8.GetString(buffer));
         }
     }

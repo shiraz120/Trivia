@@ -74,6 +74,8 @@
     </Compile>
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
+    <Compile Include="objectsForCommunication\logoutResponse.cs" />
+    <Compile Include="objectsForCommunication\signupReuqestAndResponse.cs" />
     <Compile Include="Signup.xaml.cs">
       <DependentUpon>Signup.xaml</DependentUpon>
     </Compile>

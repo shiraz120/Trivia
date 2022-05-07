@@ -12,9 +12,6 @@
         AllowsTransparency="True"
         WindowStyle="None"
         WindowStartupLocation="CenterScreen">
-    <Window.DataContext>
-        <local:checkServerResponse/>
-    </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -43,7 +40,7 @@
 
                 <Button Margin="0 20 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="Sign Up" Click="signupButton_Click"/>
 
-                <TextBlock FontSize="20" FontWeight="SemiBold" x:Name="loginSucceded" HorizontalAlignment="Left"  Text="{Binding LoginSuccededOrNot, UpdateSourceTrigger=PropertyChanged}"/>
+                <TextBlock x:Name ="loginDataText" Margin="20 0 0 0" FontSize="20" FontWeight="SemiBold" HorizontalAlignment="Left"  Text="" Foreground="Green"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

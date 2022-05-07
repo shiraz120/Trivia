@@ -50,10 +50,6 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request)
 	try {
 		m_handlerFactory.getLoginManager().logout(m_user.getUsername());
 	}
-	catch (dataBaseException& dbe)
-	{
-		data.status = STATUS_DB_PROBLEM;
-	}
 	catch (statusException& se)
 	{
 		data.status = se.statusRet();

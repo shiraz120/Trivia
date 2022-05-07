@@ -24,16 +24,6 @@ namespace GUI_WPF
         public MainWindow()
         {
             InitializeComponent();
-            try
-            {
-                Communicator.StartCommunication();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                System.Environment.Exit(1);
-                Communicator.closeStream();
-            }
         }
         public bool IsDarkTheme { get; set; }
         private readonly PaletteHelper paletteHelper = new PaletteHelper();
@@ -67,21 +57,23 @@ namespace GUI_WPF
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            loginRequest login = new loginRequest();
-            login.username = txtUsername.Text;
-            login.password = txtPassword.Password;
+            loginRequest login = new loginRequest
+            {
+                username = txtUsername.Text,
+                password = txtPassword.Password
+            };
             string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
-            try
+            Communicator.sendData(loginAsString);
+            string loginResponse = checkServerResponse.checkIfLoginSucceded();
+            loginDataText.Text = loginResponse;
+            if(loginResponse == "login succeeded!")
             {
-                Communicator.sendData(loginAsString);
+                MainMenu replacedWindow = new MainMenu();
+                this.Close();
+                replacedWindow.ShowDialog();
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                System.Environment.Exit(1);
-                Communicator.closeStream();
-            }
-            checkServerResponse.checkIfLoginSucceded();
+            else
+                loginDataText.Foreground = System.Windows.Media.Brushes.Red;
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)

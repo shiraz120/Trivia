@@ -12,13 +12,36 @@ namespace GUI_WPF
     {
         public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_COULDNT_RECEIVE_USER_STATS, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM }
         const int MAX_DATA_SIZE = 4;
-        static private string _LoginSuccededOrNotText;
-        static public string LoginSuccededOrNot
+        static public string checkIfSigupSucceded()
         {
-            get { return _LoginSuccededOrNotText; }
-            set { _LoginSuccededOrNotText = value;}
+            Communicator.GetMessageTypeCode();
+            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
+            SignupResponse SignupResponse = desirializer.deserializeRequest<SignupResponse>(response);
+            switch (SignupResponse.status)
+            {
+                case 2:
+                    {
+                        return "user already exist.";
+                    }
+                case 4:
+                    {
+                        return "signup succeeded!";
+                    }
+                case 11:
+                    {
+                        return "dataBase problem.";
+                    }
+            }
+            return "";
         }
-        static public void checkIfLoginSucceded()
+        static public int checkIfLogoutSucceeded()
+        {
+            Communicator.GetMessageTypeCode();
+            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
+            logoutResponse logoutResponse = desirializer.deserializeRequest<logoutResponse>(response);
+            return logoutResponse.status;
+        }
+        static public string checkIfLoginSucceded()
         {
             Communicator.GetMessageTypeCode();
             string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
@@ -27,20 +50,26 @@ namespace GUI_WPF
             {
                 case 1:
                     {
-                        LoginSuccededOrNot = "user doesnt exist.";
-                        break;
+                        return "user doesnt exist.";
+                    }
+                case 3:
+                    {
+                        return "password doesnt match.";
                     }
                 case 4:
                     {
-                        LoginSuccededOrNot = "login succeded!";
-                        break;
+                        return  "login succeeded!";
+                    }
+                case 5:
+                    {
+                        return "user already logged in.";
                     }
                 case 11:
                     {
-                        LoginSuccededOrNot = "dataBase problem.";
-                        break;
+                        return "dataBase problem.";
                     }
             }
+            return "";
         }
     }
 }

@@ -64,6 +64,18 @@ namespace GUI_WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
+            SignupRequest signup = new SignupRequest
+            {
+                email = txtEmail.Text,
+                username = txtUsername.Text,
+                password = txtPassword.Password
+            };
+            string signupAsString = serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST);
+            Communicator.sendData(signupAsString);
+            string signupResponse = checkServerResponse.checkIfSigupSucceded();
+            signupDataText.Text = signupResponse;
+            if (signupResponse != "signup succeeded!")
+                signupDataText.Foreground = System.Windows.Media.Brushes.Red;
         }
 
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)

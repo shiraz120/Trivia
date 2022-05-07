@@ -13,5 +13,11 @@ namespace GUI_WPF
     /// </summary>
     public partial class App : Application
     {
+        private void Application_Startup(object sender, StartupEventArgs e) // added this function to run StartCommunication only once in the program before any window open
+        {
+            Communicator.StartCommunication();
+            var mainWindow = new MainWindow();
+            mainWindow.Show();
+        }
     }
 }
