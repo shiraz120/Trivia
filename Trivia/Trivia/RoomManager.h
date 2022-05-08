@@ -1,6 +1,5 @@
 #pragma once
 #include "Room.h"
-#include "dataBaseException.h"
 #include <iostream>
 #include <map>
 #include <mutex>

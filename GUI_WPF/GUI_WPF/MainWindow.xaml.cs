@@ -66,7 +66,7 @@ namespace GUI_WPF
             Communicator.sendData(loginAsString);
             string loginResponse = checkServerResponse.checkIfLoginSucceded();
             loginDataText.Text = loginResponse;
-            if(loginResponse == "login succeeded!")
+            if(loginResponse == checkServerResponse.LOGIN_SUCCEEDED)
             {
                 MainMenu replacedWindow = new MainMenu();
                 this.Close();

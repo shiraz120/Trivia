@@ -74,7 +74,7 @@ namespace GUI_WPF
             Communicator.sendData(signupAsString);
             string signupResponse = checkServerResponse.checkIfSigupSucceded();
             signupDataText.Text = signupResponse;
-            if (signupResponse != "signup succeeded!")
+            if (signupResponse != checkServerResponse.SIGNUP_SUCCEEDED)
                 signupDataText.Foreground = System.Windows.Media.Brushes.Red;
         }
 

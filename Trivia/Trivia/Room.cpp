@@ -38,6 +38,8 @@ void Room::addUser(const LoggedUser newUser)
 		std::lock_guard<std::mutex> usersListLock(usersMutex);
 		m_users.push_back(newUser);
 	}
+	else
+		throw statusException(STATUS_ROOM_IS_FULL);
 }
 
 /*
