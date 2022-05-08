@@ -72,6 +72,7 @@
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />
@@ -80,6 +81,9 @@
       <DependentUpon>Signup.xaml</DependentUpon>
     </Compile>
     <Compile Include="SignUpViewModel.cs" />
+    <Compile Include="StatisticsWindow.xaml.cs">
+      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -97,6 +101,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Signup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StatisticsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

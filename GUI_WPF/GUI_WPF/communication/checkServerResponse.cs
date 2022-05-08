@@ -10,10 +10,12 @@ namespace GUI_WPF
 {
     public class checkServerResponse
     {
-        enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_COULDNT_RECEIVE_USER_STATS, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL }
-        const int MAX_DATA_SIZE = 4;
+        public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL }
+        public const int MAX_DATA_SIZE = 4;
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
+        public const string DATA_BASE_PROBLEM = "dataBase problem.";
+
         static public string checkIfSigupSucceded()
         {
             Communicator.GetMessageTypeCode();
@@ -31,7 +33,7 @@ namespace GUI_WPF
                     }
                 case (int)Status.STATUS_DB_PROBLEM:
                     {
-                        return "dataBase problem.";
+                        return DATA_BASE_PROBLEM;
                     }
             }
             return "";
@@ -68,7 +70,7 @@ namespace GUI_WPF
                     }
                 case (int)Status.STATUS_DB_PROBLEM:
                     {
-                        return "dataBase problem.";
+                        return DATA_BASE_PROBLEM;
                     }
             }
             return "";

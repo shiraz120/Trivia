@@ -14,12 +14,23 @@ namespace GUI_WPF
         public const char LOGIN_REQUEST = '1';
         public const char SIGNUP_REQUEST = '2';
         public const char SIGNOUT_REQUEST = '5';
+        public const char GET_PERSONAL_STATS_REQUEST = '7';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;
         const int DEFAULT_PORT = 8826;
         static IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), DEFAULT_PORT);
         static TcpClient client = new TcpClient();
         static NetworkStream clientStream;
+        public static void logOut()
+        {
+            string request = Convert.ToString(Communicator.SIGNOUT_REQUEST) + "\0\0\0\0";
+            sendData(request);
+            int status = checkServerResponse.checkIfLogoutSucceeded();
+            if (status == 4)
+                Application.Current.Shutdown();
+            else
+                MessageBox.Show("couldnt logout, the specified user doesnt login.");
+        }
         public static void StartCommunication()
         {
             try

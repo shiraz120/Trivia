@@ -103,7 +103,7 @@ output: the user amount of games played
 int SqliteDatabase::getNumOfPlayerGames(const string username)
 {
 	float numOfGames;
-	sendQuery("select amount_of_games from statistics where user_name == '" + username + "';", callbackCounter, &numOfGames);
+	sendQuery("selec amount_of_games from statistics where user_name == '" + username + "';", callbackCounter, &numOfGames);
 	return (int)numOfGames;
 }
 
