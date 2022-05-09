@@ -21,29 +21,15 @@ namespace GUI_WPF
     /// </summary>
     public partial class Signup : Window
     {
+        private readonly string INVALID_EMAIL = "email filed cannot be empty.";
         public Signup()
         {
             InitializeComponent();
         }
-        public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            ITheme theme = paletteHelper.GetTheme();
-            
-            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            paletteHelper.SetTheme(theme);
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
-
         private void exitApp(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -64,22 +50,57 @@ namespace GUI_WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            SignupRequest signup = new SignupRequest
+            if(string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                email = txtEmail.Text,
-                username = txtUsername.Text,
-                password = txtPassword.Password
-            };
-            string signupAsString = serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST);
-            Communicator.sendData(signupAsString);
-            string signupResponse = checkServerResponse.checkIfSigupSucceded();
-            signupDataText.Text = signupResponse;
-            if (signupResponse != checkServerResponse.SIGNUP_SUCCEEDED)
-                signupDataText.Foreground = System.Windows.Media.Brushes.Red;
+                signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
+            }
+            else if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)
+            {
+                signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_PASSWORD;
+            }
+            else if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            {
+                signupDataText.Text = INVALID_EMAIL;
+            }
+            else
+            {
+                SignupRequest signup = new SignupRequest
+                {
+                    email = txtEmail.Text,
+                    username = txtUsername.Text,
+                    password = txtPassword.Password
+                };
+                string signupAsString = serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST);
+                Communicator.sendData(signupAsString);
+                string signupResponse = checkServerResponse.checkIfSigupSucceded();
+                signupDataText.Text = signupResponse;
+                if (signupResponse == checkServerResponse.SIGNUP_SUCCEEDED)
+                    signupDataText.Foreground = System.Windows.Media.Brushes.Green;
+            }
         }
 
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
         {
+            if(!string.IsNullOrWhiteSpace(txtUsername.Text))
+                signupDataText.Text = "";
+            else
+                signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
+        }
+
+        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)
+                signupDataText.Text = "";
+            else
+                signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_PASSWORD;
+        }
+
+        private void txtEmail_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(txtEmail.Text))
+                signupDataText.Text = "";
+            else
+                signupDataText.Text = INVALID_EMAIL;
         }
     }
 }

@@ -80,10 +80,10 @@
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />
     <Compile Include="objectsForCommunication\signupReuqestAndResponse.cs" />
+    <Compile Include="sharedFunctionsBetweenWindows.cs" />
     <Compile Include="Signup.xaml.cs">
       <DependentUpon>Signup.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SignUpViewModel.cs" />
     <Compile Include="MyStatisticsWindow.xaml.cs">
       <DependentUpon>MyStatisticsWindow.xaml</DependentUpon>
     </Compile>

@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen"
         Icon="Logo.png">
     <Window.DataContext>
-        <local:SignUpViewModel/>
+        <local:sharedFunctionsBetweenWindows/>
     </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
@@ -36,11 +36,11 @@
 
                 <TextBox  Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Username" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtUsername_TextChanged"/>
 
-                <TextBox Margin="0 20 0 0" x:Name="txtEmail" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter email" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtUsername_TextChanged"/>
+                <TextBox Margin="0 20 0 0" x:Name="txtEmail" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter email" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" TextChanged="txtEmail_TextChanged"/>
 
-                <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}"/>
+                <PasswordBox Margin="0 20 0 0" x:Name="txtPassword" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Password" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedPasswordBox}" PasswordChanged="txtPassword_PasswordChanged"/>
                 
-                <TextBlock  HorizontalAlignment="Center"  Margin="0 10 0 0" x:Name ="signupDataText" FontSize="14" FontWeight="SemiBold"  Text="" Foreground="Green"/>
+                <TextBlock  HorizontalAlignment="Center"  Margin="0 10 0 0" x:Name ="signupDataText" FontSize="14" FontWeight="SemiBold"  Text="" Foreground="Red"/>
 
                 <Button Margin="0 10 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="SIGN UP" Click="signupButton_Click"/>
 

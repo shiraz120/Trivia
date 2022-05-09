@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDesignThemes.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,5 +24,18 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
+        private void toggleTheme(object sender, RoutedEventArgs e)
+        {
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
+        }
+        private void menuButton_Click(object sender, RoutedEventArgs e)
+        {
+            sharedFunctionsBetweenWindows.moveToMenu(this);
+        }
+        private void exitApp(object sender, RoutedEventArgs e)
+        {
+            Communicator.logOut();
+        }
     }
+
 }

@@ -24,26 +24,10 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
-
-        public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            ITheme theme = paletteHelper.GetTheme();
-
-            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            paletteHelper.SetTheme(theme);
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
-
         private void exitApp(object sender, RoutedEventArgs e)
         {
             Communicator.logOut();
@@ -61,11 +45,6 @@ namespace GUI_WPF
             StatisticsMenu newStatsWindow = new StatisticsMenu();
             this.Close();
             newStatsWindow.Show();
-        }
-
-        private void topUsersButton_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("not implemented yet");
         }
     }
 }

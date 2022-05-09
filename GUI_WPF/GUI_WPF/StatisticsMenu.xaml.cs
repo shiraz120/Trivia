@@ -24,29 +24,18 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
-
-        public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            ITheme theme = paletteHelper.GetTheme();
-
-            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            paletteHelper.SetTheme(theme);
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
+        }
+        private void menu_Click(object sender, RoutedEventArgs e)
+        {
+            sharedFunctionsBetweenWindows.moveToMenu(this);
         }
 
         private void exitApp(object sender, RoutedEventArgs e)
         {
-            Application.Current.Shutdown();
+            Communicator.logOut();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -67,11 +56,5 @@ namespace GUI_WPF
             MessageBox.Show("not implemented yet");
         }
 
-        private void menu_Click(object sender, RoutedEventArgs e)
-        {
-            MainMenu newStatsWindow = new MainMenu();
-            this.Close();
-            newStatsWindow.Show();
-        }
     }
 }

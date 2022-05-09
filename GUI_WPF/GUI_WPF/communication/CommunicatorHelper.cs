@@ -23,7 +23,7 @@ namespace GUI_WPF
         static NetworkStream clientStream;
         public static void logOut()
         {
-            string request = Convert.ToString(Communicator.SIGNOUT_REQUEST) + "\0\0\0\0";
+            string request = Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0";
             sendData(request);
             int status = checkServerResponse.checkIfLogoutSucceeded();
             if (status == 4)

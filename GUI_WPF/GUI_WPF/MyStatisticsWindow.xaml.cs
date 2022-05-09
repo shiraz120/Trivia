@@ -46,23 +46,13 @@ namespace GUI_WPF
                 amountOfGames.Text = amountOfGames.Text + "      " + stats.statistics[amountOfGamesIndex];
             }
         }
-        public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            ITheme theme = paletteHelper.GetTheme();
-
-            if (IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            paletteHelper.SetTheme(theme);
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
+        }
+        private void menuButton_Click(object sender, RoutedEventArgs e)
+        {
+            sharedFunctionsBetweenWindows.moveToMenu(this);
         }
 
         private void exitApp(object sender, RoutedEventArgs e)
@@ -76,11 +66,5 @@ namespace GUI_WPF
             DragMove();
         }
 
-        private void menuButton_Click(object sender, RoutedEventArgs e)
-        {
-            MainMenu newLoginWindow = new MainMenu();
-            this.Close();
-            newLoginWindow.Show();
-        }
     }
 }

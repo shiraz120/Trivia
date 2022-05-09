@@ -14,7 +14,7 @@
         WindowStartupLocation="CenterScreen"
         Icon="Logo.png">
     <Window.DataContext>
-        <local:checkServerResponse/>
+        <local:sharedFunctionsBetweenWindows/>
     </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
@@ -32,15 +32,13 @@
 
                 <Image Margin="0 40 0 5" Source="Logo.png" Height="100"/>
 
-                <TextBlock Margin="0 25 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Main Menu"/>
+                <TextBlock Margin="0 50 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Main Menu"/>
 
-                <Button Margin="0 25 0 0" x:Name="createRoomButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="CREATE ROOM" Click="createRoomButton_Click"/>
+                <Button Margin="0 50 0 0" x:Name="createRoomButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="CREATE ROOM" Click="createRoomButton_Click"/>
                 
-                <Button Margin="0 25 0 0" x:Name="joinRoomButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="JOIN ROOM" Click="joinRoomButton_Click"/>
+                <Button Margin="0 50 0 0" x:Name="joinRoomButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="JOIN ROOM" Click="joinRoomButton_Click"/>
 
-                <Button Margin="0 25 0 0" x:Name="statisticsButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="STATISTICS" Click="statisticsButton_Click"/>
-
-                <Button Margin="0 25 0 0" x:Name="topUsersButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="TOP USERS" Click="topUsersButton_Click"/>
+                <Button Margin="0 50 0 0" x:Name="statisticsButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="STATISTICS" Click="statisticsButton_Click"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

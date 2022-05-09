@@ -25,55 +25,48 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
-        public bool IsDarkTheme { get; set; }
-        private readonly PaletteHelper paletteHelper = new PaletteHelper();
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
-            ITheme theme = paletteHelper.GetTheme();
-
-            if(IsDarkTheme = theme.GetBaseTheme() == BaseTheme.Dark)
-            {
-                IsDarkTheme = false;
-                theme.SetBaseTheme(Theme.Light);
-            }
-            else
-            {
-                IsDarkTheme = true;
-                theme.SetBaseTheme(Theme.Dark);
-            }
-            paletteHelper.SetTheme(theme);
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
-
-        private void exitApp(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
-
+        private void exitApp(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
-            loginRequest login = new loginRequest
+            if(string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                username = txtUsername.Text,
-                password = txtPassword.Password
-            };
-            string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
-            Communicator.sendData(loginAsString);
-            string loginResponse = checkServerResponse.checkIfLoginSucceded();
-            loginDataText.Text = loginResponse;
-            if(loginResponse == checkServerResponse.LOGIN_SUCCEEDED)
+                loginDataText.Text = "username filed cannot be empty.";
+            }
+            else if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)
             {
-                MainMenu replacedWindow = new MainMenu();
-                this.Close();
-                replacedWindow.ShowDialog();
+                loginDataText.Text = "password filed must contain at least " + Convert.ToString(sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH) + " characters.";
             }
             else
-                loginDataText.Foreground = System.Windows.Media.Brushes.Red;
+            {
+                loginRequest login = new loginRequest
+                {
+                    username = txtUsername.Text,
+                    password = txtPassword.Password
+                };
+                string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
+                Communicator.sendData(loginAsString);
+                string loginResponse = checkServerResponse.checkIfLoginSucceded();
+                loginDataText.Text = loginResponse;
+                if(loginResponse == checkServerResponse.LOGIN_SUCCEEDED)
+                {
+                    MainMenu replacedWindow = new MainMenu();
+                    this.Close();
+                    replacedWindow.ShowDialog();
+                    loginDataText.Foreground = System.Windows.Media.Brushes.Green;
+                }
+            }
         }
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
@@ -81,6 +74,22 @@ namespace GUI_WPF
             Signup replacedWindow = new Signup();
             this.Close();
             replacedWindow.ShowDialog();
+        }
+
+        private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(txtUsername.Text))
+                loginDataText.Text = "";
+            else
+                loginDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
+        }
+
+        private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if(!string.IsNullOrWhiteSpace(txtPassword.Password))
+                loginDataText.Text = "";
+            else
+                loginDataText.Text = sharedFunctionsBetweenWindows.INVALID_PASSWORD;
         }
     }
 }

@@ -13,6 +13,9 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Icon="Logo.png">
+    <Window.DataContext>
+        <local:sharedFunctionsBetweenWindows/>
+    </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -32,7 +35,7 @@
                 <Button Margin="0 20 0 0" x:Name="myStats" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MY STATISTICS" Click="myStats_Click"/>
 
                 <Button Margin="0 20 0 0" x:Name="highScore" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="HIGH SCORE" Click="highScore_Click"/>
-                
+
                 <Button Margin="0 20 0 0" x:Name="menu" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MAIN MENU" Click="menu_Click"/>
 
             </StackPanel>
