@@ -6,18 +6,18 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUI_WPF"
         mc:Ignorable="d"
-        Title="statisticsWindow" Height="500" Width="800"
+        Title="statisticsWindow" Height="800" Width="450"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
         AllowsTransparency="True"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="Logo.png">
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
 
-                <Image Source="Logo.png" Height="50" Width="308"/>
-                <materialDesign:PopupBox HorizontalAlignment="Right" x:Name="Click" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25" RenderTransformOrigin="0.612,0.618">
+                <materialDesign:PopupBox x:Name="Click" HorizontalAlignment="Right" Margin="0 20 20 0" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False" Height="25">
                     <StackPanel>
                         <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock VerticalAlignment="Center" Text="Dark Mode"/>
@@ -27,19 +27,21 @@
                     </StackPanel>
                 </materialDesign:PopupBox>
 
-                <TextBlock x:Name="Title" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="My Statistics"/>
-                
-                <TextBlock x:Name="amountOfGames" HorizontalAlignment="Left" Margin="20 20 0 0" FontSize="25" FontWeight="Bold" Text="Amount of games played"/>
+                <Image Margin="0 40 0 5" Source="Logo.png" Height="100"/>
 
-                <TextBlock x:Name="amountOfCorrectAnswers" HorizontalAlignment="Left" Margin="20 10 0 0" FontSize="25" FontWeight="Bold" Text="Amount of correct answers"/>
+                <TextBlock x:Name="Title" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="My Statistics" Margin="0 25 0 0"/>
 
-                <TextBlock x:Name="amountOfWrongAnswers" HorizontalAlignment="Left" Margin="20 10 0 0" FontSize="25" FontWeight="Bold" Text="Amount of wrong answers"/>
+                <TextBlock x:Name="amountOfGames" HorizontalAlignment="Left" Margin="30 40 0 0" FontSize="20" FontWeight="SemiBold" Text="Amount of games played: "/>
 
-                <TextBlock x:Name="avgTimeForAnswer" HorizontalAlignment="Left" Margin="20 10 0 0" FontSize="25" FontWeight="Bold" Text="Avarge time for answer"/>
+                <TextBlock x:Name="amountOfCorrectAnswers" HorizontalAlignment="Left" Margin="30 30 0 0" FontSize="20" FontWeight="SemiBold" Text="Amount of correct answers: "/>
 
-                <TextBlock  HorizontalAlignment="Left"  Margin="20 20 0 0" x:Name ="statisticsDataText" FontSize="14" FontWeight="SemiBold"  Text="" Foreground="Green"/>
+                <TextBlock x:Name="amountOfWrongAnswers" HorizontalAlignment="Left" Margin="30 30 0 0" FontSize="20" FontWeight="SemiBold" Text="Amount of wrong answers: "/>
 
-                <Button Margin="0 20 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MENU" Click="menuButton_Click"/>
+                <TextBlock x:Name="avgTimeForAnswer" HorizontalAlignment="Left" Margin="30 30 0 0" FontSize="20" FontWeight="SemiBold" Text="Avarge time for answer: "/>
+
+                <TextBlock  HorizontalAlignment="Center"  Margin="0 20 0 0" x:Name ="statisticsDataText" FontSize="14" FontWeight="SemiBold"  Text="" Foreground="Green"/>
+
+                <Button Margin="0 90 0 0" x:Name="signupButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MENU" Click="menuButton_Click"/>
             </StackPanel>
         </materialDesign:DialogHost>
     </materialDesign:Card>

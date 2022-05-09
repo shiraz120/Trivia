@@ -6,12 +6,13 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUI_WPF"
         mc:Ignorable="d"
-        Title="MainMenu" Height="760" Width="450"
+        Title="MainMenu" Height="800" Width="450"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
         AllowsTransparency="True"
         WindowStyle="None"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="Logo.png">
     <Window.DataContext>
         <local:checkServerResponse/>
     </Window.DataContext>
