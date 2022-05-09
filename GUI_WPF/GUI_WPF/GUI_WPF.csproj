@@ -68,6 +68,9 @@
     </ApplicationDefinition>
     <Compile Include="communication\checkServerResponse.cs" />
     <Compile Include="communication\CommunicatorHelper.cs" />
+    <Compile Include="CreateRoomWindow.xaml.cs">
+      <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="jsonSerializeAndDeserialize\desirializer.cs" />
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
@@ -81,9 +84,16 @@
       <DependentUpon>Signup.xaml</DependentUpon>
     </Compile>
     <Compile Include="SignUpViewModel.cs" />
-    <Compile Include="StatisticsWindow.xaml.cs">
-      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    <Compile Include="MyStatisticsWindow.xaml.cs">
+      <DependentUpon>MyStatisticsWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="StatisticsMenu.xaml.cs">
+      <DependentUpon>StatisticsMenu.xaml</DependentUpon>
+    </Compile>
+    <Page Include="CreateRoomWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -104,7 +114,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="StatisticsWindow.xaml">
+    <Page Include="MyStatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="StatisticsMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,13 +18,13 @@ namespace GUI_WPF
     /// <summary>
     /// Interaction logic for Window1.xaml
     /// </summary>
-    public partial class statisticsWindow : Window
+    public partial class MyStatisticsWindow : Window
     {
         const int CorrectAnswersIndex = 2;
         const int totalAnswersIndex = 3;
         const int amountOfGamesIndex = 1;
         const int avgAnswerTimeIndex = 4;
-        public statisticsWindow()
+        public MyStatisticsWindow()
         {
             InitializeComponent();
             string request = Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0";

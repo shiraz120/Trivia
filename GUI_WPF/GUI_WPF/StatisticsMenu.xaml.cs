@@ -16,11 +16,11 @@ using MaterialDesignThemes.Wpf;
 namespace GUI_WPF
 {
     /// <summary>
-    /// Interaction logic for MainMenu.xaml
+    /// Interaction logic for StatisticsMenu.xaml
     /// </summary>
-    public partial class MainMenu : Window
+    public partial class StatisticsMenu : Window
     {
-        public MainMenu()
+        public StatisticsMenu()
         {
             InitializeComponent();
         }
@@ -46,26 +46,32 @@ namespace GUI_WPF
 
         private void exitApp(object sender, RoutedEventArgs e)
         {
-            Communicator.logOut();
+            Application.Current.Shutdown();
         }
-        private void createRoomButton_Click(object sender, RoutedEventArgs e)
+
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            MessageBox.Show("not implemented yet");
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
         }
-        private void joinRoomButton_Click(object sender, RoutedEventArgs e)
+
+        private void myStats_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("not implemented yet");
-        }
-        private void statisticsButton_Click(object sender, RoutedEventArgs e)
-        {
-            StatisticsMenu newStatsWindow = new StatisticsMenu();
+            MyStatisticsWindow newStatsWindow = new MyStatisticsWindow();
             this.Close();
             newStatsWindow.Show();
         }
 
-        private void topUsersButton_Click(object sender, RoutedEventArgs e)
+        private void highScore_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("not implemented yet");
+        }
+
+        private void menu_Click(object sender, RoutedEventArgs e)
+        {
+            MainMenu newStatsWindow = new MainMenu();
+            this.Close();
+            newStatsWindow.Show();
         }
     }
 }
