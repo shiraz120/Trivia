@@ -44,7 +44,17 @@ namespace GUI_WPF
 
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("not implemented yet");
+            if (amountOfTime.SelectedItem == null)
+            {
+                createRoomDataText.Text = "please select time per question.";
+                return;
+            }
+            else if(amountOfPlayers.SelectedItem == null)
+            {
+                createRoomDataText.Text = "please select the amount of players in the room.";
+                return;
+            }
+            string timePerQuestion = amountOfTime.SelectedItem.ToString();
         }
     }
 
