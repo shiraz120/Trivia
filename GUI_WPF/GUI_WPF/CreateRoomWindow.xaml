@@ -13,9 +13,6 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Icon="Logo.png">
-    <Window.DataContext>
-        <local:sharedFunctionsBetweenWindows/>
-    </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -36,9 +33,35 @@
 
                 <TextBox Margin="0 50 0 0" x:Name="txtUsername" Width="300" FontSize="18" materialDesign:HintAssist.Hint="Enter Room Name" BorderThickness="2" BorderBrush="{DynamicResource MaterialDesignDivider}" Style="{StaticResource MaterialDesignOutlinedTextBox}" Text=""/>
 
-                <materialDesign:TimePicker x:Name="amountOfTime" />
+                <ComboBox Margin="0 20 0 0" Width="300" Height="45" Name="amountOfTime" Text="   Choose Time For Each Question" FontSize="18" IsEditable="True" IsReadOnly="True" FontWeight="SemiBold">
+                    <ComboBoxItem>10s</ComboBoxItem>
+                    <ComboBoxItem>15s</ComboBoxItem>
+                    <ComboBoxItem>20s</ComboBoxItem>
+                    <ComboBoxItem>30s</ComboBoxItem>
+                    <ComboBoxItem>45s</ComboBoxItem>
+                    <ComboBoxItem>1m</ComboBoxItem>
+                    <ComboBoxItem>1m15s</ComboBoxItem>
+                    <ComboBoxItem>1m30s</ComboBoxItem>
+                    <ComboBoxItem>2m</ComboBoxItem>
+                    <ComboBoxItem>3m</ComboBoxItem>
+                    <ComboBoxItem>5m</ComboBoxItem>
+                </ComboBox>
+                
+                <ComboBox Margin="0 20 0 0" Width="300" Height="45" Name="amountOfPlayers" Text="   Choose Amount Of Players" FontSize="18" IsEditable="True" IsReadOnly="True" FontWeight="SemiBold">
+                    <ComboBoxItem>2</ComboBoxItem>
+                    <ComboBoxItem>3</ComboBoxItem>
+                    <ComboBoxItem>4</ComboBoxItem>
+                    <ComboBoxItem>5</ComboBoxItem>
+                    <ComboBoxItem>6</ComboBoxItem>
+                    <ComboBoxItem>7</ComboBoxItem>
+                    <ComboBoxItem>8</ComboBoxItem>
+                    <ComboBoxItem>9</ComboBoxItem>
+                    <ComboBoxItem>10</ComboBoxItem>
+                </ComboBox>
 
-                <Button Margin="0 90 0 0" x:Name="menuButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MENU" Click="menuButton_Click"/>
+                <Button Margin="0 90 0 0" x:Name="createButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="CREATE" Click="createButton_Click"/>
+                
+                <Button Margin="0 20 0 0" x:Name="menuButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="MENU" Click="menuButton_Click"/>
                 
             </StackPanel>
         </materialDesign:DialogHost>

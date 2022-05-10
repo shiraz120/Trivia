@@ -36,6 +36,16 @@ namespace GUI_WPF
         {
             Communicator.logOut();
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
+
+        private void createButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("not implemented yet");
+        }
     }
 
 }

@@ -34,7 +34,9 @@ namespace GUI_WPF
         }
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("not implemented yet");
+            CreateRoomWindow newStatsWindow = new CreateRoomWindow();
+            this.Close();
+            newStatsWindow.Show();
         }
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
