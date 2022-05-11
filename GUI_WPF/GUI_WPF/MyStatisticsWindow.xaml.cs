@@ -1,6 +1,7 @@
 ﻿using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -46,20 +47,24 @@ namespace GUI_WPF
                 amountOfGames.Text = amountOfGames.Text + "      " + stats.statistics[amountOfGamesIndex];
             }
         }
+        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        {
+            Communicator.logOut();
+        }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
         private void menuButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             sharedFunctionsBetweenWindows.moveToMenu(this);
         }
-
-        private void exitApp(object sender, RoutedEventArgs e)
+        public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             Communicator.logOut();
+            Closing -= HandleClosingWindow;
         }
-
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);

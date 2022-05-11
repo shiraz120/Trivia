@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,26 +25,34 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
+        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        {
+            Communicator.logOut();
+        }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
-        private void exitApp(object sender, RoutedEventArgs e)
+        public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             Communicator.logOut();
+            Closing -= HandleClosingWindow;
         }
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             CreateRoomWindow newStatsWindow = new CreateRoomWindow();
             this.Close();
             newStatsWindow.Show();
         }
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             MessageBox.Show("not implemented yet");
         }
         private void statisticsButton_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             StatisticsMenu newStatsWindow = new StatisticsMenu();
             this.Close();
             newStatsWindow.Show();

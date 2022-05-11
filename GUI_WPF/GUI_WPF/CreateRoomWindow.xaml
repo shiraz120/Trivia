@@ -13,6 +13,9 @@
         WindowStyle="None"
         WindowStartupLocation="CenterScreen"
         Icon="Logo.png">
+    <Window.DataContext>
+        <local:sharedFunctionsBetweenWindows/>
+    </Window.DataContext>
     <materialDesign:Card UniformCornerRadius="15" Background="{DynamicResource MaterialDesignPaper}" Margin="25" materialDesign:ShadowAssist.ShadowDepth="Depth4">
         <materialDesign:DialogHost CloseOnClickAway="True" x:Name="DialogHost">
             <StackPanel>
@@ -22,7 +25,7 @@
                         <StackPanel Margin="16 10 0 6" Orientation="Horizontal" HorizontalAlignment="Center">
                             <TextBlock VerticalAlignment="Center" Text="Dark Mode"/>
                             <ToggleButton Cursor="Hand" ToolTip="Enable Dark Mode" Margin="12 0 8 0" x:Name="themeToggle" IsChecked="{Binding IsDarkTheme}" Click="toggleTheme"/>
-                            <Button x:Name="btn_exit" ToolTip="Close Application" Content="Exit Application" Click="exitApp"/>
+                            <Button x:Name="btn_exit" ToolTip="Close Application" Content="Exit Application" Click="HandleClosingWindow"/>
                         </StackPanel>
                     </StackPanel>
                 </materialDesign:PopupBox>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,18 +25,23 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
+        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        {
+            Communicator.logOut();
+        }
+        public void HandleClosingWindow(object sender, RoutedEventArgs e)
+        {
+            Communicator.logOut();
+            Closing -= HandleClosingWindow;
+        }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
         private void menu_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             sharedFunctionsBetweenWindows.moveToMenu(this);
-        }
-
-        private void exitApp(object sender, RoutedEventArgs e)
-        {
-            Communicator.logOut();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -46,6 +52,7 @@ namespace GUI_WPF
 
         private void myStats_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             MyStatisticsWindow newStatsWindow = new MyStatisticsWindow();
             this.Close();
             newStatsWindow.Show();
@@ -53,6 +60,7 @@ namespace GUI_WPF
 
         private void highScore_Click(object sender, RoutedEventArgs e)
         {
+            Closing -= HandleClosingWindow;
             MessageBox.Show("not implemented yet");
         }
 
