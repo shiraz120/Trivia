@@ -66,6 +66,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminRoom.xaml.cs">
+      <DependentUpon>AdminRoom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="communication\checkServerResponse.cs" />
     <Compile Include="communication\CommunicatorHelper.cs" />
     <Compile Include="communication\playersThread.cs" />
@@ -93,6 +96,13 @@
     <Compile Include="StatisticsMenu.xaml.cs">
       <DependentUpon>StatisticsMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="WaitingWindow.xaml.cs">
+      <DependentUpon>WaitingWindow.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AdminRoom.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="CreateRoomWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -122,6 +132,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="StatisticsMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WaitingWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
