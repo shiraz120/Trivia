@@ -79,6 +79,10 @@ namespace GUI_WPF
                 string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
                 createRoomDataText.Text = CREATE_ROOM_SUCCEEDED;
                 createRoomDataText.Foreground = System.Windows.Media.Brushes.Green;
+                Closing -= HandleClosingWindow;
+                AdminRoom newAdminWindow = new AdminRoom();
+                this.Close();
+                newAdminWindow.Show();
             }
         }
     }

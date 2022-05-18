@@ -169,7 +169,7 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
 	roomMetaData.numOfQuestionsInGame = roomData.questionCount;
 	roomMetaData.timePerQuestion = roomData.answerTimeout;
 	m_roomManager.createRoom(m_user, roomMetaData);
-	data.status = STATUS_SUCCESS;
+	data.status = roomMetaData.id;
 	response.response = JsonResponsePacketSerializer::serializeResponse<CreateRoomResponse>(data, CREATE_ROOM_RESPONSE);
 	response.newHandler = new MenuRequestHandler(m_user, m_roomManager, m_statisticsManager, m_handlerFactory);
 	return response;

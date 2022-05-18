@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,19 @@ namespace GUI_WPF
         public WaitingWindow()
         {
             InitializeComponent();
+        }
+        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        {
+            Communicator.logOut();
+        }
+        public void HandleClosingWindow(object sender, RoutedEventArgs e)
+        {
+            Communicator.logOut();
+            Closing -= HandleClosingWindow;
+        }
+        private void toggleTheme(object sender, RoutedEventArgs e)
+        {
+            sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
     }
 }
