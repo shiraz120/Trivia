@@ -15,6 +15,7 @@ namespace GUI_WPF
         public const char LOGIN_REQUEST = '1';
         public const char SIGNUP_REQUEST = '2';
         public const char SIGNOUT_REQUEST = '5';
+        public const char CREATE_ROOM_REQUEST = '3';
         public const char GET_PERSONAL_STATS_REQUEST = '7';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;

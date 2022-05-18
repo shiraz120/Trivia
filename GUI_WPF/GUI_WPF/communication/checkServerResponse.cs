@@ -15,7 +15,7 @@ namespace GUI_WPF
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
         public const string DATA_BASE_PROBLEM = "dataBase problem.";
-
+        
         static public string checkIfSigupSucceded()
         {
             Communicator.GetMessageTypeCode();
