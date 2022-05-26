@@ -27,11 +27,11 @@ namespace GUI_WPF
                     {
                         return "user already exist.";
                     }
-                case (int)Status.STATUS_SUCCESS:
+                case (int) Status.STATUS_SUCCESS:
                     {
                         return SIGNUP_SUCCEEDED;
                     }
-                case (int)Status.STATUS_DB_PROBLEM:
+                case (int) Status.STATUS_DB_PROBLEM:
                     {
                         return DATA_BASE_PROBLEM;
                     }

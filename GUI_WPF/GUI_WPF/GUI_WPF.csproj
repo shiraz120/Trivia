@@ -81,6 +81,8 @@
     <Compile Include="objectsForCommunication\createRoomRequestAndResponse.cs" />
     <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
     <Compile Include="objectsForCommunication\getPlayersInRoom.cs" />
+    <Compile Include="objectsForCommunication\GetRooms.cs" />
+    <Compile Include="objectsForCommunication\JoinRoom.cs" />
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />

@@ -63,12 +63,12 @@ namespace GUI_WPF
 
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("not implemented yet.");
+            MessageBox.Show("version 3");
         }
         
         private void closeRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("not implemented yet.");
+            MessageBox.Show("version 3");
         }
     }
 }

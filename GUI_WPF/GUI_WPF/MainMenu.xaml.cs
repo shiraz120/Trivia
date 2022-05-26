@@ -48,7 +48,9 @@ namespace GUI_WPF
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
-            MessageBox.Show("not implemented yet");
+            RoomListWindow newStatsWindow = new RoomListWindow();
+            this.Close();
+            newStatsWindow.Show();
         }
         private void statisticsButton_Click(object sender, RoutedEventArgs e)
         {
