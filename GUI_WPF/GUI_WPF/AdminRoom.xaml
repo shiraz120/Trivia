@@ -40,9 +40,7 @@
 
                 <TextBlock FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Players: " Margin="15 15 0 0"/>
 
-                <ListBox Width="360" Margin="0 10 0 0" Height="390" Name="playersList">
-
-                </ListBox>
+                <ListBox Width="360" Margin="0 10 0 0" Height="390" Name="playersList" FontSize="18"/>
 
                 <Button Margin="0 20 0 0" x:Name="createRoomButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="53" Width="300" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="START GAME" Click="createRoomButton_Click"/>
                 

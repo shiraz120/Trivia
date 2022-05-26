@@ -85,6 +85,9 @@
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />
     <Compile Include="objectsForCommunication\signupReuqestAndResponse.cs" />
+    <Compile Include="RoomListWindow.xaml.cs">
+      <DependentUpon>RoomListWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="sharedFunctionsBetweenWindows.cs" />
     <Compile Include="Signup.xaml.cs">
       <DependentUpon>Signup.xaml</DependentUpon>
@@ -122,6 +125,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="RoomListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Signup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
