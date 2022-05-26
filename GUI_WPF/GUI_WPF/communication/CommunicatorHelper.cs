@@ -17,6 +17,7 @@ namespace GUI_WPF
         public const char SIGNOUT_REQUEST = '5';
         public const char CREATE_ROOM_REQUEST = '3';
         public const char GET_PERSONAL_STATS_REQUEST = '7';
+        public const char GET_PLAYERS_IN_ROOM_REQUEST = '6';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;
         const int DEFAULT_PORT = 8826;

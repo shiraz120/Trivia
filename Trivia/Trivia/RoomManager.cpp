@@ -8,7 +8,7 @@ RoomManager::~RoomManager()
 {
 }
 
-void RoomManager::createRoom(const LoggedUser user, RoomData room)
+void RoomManager::createRoom(const LoggedUser user, RoomData& room)
 {
 	unsigned int lastestKey = 0;
 	if (m_rooms.size() != 0)

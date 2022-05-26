@@ -71,8 +71,6 @@
     </Compile>
     <Compile Include="communication\checkServerResponse.cs" />
     <Compile Include="communication\CommunicatorHelper.cs" />
-    <Compile Include="communication\playersThread.cs" />
-    <Compile Include="communication\roomsThread.cs" />
     <Compile Include="CreateRoomWindow.xaml.cs">
       <DependentUpon>CreateRoomWindow.xaml</DependentUpon>
     </Compile>
@@ -82,6 +80,7 @@
     </Compile>
     <Compile Include="objectsForCommunication\createRoomRequestAndResponse.cs" />
     <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
+    <Compile Include="objectsForCommunication\getPlayersInRoom.cs" />
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />

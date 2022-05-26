@@ -14,7 +14,7 @@ namespace GUI_WPF
         static public readonly int MIN_PASSWORD_LENGTH = 5;
         static public readonly string INVALID_NAME = "username filed cant be empty.";
         static public readonly string INVALID_PASSWORD = "password filed must contain at least " + Convert.ToString(sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH) + " characters.";
-
+        static public int current_room_id { get; set; }
         static private readonly PaletteHelper paletteHelper = new PaletteHelper();
         static public void moveToMenu(Window pointerToWindow)
         {
