@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,27 @@ namespace GUI_WPF
         public HighScore()
         {
             InitializeComponent();
+            string request = Convert.ToString(Communicator.GET_HIGH_SCORE_REQUEST) + "\0\0\0\0";
+            Communicator.sendData(request);
+            Communicator.GetMessageTypeCode();
+            getHighScoreResponse stats = desirializer.deserializeRequest<getHighScoreResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+            if (stats.status == (int)checkServerResponse.Status.STATUS_DB_PROBLEM)
+            {
+                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
+                highScoreDataText.Text = "error occured trying to receive data from the dataBase.";
+            }
+            else if(stats.status == (int)checkServerResponse.Status.STATUS_NO_USERS_LOGGED_IN)
+            {
+                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
+                highScoreDataText.Text = "seems like there are no users in the system.";
+            }
+            else
+            {
+                foreach(var item in stats.statistics)
+                {
+                    highestUsers.Items.Add(item.Key + " " + Convert.ToString(item.Value));
+                }
+            }
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -31,6 +53,15 @@ namespace GUI_WPF
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
+        }
+        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        {
+            Communicator.logOut();
+        }
+        private void menuButton_Click(object sender, RoutedEventArgs e)
+        {
+            Closing -= HandleClosingWindow;
+            sharedFunctionsBetweenWindows.moveToMenu(this);
         }
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {

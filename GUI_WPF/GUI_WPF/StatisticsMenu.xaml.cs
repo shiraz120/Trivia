@@ -61,8 +61,9 @@ namespace GUI_WPF
         private void highScore_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
-            MessageBox.Show("not implemented yet");
+            HighScore newHighScoreWindow = new HighScore();
+            this.Close();
+            newHighScoreWindow.Show();
         }
-
     }
 }

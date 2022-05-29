@@ -82,6 +82,7 @@
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
     <Compile Include="objectsForCommunication\createRoomRequestAndResponse.cs" />
+    <Compile Include="objectsForCommunication\getHighScoreResponse.cs" />
     <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
     <Compile Include="objectsForCommunication\getPlayersInRoom.cs" />
     <Compile Include="objectsForCommunication\GetRooms.cs" />

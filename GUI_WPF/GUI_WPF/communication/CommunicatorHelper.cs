@@ -19,6 +19,7 @@ namespace GUI_WPF
         public const char GET_PERSONAL_STATS_REQUEST = '7';
         public const char GET_PLAYERS_IN_ROOM_REQUEST = '6';
         public const char GET_ROOMS_REQUEST = '4';
+        public const char GET_HIGH_SCORE_REQUEST = '8';
         public const char JOIN_ROOM_REQUEST = '9';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;

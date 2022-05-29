@@ -1,5 +1,6 @@
 #pragma once
 #include "dataBase.h"
+#include <map>
 #define AMOUNT_OF_USERS 5
 #define SCORE_FOR_CORRECT_ANSWER 1000
 #define SCORE_FOR_AVG_TIME 250
@@ -11,7 +12,7 @@ class StatisticsManager
 public:
 	StatisticsManager(IDatabase* db);
 	~StatisticsManager();
-	std::vector<std::pair<string, int>> getHighScore() const;
+	std::map<string, int> getHighScore() const;
 	std::vector<string> getUserStatistics(string username) const;
 	
 private:
