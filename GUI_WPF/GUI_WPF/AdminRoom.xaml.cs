@@ -29,6 +29,11 @@ namespace GUI_WPF
             getPlayers.Start();
             InitializeComponent();
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
         public void getPlayersInRoom(int id)
         {
             while (keepRunning)

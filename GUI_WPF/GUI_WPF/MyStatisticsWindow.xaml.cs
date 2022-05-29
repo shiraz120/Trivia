@@ -50,6 +50,11 @@ namespace GUI_WPF
         {
             Communicator.logOut();
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
@@ -64,11 +69,5 @@ namespace GUI_WPF
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
-        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            base.OnMouseLeftButtonDown(e);
-            DragMove();
-        }
-
     }
 }

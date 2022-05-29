@@ -32,6 +32,11 @@ namespace GUI_WPF
             roomsThread.Start();
             InitializeComponent();
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
         public void getRooms()
         {
             while (keepRunning)

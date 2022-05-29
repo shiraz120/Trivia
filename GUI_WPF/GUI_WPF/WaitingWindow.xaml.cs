@@ -44,6 +44,11 @@ namespace GUI_WPF
                 Thread.Sleep(2000);
             }
         }
+        protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            base.OnMouseLeftButtonDown(e);
+            DragMove();
+        }
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             keepRunning = false;
