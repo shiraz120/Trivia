@@ -24,6 +24,7 @@ namespace GUI_WPF
     public partial class RoomListWindow : Window
     {
         private bool keepRunning = true;
+        private int whereIdStarts = 4;
         private List<RoomData> listOfRooms;
         public RoomListWindow()
         {
@@ -44,9 +45,9 @@ namespace GUI_WPF
                 roomList.Dispatcher.Invoke(() => { roomList.Items.Clear(); });
                 foreach (RoomData room in listOfRooms)
                 {
-                    roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString() + " time per question: " + room.timePerQuestion.ToString() + " questions: " + room.numOfQuestionsInGame.ToString()); roomList.DisplayMemberPath = room.id.ToString(); });
+                    roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
                 }
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
         }
         public void HandleClosingWindow(object sender, CancelEventArgs e)
@@ -74,16 +75,31 @@ namespace GUI_WPF
 
         private void roomList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //keepRunning = false;
-            //Closing -= HandleClosingWindow;
-            //JoinRoomRequest request = new JoinRoomRequest { roomId =  };
-            //string requestAsString = serializer.serializeResponse<GetPlayersInRoomRequest>(request, Communicator.GET_PLAYERS_IN_ROOM_REQUEST);
-            //Communicator.sendData(requestAsString);
-            //Communicator.GetMessageTypeCode();
-            //string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
-            //WaitingWindow newStatsWindow = new WaitingWindow();
-            //this.Close();
-            //newStatsWindow.Show();
+            int id = getId(roomList.SelectedItem.ToString());
+            JoinRoomRequest request = new JoinRoomRequest { roomId = id };
+            Communicator.sendData(serializer.serializeResponse<JoinRoomRequest>(request, Communicator.JOIN_ROOM_REQUEST));
+            string response = checkServerResponse.checkIfjoinRoomSucceeded(id);
+            joinRoomDataText.Text = response;
+            if (response == checkServerResponse.JOINED_ROOM_SUCCEEDED)
+            {
+                keepRunning = false;
+                Closing -= HandleClosingWindow;
+                sharedFunctionsBetweenWindows.current_room_id = id;
+                WaitingWindow newStatsWindow = new WaitingWindow();
+                this.Close();
+                newStatsWindow.Show();
+            }
+        }
+        private int getId(string dataAboutRoom)
+        {
+            int counter = whereIdStarts;
+            string idAsString = "";
+            while (Char.IsDigit(dataAboutRoom[counter]))
+            {
+                idAsString += dataAboutRoom[counter];
+                counter++;
+            }
+            return int.Parse(idAsString);
         }
     }
 }

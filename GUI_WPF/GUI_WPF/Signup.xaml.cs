@@ -70,8 +70,7 @@ namespace GUI_WPF
                     username = txtUsername.Text,
                     password = txtPassword.Password
                 };
-                string signupAsString = serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST);
-                Communicator.sendData(signupAsString);
+                Communicator.sendData(serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST));
                 string signupResponse = checkServerResponse.checkIfSigupSucceded();
                 signupDataText.Text = signupResponse;
                 if (signupResponse == checkServerResponse.SIGNUP_SUCCEEDED)
@@ -86,7 +85,7 @@ namespace GUI_WPF
             else
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
         }
-
+        
         private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)

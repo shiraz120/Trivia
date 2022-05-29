@@ -37,12 +37,11 @@ namespace GUI_WPF
                 string requestAsString = serializer.serializeResponse<GetPlayersInRoomRequest>(request, Communicator.GET_PLAYERS_IN_ROOM_REQUEST);
                 Communicator.sendData(requestAsString);
                 Communicator.GetMessageTypeCode();
-                string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
-                GetPlayersInRoomResponse createRoomResponse = desirializer.deserializeRequest<GetPlayersInRoomResponse>(response);
+                GetPlayersInRoomResponse createRoomResponse = desirializer.deserializeRequest<GetPlayersInRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 listOfPlayers = createRoomResponse.players;
                 if (listOfPlayers != null)
                     playersList.Dispatcher.Invoke(() => { playersList.ItemsSource = listOfPlayers; });
-                Thread.Sleep(1000);
+                Thread.Sleep(2000);
             }
         }
         public void HandleClosingWindow(object sender, CancelEventArgs e)

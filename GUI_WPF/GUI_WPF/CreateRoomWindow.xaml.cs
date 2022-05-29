@@ -76,8 +76,7 @@ namespace GUI_WPF
                 string requestAsString = serializer.serializeResponse<createRoomRequest>(request, Communicator.CREATE_ROOM_REQUEST);
                 Communicator.sendData(requestAsString);
                 Communicator.GetMessageTypeCode();
-                string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
-                createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(response);
+                createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 sharedFunctionsBetweenWindows.current_room_id = createRoomResponse.status;
                 createRoomDataText.Text = CREATE_ROOM_SUCCEEDED;
                 createRoomDataText.Foreground = System.Windows.Media.Brushes.Green;

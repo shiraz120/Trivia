@@ -15,12 +15,14 @@ namespace GUI_WPF
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
         public const string DATA_BASE_PROBLEM = "dataBase problem.";
+        public const string ROOM_IS_FULL = "the room is full.";
+        public const string ROOM_DOESNT_EXIST = "the room doesnt seem to exist.";
+        public const string JOINED_ROOM_SUCCEEDED = "joined room successfully!";
         
         static public string checkIfSigupSucceded()
         {
             Communicator.GetMessageTypeCode();
-            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
-            SignupResponse SignupResponse = desirializer.deserializeRequest<SignupResponse>(response);
+            SignupResponse SignupResponse = desirializer.deserializeRequest<SignupResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
             switch (SignupResponse.status)
             {
                 case (int) Status.STATUS_USER_EXIST:
@@ -38,18 +40,31 @@ namespace GUI_WPF
             }
             return "";
         }
+        static public string checkIfjoinRoomSucceeded(int id)
+        {
+            Communicator.GetMessageTypeCode();
+            JoinRoomResponse response = desirializer.deserializeRequest<JoinRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+            switch(response.status)
+            {
+                case (int)Status.STATUS_ROOM_IS_FULL:
+                    return ROOM_IS_FULL;
+                case (int)Status.STATUS_ROOM_DOESNT_EXIST:
+                    return ROOM_DOESNT_EXIST;
+                case (int)Status.STATUS_SUCCESS:
+                        return JOINED_ROOM_SUCCEEDED;
+            }
+            return "";
+        }
         static public int checkIfLogoutSucceeded()
         {
             Communicator.GetMessageTypeCode();
-            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
-            logoutResponse logoutResponse = desirializer.deserializeRequest<logoutResponse>(response);
+            logoutResponse logoutResponse = desirializer.deserializeRequest<logoutResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
             return logoutResponse.status;
         }
         static public string checkIfLoginSucceded()
         {
             Communicator.GetMessageTypeCode();
-            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE));
-            loginResponse LoginResponse = desirializer.deserializeRequest<loginResponse>(response);
+            loginResponse LoginResponse = desirializer.deserializeRequest<loginResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
             switch(LoginResponse.status)
             {
                 case (int)Status.STATUS_USER_DOESNT_EXIST:

@@ -31,8 +31,7 @@ namespace GUI_WPF
             string request = Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
             Communicator.GetMessageTypeCode();
-            string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
-            getPersonalStatsResponse stats = desirializer.deserializeRequest<getPersonalStatsResponse>(response);
+            getPersonalStatsResponse stats = desirializer.deserializeRequest<getPersonalStatsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
             if(stats.status == (int)checkServerResponse.Status.STATUS_DB_PROBLEM)
             {
                 statisticsDataText.Foreground = System.Windows.Media.Brushes.Red;

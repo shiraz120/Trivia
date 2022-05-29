@@ -55,8 +55,7 @@ namespace GUI_WPF
                     username = txtUsername.Text,
                     password = txtPassword.Password
                 };
-                string loginAsString = serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST);
-                Communicator.sendData(loginAsString);
+                Communicator.sendData(serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST));
                 string loginResponse = checkServerResponse.checkIfLoginSucceded();
                 loginDataText.Text = loginResponse;
                 if(loginResponse == checkServerResponse.LOGIN_SUCCEEDED)
@@ -75,7 +74,7 @@ namespace GUI_WPF
             this.Close();
             replacedWindow.ShowDialog();
         }
-
+        
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(txtUsername.Text))
