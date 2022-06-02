@@ -80,19 +80,22 @@ namespace GUI_WPF
 
         private void roomList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            int id = getId(roomList.SelectedItem.ToString());
-            JoinRoomRequest request = new JoinRoomRequest { roomId = id };
-            Communicator.sendData(serializer.serializeResponse<JoinRoomRequest>(request, Communicator.JOIN_ROOM_REQUEST));
-            string response = checkServerResponse.checkIfjoinRoomSucceeded(id);
-            joinRoomDataText.Text = response;
-            if (response == checkServerResponse.JOINED_ROOM_SUCCEEDED)
+            if(roomList.SelectedItem != null)
             {
-                keepRunning = false;
-                Closing -= HandleClosingWindow;
-                sharedFunctionsBetweenWindows.current_room_id = id;
-                WaitingWindow newStatsWindow = new WaitingWindow();
-                this.Close();
-                newStatsWindow.Show();
+                int id = getId(roomList.SelectedItem.ToString());
+                JoinRoomRequest request = new JoinRoomRequest { roomId = id };
+                Communicator.sendData(serializer.serializeResponse<JoinRoomRequest>(request, Communicator.JOIN_ROOM_REQUEST));
+                string response = checkServerResponse.checkIfjoinRoomSucceeded(id);
+                joinRoomDataText.Text = response;
+                if (response == checkServerResponse.JOINED_ROOM_SUCCEEDED)
+                {
+                    keepRunning = false;
+                    Closing -= HandleClosingWindow;
+                    sharedFunctionsBetweenWindows.current_room_id = id;
+                    WaitingWindow newStatsWindow = new WaitingWindow();
+                    this.Close();
+                    newStatsWindow.Show();
+                }
             }
         }
         private int getId(string dataAboutRoom)
