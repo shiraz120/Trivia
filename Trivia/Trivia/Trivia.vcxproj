@@ -151,6 +151,7 @@
     <ClCompile Include="objectsToOrFromJson.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Room.cpp" />
+    <ClCompile Include="RoomAdminRequestHandler.cpp" />
     <ClCompile Include="RoomManager.cpp" />
     <ClCompile Include="Server.cpp" />
     <ClCompile Include="severHelper.cpp" />
@@ -179,8 +180,10 @@
     <ClInclude Include="RequestInfo.h" />
     <ClInclude Include="Response.h" />
     <ClInclude Include="Room.h" />
+    <ClInclude Include="RoomAdminRequestHandler.h" />
     <ClInclude Include="RoomData.h" />
     <ClInclude Include="RoomManager.h" />
+    <ClInclude Include="RoomMemberRequestHandler.h" />
     <ClInclude Include="server.h" />
     <ClInclude Include="serverHelper.h" />
     <ClInclude Include="sqlite3.h" />

@@ -30,6 +30,26 @@ void to_json(json& jsonCreateRoomResponse, const CreateRoomResponse& createRoom)
 	jsonCreateRoomResponse = json{ {"status", createRoom.status}};
 }
 
+void to_json(json& jsonCloseRoomResponse, const CloseRoomResponse& closeRoom)
+{
+	jsonCloseRoomResponse = json{ {"status", closeRoom.status} };
+}
+
+void to_json(json& jsonStartGameResponse, const StartGameResponse& createRoom)
+{
+	jsonStartGameResponse = json{ {"status", createRoom.status} };
+}
+
+void to_json(json& jsonGetRoomStateResponse, const GetRoomStateResponse& getRoomState)
+{
+	jsonGetRoomStateResponse = json{ {"status", getRoomState.status}, {"questionCount", getRoomState.questionCount}, {"players", getRoomState.players},{"hasGameBegun", getRoomState.hasGameBegun}, {"answerTimeout", getRoomState.answerTimeout} };
+}
+
+void to_json(json& jsonLeaveRoomResponse, const LeaveRoomResponse& leaveRoom)
+{
+	jsonLeaveRoomResponse = json{ "status", leaveRoom.status };
+}
+
 void to_json(json& jsonLogoutResponse, const LogoutResponse& logout)
 {
 	jsonLogoutResponse = json{ {"status", logout.status}};

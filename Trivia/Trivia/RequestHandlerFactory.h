@@ -1,8 +1,13 @@
 #pragma once
 #include "LoginRequestHandler.h"
 #include "MenuRequestHandler.h"
+#include "RoomAdminRequestHandler.h"
+#include "RoomMemberRequestHandler.h"
+
+class RoomAdminHandler;
 class LoginRequestHandler;
 class MenuRequestHandler;
+class RoomMemberHandler;
 class RequestHandlerFactory
 {
 public:
@@ -10,6 +15,8 @@ public:
 	~RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(LoggedUser user);
+	RoomAdminHandler* createRoomAdminRequestHandler();
+	RoomMemberHandler* createRoomMemberRequestHandler();
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 	LoginManager& getLoginManager();

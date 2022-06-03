@@ -8,6 +8,7 @@
 #define LOGIN_RESPONSE 'a'
 #define SIGNUP_RESPONSE 'b'
 #define ERROR_RESPONSE 'c'
+
 #define LOGOUT_RESPONSE 'd'
 #define GET_ROOMS_RESPONSE 'e'
 #define GET_PLAYERS_IN_ROOM_RESPONSE 'f'
@@ -15,6 +16,11 @@
 #define GET_PERSONAL_STATS_RESPONSE 'h'
 #define JOIN_ROOM_RESPONSE 'i'
 #define CREATE_ROOM_RESPONSE 'j'
+
+#define CLOSE_ROOM_RESPONSE 'k'
+#define START_GAME_RESPONSE 'l'
+#define GET_ROOM_STATE_RESPONSE 'm'
+#define LEAVE_GAME_RESPONSE 'n'
 
 using std::string;
 using json = nlohmann::json;
@@ -68,6 +74,30 @@ struct JoinRoomResponse
 };
 
 struct CreateRoomResponse
+{
+	unsigned int status;
+};
+
+struct CloseRoomResponse
+{
+	unsigned int status;
+};
+
+struct StartGameResponse
+{
+	unsigned int status;
+};
+
+struct GetRoomStateResponse
+{
+	unsigned int status;
+	bool hasGameBegun;
+	std::vector<std::string> players;
+	unsigned int questionCount;
+	unsigned int answerTimeout;
+};
+
+struct LeaveRoomResponse
 {
 	unsigned int status;
 };

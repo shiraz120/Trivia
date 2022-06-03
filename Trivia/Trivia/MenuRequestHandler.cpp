@@ -9,7 +9,7 @@ MenuRequestHandler::~MenuRequestHandler()
 
 bool MenuRequestHandler::isRequestRelevant(RequestInfo request)
 {
-	if (CREATE_ROOM_REQUEST <= request.id && request.id <= JOIN_ROOM_REQUEST)
+	if (CREATE_ROOM_REQUEST == request.id || request.id == JOIN_ROOM_REQUEST || request.id == GET_ROOMS_REQUEST || request.id == GET_PLAYERS_IN_ROOM_REQUEST || request.id == GET_PERSONAL_STATS_REQUEST || request.id == GET_HIGH_SCORE_REQUEST || request.id == SIGN_OUT_REQUEST)
 		return true;
 	return false;
 }
@@ -58,7 +58,7 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request)
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createLoginRequestHandler();
 	else
-		response.newHandler = new MenuRequestHandler(m_user, m_roomManager, m_statisticsManager, m_handlerFactory);
+		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
 
