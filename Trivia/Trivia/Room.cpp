@@ -27,6 +27,16 @@ Room::~Room()
 }
 
 /*
+this function will set the activity of the room
+input: active
+output: none
+*/
+void Room::setActivity(int active)
+{
+	m_metadata.isActive = active;
+}
+
+/*
 this function will add new user if the size of the vector isnt bigger than the maxPlayers
 input: newUser
 output: none

@@ -4,7 +4,7 @@ this function will create a RoomHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomHandler::RoomHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory) : m_user(user), m_room(room), m_roomManager(handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
+RoomHandler::RoomHandler(const LoggedUser user, Room& room, RoomManager& roomManager) : m_user(user), m_room(room), m_roomManager(roomManager)
 {
 }
 

@@ -205,7 +205,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user, m_roomManager.getRoom(roomData.roomId)); 
 	else
-		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user); // need to change it to memberHandler
+		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
 

@@ -5,7 +5,7 @@ this function will create a new RoomAdminHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomAdminHandler::RoomAdminHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory) : RoomHandler(user, room, handlerFactory)
+RoomAdminHandler::RoomAdminHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory) : RoomHandler(user, room, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
 {
 }
 
@@ -96,5 +96,11 @@ output: RequestResult
 */
 RequestResult RoomAdminHandler::startGame(RequestInfo request) const
 {
+	RequestResult response;
+	StartGameResponse data;
+	m_room.setActivity(ACTIVE);
+	data.status = STATUS_SUCCESS;
+	response.response = JsonResponsePacketSerializer::serializeResponse<StartGameResponse>(data, START_GAME_RESPONSE);
+	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room); // changed in v4
 	return RequestResult();
 }

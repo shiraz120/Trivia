@@ -6,7 +6,8 @@
 
 class LoginRequestHandler;
 class MenuRequestHandler;
-class RoomHandler;
+class RoomMemberHandler;
+class RoomAdminHandler;
 class RequestHandlerFactory
 {
 public:

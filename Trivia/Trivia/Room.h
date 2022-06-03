@@ -13,6 +13,7 @@ public:
 	Room(const Room& copyFrom);
 	Room(const RoomData roomData, const LoggedUser admin);
 	~Room();
+	void setActivity(int active);
 	void addUser(const LoggedUser newUser);
 	void removeUser(const LoggedUser existingUser);
 	RoomData getMetaData() const;

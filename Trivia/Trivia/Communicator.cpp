@@ -66,13 +66,12 @@ output: none
 */
 void Communicator::handleNewClient(SOCKET clientSocket)
 {
-	IRequestHandler* handler = m_handlerFactory.createLoginRequestHandler();
 	RequestInfo infoFromClient;
 	RequestResult infoToClient;
 	ErrorResponse error;
 	time_t curentTime;
 	std::unique_lock<std::mutex> clientLock(cLock);
-	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, handler));
+	m_clients.insert(std::pair<SOCKET, IRequestHandler*>(clientSocket, m_handlerFactory.createLoginRequestHandler()));
 	clientLock.unlock();
 	try {
 		while (true)
@@ -84,7 +83,7 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getSizePart(clientSocket, MAX_DATA_LENGTH));
 
 			/* if the request is valid for the current handler, create and send the response and replace the handler to a new handler */
-			if (!handler->isRequestRelevant(infoFromClient))
+			if (!m_clients[clientSocket]->isRequestRelevant(infoFromClient))
 			{
 				error.message = "Error: request isnt relevant for the current handler.";
 				Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE));
@@ -93,9 +92,9 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			{
 				std::cout << "client code: " << infoFromClient.id << std::endl;
 				std::cout << "message from client: " + infoFromClient.buffer << std::endl;
-				infoToClient = handler->handleRequest(infoFromClient);
-				delete handler;
-				handler = infoToClient.newHandler;
+				infoToClient = m_clients[clientSocket]->handleRequest(infoFromClient);
+				delete m_clients[clientSocket];
+				m_clients[clientSocket] = infoToClient.newHandler;
 				Helper::sendData(clientSocket, infoToClient.response);
 				std::cout << "server response: " + infoToClient.response << std::endl;
 			}
@@ -105,11 +104,11 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 	{
 		std::cout << e.what() << std::endl;
 		std::unique_lock<std::mutex> clientLock(cLock);
+		delete m_clients[clientSocket];
 		m_clients.erase(clientSocket);
 		clientLock.unlock();
 		closesocket(clientSocket);
 	}
-	delete handler;
 }
 
 /*
