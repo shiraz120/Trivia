@@ -1,10 +1,20 @@
 #include "StatisticsManager.h"
 #include "dataBaseException.h"
 
+/*
+this function will create a new statisticsManager object
+input: db
+output: none
+*/
 StatisticsManager::StatisticsManager(IDatabase* db) : m_database(db)
 {
 }
 
+/*
+this function will remove a StatisticsManager object
+input: none
+output: none
+*/
 StatisticsManager::~StatisticsManager()
 {
 }

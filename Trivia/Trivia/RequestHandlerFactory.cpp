@@ -22,7 +22,7 @@ this function will create a new loginRequestHandler
 input: none
 output: newLoginRequestHandler
 */
-LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler() 
+LoginRequestHandler* RequestHandlerFactory::createLoginRequestHandler()
 {
 	LoginRequestHandler* newLoginRequestHandler = new LoginRequestHandler(m_loginManager, *this);
 	return newLoginRequestHandler;
@@ -33,10 +33,32 @@ this function will create a new MenuRequestHandler
 input: none
 output: newMenuRequestHandler
 */
-MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(LoggedUser user) 
+MenuRequestHandler* RequestHandlerFactory::createMenuRequestHandler(const LoggedUser user) 
 {
-	MenuRequestHandler* newMenuRequestHandler = new MenuRequestHandler(user, m_roomManager, m_statisticsManager, *this);
+	MenuRequestHandler* newMenuRequestHandler = new MenuRequestHandler(user, *this);
 	return newMenuRequestHandler;
+}
+
+/*
+this function will create a new RoomAdminRequestHandler object
+input: user, room
+output: new RoomAdminRequestHandler object
+*/
+RoomAdminHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser user, Room& room)
+{
+	RoomAdminHandler* newAdminHandler = new RoomAdminHandler(user, room, *this);
+	return newAdminHandler;
+}
+
+/*
+this function will create a new RoomMemberRequestHandler object
+input: user, room
+output: new RoomMemberRequestHandler object
+*/
+RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser user, Room& room)
+{
+	RoomMemberHandler* newMemberHandler = new RoomMemberHandler(user, room, *this);
+	return newMemberHandler;
 }
 
 /*

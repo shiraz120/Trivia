@@ -5,8 +5,8 @@ class RequestHandlerFactory;
 class MenuRequestHandler : public IRequestHandler
 {
 public:
-	MenuRequestHandler(LoggedUser user, RoomManager& roomManager, StatisticsManager& statisticsManager, RequestHandlerFactory& handlerFactory);
-	~MenuRequestHandler();
+	MenuRequestHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
+	virtual ~MenuRequestHandler();
 	bool isRequestRelevant(RequestInfo request) override;
 	RequestResult handleRequest(RequestInfo request) override;
 

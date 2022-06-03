@@ -56,3 +56,8 @@ void RoomManager::addUserToRoom(const unsigned id, LoggedUser username)
 		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	m_rooms[id].addUser(username);
 }
+
+Room& RoomManager::getRoom(const int id)
+{
+	return m_rooms[id]; // use the function only in join/ create room so the room exists
+}
