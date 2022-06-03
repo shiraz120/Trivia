@@ -64,5 +64,20 @@ namespace GUI_WPF
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
+
+        private void leaveRoom_Click(object sender, RoutedEventArgs e)
+        {
+            string request = Convert.ToString(Communicator.LEAVE_ROOM_REQUEST) + "\0\0\0\0";
+            Communicator.sendData(request);
+            Communicator.GetMessageTypeCode();
+            leaveRoomResponse stats = desirializer.deserializeRequest<leaveRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+
+            //TODO
+
+            Closing -= HandleClosingWindow;
+            RoomListWindow newRoomListWindow = new RoomListWindow();
+            this.Close();
+            newRoomListWindow.Show();
+        }
     }
 }

@@ -21,6 +21,10 @@ namespace GUI_WPF
         public const char GET_ROOMS_REQUEST = '4';
         public const char GET_HIGH_SCORE_REQUEST = '8';
         public const char JOIN_ROOM_REQUEST = '9';
+        public const char CLOSE_ROOM_REQUEST = 'A';
+        public const char GET_ROOM_STATE_REQUEST = 'B';
+        public const char START_GAME_REQUEST = 'C';
+        public const char LEAVE_ROOM_REQUEST = 'D';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;
         const int DEFAULT_PORT = 8826;
