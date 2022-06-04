@@ -72,7 +72,14 @@ namespace GUI_WPF
                 System.Environment.Exit(1);
                 Communicator.closeStream();
             }
-            return System.Text.Encoding.UTF8.GetString(buffer);
+            string typeCode = System.Text.Encoding.UTF8.GetString(buffer);
+            if (typeCode == "c") //incase the is an errorMessage
+            {
+                MessageBox.Show("Error: Handlers don't match");
+                System.Environment.Exit(1);
+                Communicator.closeStream();
+            }
+            return typeCode;
         }
         public static string GetStringPartFromSocket(int bytesNum)
         {
