@@ -41,7 +41,7 @@ namespace GUI_WPF
             {
                 foreach(var item in stats.statistics)
                 {
-                    highestUsers.Items.Add(item.Key + " " + Convert.ToString(item.Value));
+                    highestUsers.Items.Add(item.Key + " - " + Convert.ToString(item.Value));
                 }
             }
         }
