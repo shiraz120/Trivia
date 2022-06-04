@@ -58,10 +58,12 @@ namespace GUI_WPF
         {
             Communicator.logOut();
         }
-        private void menuButton_Click(object sender, RoutedEventArgs e)
+        private void statisticsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
-            sharedFunctionsBetweenWindows.moveToMenu(this);
+            StatisticsMenu newStatsWindow = new StatisticsMenu();
+            this.Close();
+            newStatsWindow.Show();
         }
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
