@@ -10,7 +10,12 @@ RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager) : m_us
 	std::vector<string> players;
 	for (RoomData room : rooms)
 	{
-		players = m_roomManager.getAllUsersFromSpecificRoom(room.id);
+		try
+		{
+			players = m_roomManager.getAllUsersFromSpecificRoom(room.id);
+		}
+		catch(statusException& e)
+		{ }
 		if (std::count(players.begin(), players.end(), user.getUsername()))
 		{
 			m_room = Room(room, LoggedUser(players[0]));
@@ -36,18 +41,15 @@ RequestResult RoomHandler::getRoomData(RequestInfo request) const
 {
 	GetRoomStateResponse responseData;
 	RequestResult data;
-	ErrorResponse error;
 	responseData.status = STATUS_SUCCESS;
 	try {
 		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id); // if exception thrown it means that the room doesnt exist
 		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
 		responseData.players = m_room.getAllUsers();
 	}
-	catch (std::exception& e)
+	catch (statusException& e)
 	{
-		error.message = e.what();
-		data.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
-		responseData.status = STATUS_FAILED;
+		responseData.status = e.statusRet();
 	}
 	data.response = JsonResponsePacketSerializer::serializeResponse<GetRoomStateResponse>(responseData, GET_ROOM_STATE_RESPONSE);
 	return data;

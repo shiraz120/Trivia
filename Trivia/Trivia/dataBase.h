@@ -7,11 +7,11 @@
 #include <io.h>
 #include <urlmon.h>
 #include <vector>
+#include "statusException.h"
 #include "sqlite3.h"
 #include "convertJsonToHelpers.h"
 #include <fstream>
 #pragma comment(lib, "urlmon.lib")
-
 #define DB_NAME "ClientsTriviaDB.sqlite"
 #define URL "https://opentdb.com/api.php?amount=10&type=multiple"
 #define FILE_NAME "questions.txt"
@@ -20,7 +20,7 @@
 #define STATS_INCORRECT_ANSWERS "incorrect_answers"
 #define STATS_CORRECT_ANSWER "correct_answers"
 #define STATS_AMOUNT_OF_GAMES "amount_of_games"
-
+#define DATA_BASE_PROBLEM "Error: dataBase problem occurred."
 using std::string;
 
 class IDatabase

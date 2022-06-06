@@ -25,7 +25,7 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 	}
 	catch (std::exception& e)
 	{
-		std::cerr << e.what() << std::endl;
+		std::cerr << "data base problem occurred" << std::endl;
 		exit(1);
 	}
 }
@@ -170,7 +170,7 @@ template <class T> void SqliteDatabase::sendQuery(const std::string query, int(c
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, list, &error);
 	if (res != SQLITE_OK)
-		throw std::exception("Error: data base error occurred");
+		throw statusException(STATUS_DB_PROBLEM);
 }
 
 /*
@@ -211,7 +211,7 @@ output: none
 void SqliteDatabase::createJsonFile() const
 {
 	if (S_OK != URLDownloadToFile(NULL, L"https://opentdb.com/api.php?amount=10", L"questions.txt", 0, NULL))
-		throw std::exception("couldnt receive data from open api website.");
+		throw statusException(STATUS_DB_PROBLEM);
 }
 
 /*
@@ -224,7 +224,7 @@ void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, map, &error);
 	if (res != SQLITE_OK)
-		throw std::exception("Error: data base error occurred");
+		throw statusException(STATUS_DB_PROBLEM);
 }
 
 /*
@@ -237,7 +237,7 @@ void SqliteDatabase::sendQuery(const std::string query)
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), nullptr, nullptr, &error);
 	if (res != SQLITE_OK)
-		throw std::exception("Error: data base error occurred");
+		throw statusException(STATUS_DB_PROBLEM);
 }
 
 /*
@@ -250,7 +250,7 @@ void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, counter, &error);
 	if (res != SQLITE_OK)
-		throw std::exception("Error: data base error occurred");
+		throw statusException(STATUS_DB_PROBLEM);
 }
 
 /*

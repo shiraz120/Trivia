@@ -53,8 +53,6 @@ output: the user stats
 std::vector<string> StatisticsManager::getUserStatistics(string username) const
 {
 	std::vector<string> stats;
-	if (!m_database->doesUserExist(username))
-		throw std::exception("Error: the user doesnt exist");
 	stats.push_back(username);
 	stats.push_back(std::to_string(m_database->getNumOfPlayerGames(username)));
 	stats.push_back(std::to_string(m_database->getNumOfCorrectAnswers(username)));

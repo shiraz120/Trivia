@@ -52,13 +52,21 @@ namespace GUI_WPF
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             keepRunning = false;
+            closeRoom();
             Communicator.logOut();
+            Closing -= HandleClosingWindow;
         }
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
+            closeRoom();
             Communicator.logOut();
             Closing -= HandleClosingWindow;
+        }
+        private void closeRoom()
+        {
+            Communicator.sendData(Convert.ToString(Communicator.CLOSE_ROOM_REQUEST) + "\0\0\0\0");
+            closeRoomResponse response = desirializer.deserializeRequest<closeRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
         }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
@@ -67,12 +75,19 @@ namespace GUI_WPF
 
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("version 3");
+            Communicator.sendData(Convert.ToString(Communicator.START_GAME_REQUEST) + "\0\0\0\0");
+            keepRunning = false;
+            /* need to add game window openning */
         }
         
         private void closeRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("version 3");
+            keepRunning = false;
+            closeRoom();
+            Closing -= HandleClosingWindow;
+            RoomListWindow newRoomListWindow = new RoomListWindow();
+            this.Close();
+            newRoomListWindow.Show();
         }
     }
 }

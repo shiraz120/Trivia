@@ -53,9 +53,9 @@ namespace GUI_WPF
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
-            RoomListWindow newStatsWindow = new RoomListWindow();
+            RoomListWindow newRoomListWindow = new RoomListWindow();
             this.Close();
-            newStatsWindow.Show();
+            newRoomListWindow.Show();
         }
         private void statisticsButton_Click(object sender, RoutedEventArgs e)
         {

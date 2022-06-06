@@ -42,7 +42,7 @@ output: none
 void RoomManager::deleteRoom(const unsigned id)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	std::lock_guard<std::mutex> roomListLock(roomMutex);
 	m_rooms.erase(id);
 }
@@ -55,7 +55,7 @@ output: the room state
 unsigned int RoomManager::getRoomState(const unsigned id)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	return m_rooms[id].getMetaData().isActive;
 }
 
@@ -79,7 +79,7 @@ output: players names
 std::vector<std::string> RoomManager::getAllUsersFromSpecificRoom(const unsigned id)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	return m_rooms[id].getAllUsers();
 }
 
@@ -91,7 +91,7 @@ output: none
 void RoomManager::addUserToRoom(const unsigned id, const LoggedUser username)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	m_rooms[id].addUser(username);
 }
 
@@ -103,9 +103,9 @@ output: none
 void RoomManager::removeUserFromARoom(const unsigned id, const LoggedUser username)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	else if(std::count(m_rooms[id].getAllUsers().begin(), m_rooms[id].getAllUsers().end(), username.getUsername()) < 1)
-		throw std::exception("Error: the requested player doesnt seem to play in the requested room");
+		throw statusException(STATUS_USER_NOT_IN_ROOM);
 	m_rooms[id].removeUser(username);
 }
 
@@ -117,6 +117,6 @@ output: none
 void RoomManager::setRoomActivity(const unsigned id, const int activity)
 {
 	if (m_rooms.find(id) == m_rooms.end())
-		throw std::exception("Error: the room doesnt seem to exist");
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
 	m_rooms[id].setActivity(activity);
 }

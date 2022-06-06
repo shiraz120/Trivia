@@ -3,6 +3,7 @@
 #include <vector>
 #include "LoggedUser.h"
 #include "dataBase.h"
+#include "statusException.h"
 #include <mutex>
 
 class LoginManager

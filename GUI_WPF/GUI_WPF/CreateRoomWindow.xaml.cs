@@ -74,15 +74,18 @@ namespace GUI_WPF
                     questionCount = amountOfQuestions.SelectedIndex + 1
                 };
                 Communicator.sendData(serializer.serializeResponse<createRoomRequest>(request, Communicator.CREATE_ROOM_REQUEST));
-                Communicator.GetMessageTypeCode();
-                createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                sharedFunctionsBetweenWindows.current_room_id = createRoomResponse.status;
-                createRoomDataText.Text = CREATE_ROOM_SUCCEEDED;
-                createRoomDataText.Foreground = System.Windows.Media.Brushes.Green;
-                Closing -= HandleClosingWindow;
-                AdminRoom newAdminWindow = new AdminRoom();
-                this.Close();
-                newAdminWindow.Show();
+                createRoomDataText.Text = checkServerResponse.checkIfErrorResponse();
+                if (createRoomDataText.Text == "")
+                {
+                    createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                    sharedFunctionsBetweenWindows.current_room_id = createRoomResponse.status;
+                    createRoomDataText.Text = CREATE_ROOM_SUCCEEDED;
+                    createRoomDataText.Foreground = System.Windows.Media.Brushes.Green;
+                    Closing -= HandleClosingWindow;
+                    AdminRoom newAdminWindow = new AdminRoom();
+                    this.Close();
+                    newAdminWindow.Show();
+                }
             }
         }
     }

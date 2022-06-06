@@ -75,9 +75,9 @@ namespace GUI_WPF
                 signupDataText.Text = checkServerResponse.checkIfErrorResponse();
                 if (signupDataText.Text == "")
                 {
-                    SignupResponse signupResponse = desirializer.deserializeRequest<SignupResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                    signupDataText.Foreground = System.Windows.Media.Brushes.Green;
-                    signupDataText.Text = "signed up successfully!";
+                    signupDataText.Text = checkServerResponse.checkIfSigupSucceded();
+                    if(signupDataText.Text == checkServerResponse.SIGNUP_SUCCEEDED)
+                        signupDataText.Foreground = System.Windows.Media.Brushes.Green;
                 }
             }
         }

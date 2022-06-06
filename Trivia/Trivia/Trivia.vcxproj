@@ -165,6 +165,7 @@
     <ClInclude Include="Communicator.h" />
     <ClInclude Include="convertJsonToHelpers.h" />
     <ClInclude Include="dataBase.h" />
+    <ClInclude Include="statusException.h" />
     <ClInclude Include="dataBaseStructsHelpers.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="LoginManager.h" />

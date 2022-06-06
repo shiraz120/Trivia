@@ -1,5 +1,6 @@
 #pragma once
 #include "dataBase.h"
+#include "statusException.h"
 #include <map>
 #define AMOUNT_OF_USERS 5
 #define SCORE_FOR_CORRECT_ANSWER 1000

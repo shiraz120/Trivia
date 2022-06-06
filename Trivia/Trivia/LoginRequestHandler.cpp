@@ -56,14 +56,15 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 	data.status = STATUS_SUCCESS;
 	try {
 		m_loginManager.login(clientData.username, clientData.password);
-		result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);
 	}
-	catch (std::exception& e)
+	catch (statusException& e)
 	{
-		error.message = e.what();
-		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
-		data.status = STATUS_FAILED;
+		data.status = e.statusRet();
 	}
+	if (data.status == STATUS_DB_PROBLEM)
+		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(ErrorResponse{ DATA_BASE_PROBLEM }, ERROR_RESPONSE);
+	else
+		result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);
 	if (data.status == STATUS_SUCCESS)
 		result.newHandler = m_handlerFactory.createMenuRequestHandler(LoggedUser(clientData.username));
 	else
@@ -80,20 +81,20 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 {
 	RequestResult result;
 	signUpResponse data;
-	ErrorResponse error;
 	signupRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<signupRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try
 	{
 		m_loginManager.signup(clientData.username, clientData.password, clientData.email);
-		result.response = JsonResponsePacketSerializer::serializeResponse<signUpResponse>(data, SIGNUP_RESPONSE);
 	}
-	catch (std::exception& e)
+	catch (statusException& e)
 	{
-		error.message = e.what();
-		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
-		data.status = STATUS_FAILED;
+		data.status = e.statusRet();
 	}
+	if (data.status == STATUS_DB_PROBLEM)
+		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(ErrorResponse{ DATA_BASE_PROBLEM }, ERROR_RESPONSE);
+	else
+		result.response = JsonResponsePacketSerializer::serializeResponse<signUpResponse>(data, SIGNUP_RESPONSE);
 	result.newHandler = m_handlerFactory.createLoginRequestHandler();
 	return result;
 }

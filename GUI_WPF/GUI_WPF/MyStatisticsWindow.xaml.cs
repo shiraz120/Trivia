@@ -28,8 +28,7 @@ namespace GUI_WPF
         public MyStatisticsWindow()
         {
             InitializeComponent();
-            string request = Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0";
-            Communicator.sendData(request);
+            Communicator.sendData(Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0");
             string error = checkServerResponse.checkIfErrorResponse();
             if (error != "")
             {

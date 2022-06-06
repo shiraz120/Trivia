@@ -59,10 +59,15 @@ namespace GUI_WPF
                 loginDataText.Text = checkServerResponse.checkIfErrorResponse();
                 if (loginDataText.Text == "")
                 {
-                    MainMenu replacedWindow = new MainMenu();
-                    this.Close();
-                    replacedWindow.ShowDialog();
-                    loginDataText.Foreground = System.Windows.Media.Brushes.Green;
+                    string loginCheck = checkServerResponse.checkIfLoginSucceded();
+                    if (checkServerResponse.LOGIN_SUCCEEDED == loginCheck)
+                    {
+                        MainMenu replacedWindow = new MainMenu();
+                        this.Close();
+                        replacedWindow.ShowDialog();
+                    }
+                    else
+                        loginDataText.Text = loginCheck;
                 }
             }
         }

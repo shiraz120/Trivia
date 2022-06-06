@@ -8,8 +8,6 @@
 #include "RequestInfo.h"
 #include "RequestResult.h"
 #include "RoomManager.h"
-#define STATUS_SUCCESS 5
-#define STATUS_FAILED 6
 
 class IRequestHandler
 {

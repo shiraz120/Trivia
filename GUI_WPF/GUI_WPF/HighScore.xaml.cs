@@ -25,7 +25,6 @@ namespace GUI_WPF
             InitializeComponent();
             string request = Convert.ToString(Communicator.GET_HIGH_SCORE_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
-            Communicator.GetMessageTypeCode();
             string error = checkServerResponse.checkIfErrorResponse();
             if (error != "")
             {
