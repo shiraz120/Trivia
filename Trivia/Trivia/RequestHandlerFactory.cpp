@@ -44,9 +44,9 @@ this function will create a new RoomAdminRequestHandler object
 input: user, room
 output: new RoomAdminRequestHandler object
 */
-RoomAdminHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser user, Room& room)
+RoomAdminHandler* RequestHandlerFactory::createRoomAdminRequestHandler(const LoggedUser user)
 {
-	RoomAdminHandler* newAdminHandler = new RoomAdminHandler(user, room, *this);
+	RoomAdminHandler* newAdminHandler = new RoomAdminHandler(user, *this);
 	return newAdminHandler;
 }
 
@@ -55,9 +55,9 @@ this function will create a new RoomMemberRequestHandler object
 input: user, room
 output: new RoomMemberRequestHandler object
 */
-RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser user, Room& room)
+RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const LoggedUser user)
 {
-	RoomMemberHandler* newMemberHandler = new RoomMemberHandler(user, room, *this);
+	RoomMemberHandler* newMemberHandler = new RoomMemberHandler(user, *this);
 	return newMemberHandler;
 }
 

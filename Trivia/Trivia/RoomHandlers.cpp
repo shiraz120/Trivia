@@ -4,8 +4,18 @@ this function will create a RoomHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomHandler::RoomHandler(const LoggedUser user, Room& room, RoomManager& roomManager) : m_user(user), m_room(room), m_roomManager(roomManager)
+RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager) : m_user(user), m_roomManager(roomManager)
 {
+	std::vector<RoomData> rooms = m_roomManager.getRooms();
+	std::vector<string> players;
+	for (RoomData room : rooms)
+	{
+		players = m_roomManager.getAllUsersFromSpecificRoom(room.id);
+		if (std::count(players.begin(), players.end(), user.getUsername()))
+		{
+			m_room = Room(room, LoggedUser(players[0]));
+		}
+	}
 }
 
 /*

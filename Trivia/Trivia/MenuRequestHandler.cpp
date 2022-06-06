@@ -203,7 +203,7 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 	}
 	response.response = JsonResponsePacketSerializer::serializeResponse<JoinRoomResponse>(data, JOIN_ROOM_RESPONSE);
 	if (data.status == STATUS_SUCCESS)
-		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user, m_roomManager.getRoom(roomData.roomId)); 
+		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user); 
 	else
 		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
@@ -229,6 +229,6 @@ RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
 	m_roomManager.createRoom(m_user, roomMetaData);
 	data.status = roomMetaData.id;
 	response.response = JsonResponsePacketSerializer::serializeResponse<CreateRoomResponse>(data, CREATE_ROOM_RESPONSE);
-	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_roomManager.getRoom(roomMetaData.id)); 
+	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user); 
 	return response;
 }

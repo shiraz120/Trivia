@@ -15,8 +15,8 @@ public:
 	~RequestHandlerFactory();
 	LoginRequestHandler* createLoginRequestHandler();
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser user);
-	RoomAdminHandler* createRoomAdminRequestHandler(const LoggedUser user, Room& room);
-	RoomMemberHandler* createRoomMemberRequestHandler(const LoggedUser user, Room& room);
+	RoomAdminHandler* createRoomAdminRequestHandler(const LoggedUser user);
+	RoomMemberHandler* createRoomMemberRequestHandler(const LoggedUser user);
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 	LoginManager& getLoginManager();

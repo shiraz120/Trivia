@@ -5,7 +5,7 @@ this function will create a new RoomMemberHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomMemberHandler::RoomMemberHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory) : RoomHandler(user, room, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
+RoomMemberHandler::RoomMemberHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : RoomHandler(user, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
 {
 }
 
@@ -27,10 +27,20 @@ RequestResult RoomMemberHandler::leaveRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	LeaveRoomResponse data;
-	m_room.removeUser(m_user);
 	data.status = STATUS_SUCCESS;
+	try
+	{
+		m_roomManager.removeUserFromARoom(m_room.getMetaData().id, m_user);
+	}
+	catch (statusException& se)
+	{
+		data.status = se.statusRet();
+	}
 	response.response = JsonResponsePacketSerializer::serializeResponse<LeaveRoomResponse>(data, LEAVE_GAME_RESPONSE);
-	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	if(data.status == STATUS_SUCCESS)
+		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	else
+		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
 	return response;
 }
 
@@ -42,7 +52,7 @@ output: requestResult
 RequestResult RoomMemberHandler::getRoomState(RequestInfo request) const
 {
 	RequestResult response = RoomHandler::getRoomData(request);
-	response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user, m_room);
+	response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
 	return response;
 }
 

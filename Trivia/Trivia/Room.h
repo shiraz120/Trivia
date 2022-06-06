@@ -13,11 +13,13 @@ public:
 	Room(const Room& copyFrom);
 	Room(const RoomData roomData, const LoggedUser admin);
 	~Room();
-	void setActivity(int active);
 	void addUser(const LoggedUser newUser);
 	void removeUser(const LoggedUser existingUser);
-	RoomData getMetaData() const;
 	std::vector<string> getAllUsers() const;
+
+	/*ADDED FUNCTIONS - NOT IN THE DESIGN*/
+	void setActivity(int active);
+	RoomData getMetaData() const;
 	Room& operator=(const Room& other);
 	
 private:

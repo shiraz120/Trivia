@@ -6,7 +6,7 @@ class RequestHandlerFactory;
 class RoomAdminHandler : public IRequestHandler, public RoomHandler
 {
 public:
-	RoomAdminHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory);
+	RoomAdminHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
 	virtual ~RoomAdminHandler();
 	bool isRequestRelevant(const RequestInfo request) override;
 	RequestResult handleRequest(const RequestInfo request) override;

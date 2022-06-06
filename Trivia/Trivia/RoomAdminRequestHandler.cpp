@@ -5,7 +5,7 @@ this function will create a new RoomAdminHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomAdminHandler::RoomAdminHandler(const LoggedUser user, Room& room, RequestHandlerFactory& handlerFactory) : RoomHandler(user, room, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
+RoomAdminHandler::RoomAdminHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : RoomHandler(user, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
 {
 }
 
@@ -59,7 +59,7 @@ output: requestResult
 RequestResult RoomAdminHandler::getRoomState(RequestInfo request) const
 {
 	RequestResult response = RoomHandler::getRoomData(request);
-	response.newHandler = new RoomAdminHandler(m_user, m_room, m_handlerFactory);
+	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user);
 	return response;
 }
 
@@ -84,7 +84,7 @@ RequestResult RoomAdminHandler::closeRoom(RequestInfo request) const
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	else
-		response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room);
+		response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user);
 	return response;
 }
 
@@ -98,9 +98,15 @@ RequestResult RoomAdminHandler::startGame(RequestInfo request) const
 {
 	RequestResult response;
 	StartGameResponse data;
-	m_room.setActivity(ACTIVE);
 	data.status = STATUS_SUCCESS;
+	try {
+		m_roomManager.setRoomActivity(m_room.getMetaData().id, ACTIVE);
+	}
+	catch(statusException& se)
+	{
+		data.status = se.statusRet();
+	}
 	response.response = JsonResponsePacketSerializer::serializeResponse<StartGameResponse>(data, START_GAME_RESPONSE);
-	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user, m_room); // changed in v4
+	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user); // change in v4
 	return RequestResult();
 }

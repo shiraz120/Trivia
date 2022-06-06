@@ -88,7 +88,7 @@ this function will add a user to a room
 input: id, username
 output: none
 */
-void RoomManager::addUserToRoom(const unsigned id, LoggedUser username)
+void RoomManager::addUserToRoom(const unsigned id, const LoggedUser username)
 {
 	if (m_rooms.find(id) == m_rooms.end())
 		throw statusException(STATUS_ROOM_DOESNT_EXIST);
@@ -96,11 +96,27 @@ void RoomManager::addUserToRoom(const unsigned id, LoggedUser username)
 }
 
 /*
-this function will return a requested by an id
-input: id
-output: Room
+this function will remove a user from a room
+input: id, username
+output: none
 */
-Room& RoomManager::getRoom(const int id)
+void RoomManager::removeUserFromARoom(const unsigned id, const LoggedUser username)
 {
-	return m_rooms[id]; // use the function only in join/ create room so the room exists
+	if (m_rooms.find(id) == m_rooms.end())
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
+	else if(std::count(m_rooms[id].getAllUsers().begin(), m_rooms[id].getAllUsers().end(), username.getUsername()) < 1)
+		throw statusException(STATUS_USER_NOT_IN_ROOM);
+	m_rooms[id].removeUser(username);
+}
+
+/*
+this function will set a requested room activity
+input: id, activity
+output: none
+*/
+void RoomManager::setRoomActivity(const unsigned id, const int activity)
+{
+	if (m_rooms.find(id) == m_rooms.end())
+		throw statusException(STATUS_ROOM_DOESNT_EXIST);
+	m_rooms[id].setActivity(activity);
 }
