@@ -33,8 +33,16 @@ namespace GUI_WPF
         {
             while (keepRunning)
             {
+                string requestAsString = Convert.ToString(Communicator.GET_ROOM_STATE_REQUEST) + "\0\0\0\0";
+                Communicator.sendData(requestAsString);
+                if(checkServerResponse.checkIfErrorResponse() != "")
+                {
+                    MessageBox.Show("The room has closed");
+                    leaveRoom_Click(null, null);
+                }
+
                 GetPlayersInRoomRequest request = new GetPlayersInRoomRequest { roomId = id };
-                string requestAsString = serializer.serializeResponse<GetPlayersInRoomRequest>(request, Communicator.GET_PLAYERS_IN_ROOM_REQUEST);
+                requestAsString = serializer.serializeResponse<GetPlayersInRoomRequest>(request, Communicator.GET_PLAYERS_IN_ROOM_REQUEST);
                 Communicator.sendData(requestAsString);
                 Communicator.GetMessageTypeCode();
                 GetPlayersInRoomResponse createRoomResponse = desirializer.deserializeRequest<GetPlayersInRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
@@ -71,8 +79,6 @@ namespace GUI_WPF
             Communicator.sendData(request);
             Communicator.GetMessageTypeCode();
             leaveRoomResponse stats = desirializer.deserializeRequest<leaveRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-
-            //TODO
 
             Closing -= HandleClosingWindow;
             RoomListWindow newRoomListWindow = new RoomListWindow();
