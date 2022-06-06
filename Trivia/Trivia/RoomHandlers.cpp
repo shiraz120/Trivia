@@ -36,10 +36,19 @@ RequestResult RoomHandler::getRoomData(RequestInfo request) const
 {
 	GetRoomStateResponse responseData;
 	RequestResult data;
-	responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
-	responseData.hasGameBegun = m_room.getMetaData().isActive;
-	responseData.players = m_room.getAllUsers();
+	ErrorResponse error;
 	responseData.status = STATUS_SUCCESS;
+	try {
+		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id);
+		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
+		responseData.players = m_room.getAllUsers();
+	}
+	catch (std::exception& e)
+	{
+		error.message = e.what();
+		data.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		responseData.status = STATUS_FAILED;
+	}
 	data.response = JsonResponsePacketSerializer::serializeResponse<GetRoomStateResponse>(responseData, GET_ROOM_STATE_RESPONSE);
 	return data;
 }

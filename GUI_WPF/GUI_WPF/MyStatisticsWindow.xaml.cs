@@ -30,7 +30,6 @@ namespace GUI_WPF
             InitializeComponent();
             string request = Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
-            Communicator.GetStringPartFromSocket(40);
             string error = checkServerResponse.checkIfErrorResponse();
             if (error != "")
             {

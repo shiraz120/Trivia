@@ -40,10 +40,7 @@ RequestResult RoomMemberHandler::leaveRoom(const RequestInfo request) const
 		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
 		data.status = STATUS_FAILED;
 	}
-	if(data.status == STATUS_SUCCESS)
-		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
-	else
-		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
+	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
 
