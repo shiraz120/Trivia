@@ -39,7 +39,7 @@ RequestResult RoomHandler::getRoomData(RequestInfo request) const
 	ErrorResponse error;
 	responseData.status = STATUS_SUCCESS;
 	try {
-		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id);
+		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id); // if exception thrown it means that the room doesnt exist
 		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
 		responseData.players = m_room.getAllUsers();
 	}
