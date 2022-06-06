@@ -8,7 +8,6 @@
 #include <urlmon.h>
 #include <vector>
 #include "sqlite3.h"
-#include "dataBaseException.h"
 #include "convertJsonToHelpers.h"
 #include <fstream>
 #pragma comment(lib, "urlmon.lib")

@@ -23,7 +23,7 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 		sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
 		initQuestionsTable();
 	}
-	catch (dataBaseException& e)
+	catch (std::exception& e)
 	{
 		std::cerr << e.what() << std::endl;
 		exit(1);
@@ -170,7 +170,7 @@ template <class T> void SqliteDatabase::sendQuery(const std::string query, int(c
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, list, &error);
 	if (res != SQLITE_OK)
-		throw dataBaseException(error);
+		throw std::exception("Error: data base error occurred");
 }
 
 /*
@@ -211,7 +211,7 @@ output: none
 void SqliteDatabase::createJsonFile() const
 {
 	if (S_OK != URLDownloadToFile(NULL, L"https://opentdb.com/api.php?amount=10", L"questions.txt", 0, NULL))
-		throw dataBaseException("couldnt receive data from open api website.");
+		throw std::exception("couldnt receive data from open api website.");
 }
 
 /*
@@ -224,7 +224,7 @@ void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, map, &error);
 	if (res != SQLITE_OK)
-		throw dataBaseException(error);
+		throw std::exception("Error: data base error occurred");
 }
 
 /*
@@ -237,7 +237,7 @@ void SqliteDatabase::sendQuery(const std::string query)
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), nullptr, nullptr, &error);
 	if (res != SQLITE_OK)
-		throw dataBaseException(error);
+		throw std::exception("Error: data base error occurred");
 }
 
 /*
@@ -250,7 +250,7 @@ void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, counter, &error);
 	if (res != SQLITE_OK)
-		throw dataBaseException(error);
+		throw std::exception("Error: data base error occurred");
 }
 
 /*

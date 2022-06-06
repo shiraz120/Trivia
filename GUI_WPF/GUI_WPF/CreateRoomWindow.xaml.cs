@@ -73,8 +73,7 @@ namespace GUI_WPF
                     maxUsers = int.Parse(txtPlayers.Text),
                     questionCount = amountOfQuestions.SelectedIndex + 1
                 };
-                string requestAsString = serializer.serializeResponse<createRoomRequest>(request, Communicator.CREATE_ROOM_REQUEST);
-                Communicator.sendData(requestAsString);
+                Communicator.sendData(serializer.serializeResponse<createRoomRequest>(request, Communicator.CREATE_ROOM_REQUEST));
                 Communicator.GetMessageTypeCode();
                 createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 sharedFunctionsBetweenWindows.current_room_id = createRoomResponse.status;

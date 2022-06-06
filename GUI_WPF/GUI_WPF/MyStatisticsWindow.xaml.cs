@@ -30,15 +30,16 @@ namespace GUI_WPF
             InitializeComponent();
             string request = Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
-            Communicator.GetMessageTypeCode();
-            getPersonalStatsResponse stats = desirializer.deserializeRequest<getPersonalStatsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-            if(stats.status == (int)checkServerResponse.Status.STATUS_DB_PROBLEM)
+            Communicator.GetStringPartFromSocket(40);
+            string error = checkServerResponse.checkIfErrorResponse();
+            if (error != "")
             {
                 statisticsDataText.Foreground = System.Windows.Media.Brushes.Red;
-                statisticsDataText.Text = "error occured trying to receive data from the dataBase.";
+                statisticsDataText.Text = error;
             }
             else
             {
+                getPersonalStatsResponse stats = desirializer.deserializeRequest<getPersonalStatsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 Title.Text = stats.statistics[0] + " Statistics";
                 avgTimeForAnswer.Text = avgTimeForAnswer.Text + "      " + stats.statistics[avgAnswerTimeIndex];
                 amountOfWrongAnswers.Text = amountOfWrongAnswers.Text + "      " + Convert.ToString(int.Parse(stats.statistics[totalAnswersIndex]) - int.Parse(stats.statistics[CorrectAnswersIndex]));

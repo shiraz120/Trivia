@@ -72,15 +72,18 @@ RequestResult RoomAdminHandler::closeRoom(RequestInfo request) const
 {
 	RequestResult response;
 	CloseRoomResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		m_roomManager.deleteRoom(m_room.getMetaData().id);
+		response.response = JsonResponsePacketSerializer::serializeResponse<CloseRoomResponse>(data, CLOSE_ROOM_RESPONSE);
 	}
-	catch (statusException& se)
+	catch (std::exception& e)
 	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<CloseRoomResponse>(data, CLOSE_ROOM_RESPONSE);
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	else
@@ -98,15 +101,18 @@ RequestResult RoomAdminHandler::startGame(RequestInfo request) const
 {
 	RequestResult response;
 	StartGameResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		m_roomManager.setRoomActivity(m_room.getMetaData().id, ACTIVE);
+		response.response = JsonResponsePacketSerializer::serializeResponse<StartGameResponse>(data, START_GAME_RESPONSE);
 	}
-	catch(statusException& se)
+	catch (std::exception& e)
 	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<StartGameResponse>(data, START_GAME_RESPONSE);
 	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user); // change in v4
 	return RequestResult();
 }

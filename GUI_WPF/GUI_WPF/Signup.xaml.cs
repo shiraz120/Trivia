@@ -50,7 +50,8 @@ namespace GUI_WPF
 
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
-            if(string.IsNullOrWhiteSpace(txtUsername.Text))
+            signupDataText.Foreground = System.Windows.Media.Brushes.Red;
+            if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
             }
@@ -71,10 +72,13 @@ namespace GUI_WPF
                     password = txtPassword.Password
                 };
                 Communicator.sendData(serializer.serializeResponse<SignupRequest>(signup, Communicator.SIGNUP_REQUEST));
-                string signupResponse = checkServerResponse.checkIfSigupSucceded();
-                signupDataText.Text = signupResponse;
-                if (signupResponse == checkServerResponse.SIGNUP_SUCCEEDED)
+                signupDataText.Text = checkServerResponse.checkIfErrorResponse();
+                if (signupDataText.Text == "")
+                {
+                    SignupResponse signupResponse = desirializer.deserializeRequest<SignupResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                     signupDataText.Foreground = System.Windows.Media.Brushes.Green;
+                    signupDataText.Text = "signed up successfully!";
+                }
             }
         }
 

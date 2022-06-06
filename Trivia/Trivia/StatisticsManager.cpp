@@ -1,5 +1,4 @@
 #include "StatisticsManager.h"
-#include "dataBaseException.h"
 
 /*
 this function will create a new statisticsManager object
@@ -30,8 +29,6 @@ std::map<string, int> StatisticsManager::getHighScore() const
 	std::vector<std::pair<string, int>> score;
 	int counter = 0;
 	users = m_database->getUsersStatsForScore();
-	if (users.size() == 0)
-		throw statusException(STATUS_NO_USERS_LOGGED_IN);
 	for (auto it : users)
 	{
 		score.push_back(std::pair<string, int>(it.first, it.second.first * SCORE_FOR_CORRECT_ANSWER));
@@ -57,7 +54,7 @@ std::vector<string> StatisticsManager::getUserStatistics(string username) const
 {
 	std::vector<string> stats;
 	if (!m_database->doesUserExist(username))
-		throw statusException(STATUS_USER_DOESNT_EXIST);
+		throw std::exception("Error: the user doesnt exist");
 	stats.push_back(username);
 	stats.push_back(std::to_string(m_database->getNumOfPlayerGames(username)));
 	stats.push_back(std::to_string(m_database->getNumOfCorrectAnswers(username)));

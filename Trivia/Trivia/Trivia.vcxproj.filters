@@ -125,9 +125,6 @@
     <ClInclude Include="Request.h">
       <Filter>Header Files\requestAndResponseStructs</Filter>
     </ClInclude>
-    <ClInclude Include="dataBaseException.h">
-      <Filter>Header Files\exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="Communicator.h">
       <Filter>Header Files\infrastracture.h</Filter>
     </ClInclude>

@@ -55,10 +55,9 @@ namespace GUI_WPF
                     username = txtUsername.Text,
                     password = txtPassword.Password
                 };
-                Communicator.sendData(serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST));
-                string loginResponse = checkServerResponse.checkIfLoginSucceded();
-                loginDataText.Text = loginResponse;
-                if(loginResponse == checkServerResponse.LOGIN_SUCCEEDED)
+                Communicator.sendData(serializer.serializeResponse<loginRequest>(login, Communicator.LOGIN_REQUEST)); 
+                loginDataText.Text = checkServerResponse.checkIfErrorResponse();
+                if (loginDataText.Text == "")
                 {
                     MainMenu replacedWindow = new MainMenu();
                     this.Close();

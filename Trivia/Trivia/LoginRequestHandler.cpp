@@ -51,24 +51,23 @@ RequestResult LoginRequestHandler::login(RequestInfo request)
 {
 	RequestResult result;
 	loginResponse data;
+	ErrorResponse error;
 	loginRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<loginRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try {
 		m_loginManager.login(clientData.username, clientData.password);
+		result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);
 	}
-	catch (dataBaseException& dbe)
+	catch (std::exception& e)
 	{
-		data.status = STATUS_DB_PROBLEM;
-	}
-	catch (statusException& se)
-	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
 	if (data.status == STATUS_SUCCESS)
 		result.newHandler = m_handlerFactory.createMenuRequestHandler(LoggedUser(clientData.username));
 	else
 		result.newHandler = m_handlerFactory.createLoginRequestHandler();
-	result.response = JsonResponsePacketSerializer::serializeResponse<loginResponse>(data, LOGIN_RESPONSE);
 	return result;
 }
 
@@ -81,21 +80,20 @@ RequestResult LoginRequestHandler::signup(RequestInfo request)
 {
 	RequestResult result;
 	signUpResponse data;
+	ErrorResponse error;
 	signupRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<signupRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try
 	{
 		m_loginManager.signup(clientData.username, clientData.password, clientData.email);
+		result.response = JsonResponsePacketSerializer::serializeResponse<signUpResponse>(data, SIGNUP_RESPONSE);
 	}
-	catch (dataBaseException& dbe)
+	catch (std::exception& e)
 	{
-		data.status = STATUS_DB_PROBLEM;
+		error.message = e.what();
+		result.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	catch (statusException& se)
-	{
-		data.status = se.statusRet();
-	}
-	result.response = JsonResponsePacketSerializer::serializeResponse<signUpResponse>(data, SIGNUP_RESPONSE);
 	result.newHandler = m_handlerFactory.createLoginRequestHandler();
 	return result;
 }

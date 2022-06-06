@@ -26,19 +26,15 @@ namespace GUI_WPF
             string request = Convert.ToString(Communicator.GET_HIGH_SCORE_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
             Communicator.GetMessageTypeCode();
-            getHighScoreResponse stats = desirializer.deserializeRequest<getHighScoreResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-            if (stats.status == (int)checkServerResponse.Status.STATUS_DB_PROBLEM)
+            string error = checkServerResponse.checkIfErrorResponse();
+            if (error != "")
             {
                 highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
-                highScoreDataText.Text = "error occured trying to receive data from the dataBase.";
-            }
-            else if(stats.status == (int)checkServerResponse.Status.STATUS_NO_USERS_LOGGED_IN)
-            {
-                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
-                highScoreDataText.Text = "seems like there are no users in the system.";
+                highScoreDataText.Text = error;
             }
             else
             {
+                getHighScoreResponse stats = desirializer.deserializeRequest<getHighScoreResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 foreach(var item in stats.statistics)
                 {
                     highestUsers.Items.Add(item.Key + " - " + Convert.ToString(item.Value));

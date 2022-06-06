@@ -1,7 +1,6 @@
 #pragma once
 #include "LoggedUser.h"
 #include "RoomData.h"
-#include "dataBaseException.h"
 #include <iostream>
 #include <vector>
 #include <mutex>

@@ -49,7 +49,7 @@ void Room::addUser(const LoggedUser newUser)
 		m_users.push_back(newUser);
 	}
 	else
-		throw statusException(STATUS_ROOM_IS_FULL);
+		throw std::exception("Error: the room is full");
 }
 
 /*

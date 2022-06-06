@@ -35,11 +35,11 @@ namespace GUI_WPF
         {
             string request = Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0";
             sendData(request);
-            int status = checkServerResponse.checkIfLogoutSucceeded();
-            if (status == 4)
+            string error = checkServerResponse.checkIfErrorResponse();
+            if (error == "")
                 Application.Current.Shutdown();
             else
-                MessageBox.Show("couldnt logout, the specified user doesnt login.");
+                MessageBox.Show(error);
         }
         public static void StartCommunication()
         {
@@ -72,14 +72,7 @@ namespace GUI_WPF
                 System.Environment.Exit(1);
                 Communicator.closeStream();
             }
-            string typeCode = System.Text.Encoding.UTF8.GetString(buffer);
-            if (typeCode == "c") //incase the is an errorMessage
-            {
-                MessageBox.Show("Error: Handlers don't match");
-                System.Environment.Exit(1);
-                Communicator.closeStream();
-            }
-            return typeCode;
+            return System.Text.Encoding.UTF8.GetString(buffer);
         }
         public static string GetStringPartFromSocket(int bytesNum)
         {

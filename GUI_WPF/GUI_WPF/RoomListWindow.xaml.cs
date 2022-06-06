@@ -85,9 +85,8 @@ namespace GUI_WPF
                 int id = getId(roomList.SelectedItem.ToString());
                 JoinRoomRequest request = new JoinRoomRequest { roomId = id };
                 Communicator.sendData(serializer.serializeResponse<JoinRoomRequest>(request, Communicator.JOIN_ROOM_REQUEST));
-                string response = checkServerResponse.checkIfjoinRoomSucceeded(id);
-                joinRoomDataText.Text = response;
-                if (response == checkServerResponse.JOINED_ROOM_SUCCEEDED)
+                joinRoomDataText.Text = checkServerResponse.checkIfErrorResponse();
+                if (joinRoomDataText.Text == "")
                 {
                     keepRunning = false;
                     Closing -= HandleClosingWindow;

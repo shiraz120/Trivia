@@ -28,7 +28,7 @@ void LoginManager::signup(string username, string password, string email)
 	if (!m_database->doesUserExist(username))
 		m_database->addNewUser(username, password, email);
 	else
-		throw statusException(STATUS_USER_EXIST);
+		throw std::exception("Error: the user already exist");
 }
 
 /*
@@ -39,7 +39,7 @@ output: none
 void LoginManager::login(string username, string password)
 {
 	if (doesUserLoggedIn(username))
-		throw statusException(STATUS_ALREADY_LOGGED_IN);
+		throw std::exception("Error: the user already logged in");
 	else if (m_database->doesUserExist(username))
 		if (m_database->doesPasswordMatch(username, password))
 		{
@@ -48,9 +48,9 @@ void LoginManager::login(string username, string password)
 			m_loggedUsers.push_back(newClient);
 		}
 		else
-			throw statusException(STATUS_PASSWORD_DOESNT_MATCH);
+			throw std::exception("Error: password doesnt match");
 	else
-		throw statusException(STATUS_USER_DOESNT_EXIST);
+		throw std::exception("Error: the user doesnt exist");
 }
 
 /*
@@ -61,7 +61,7 @@ output: none
 void LoginManager::logout(string username)
 {
 	if (!doesUserLoggedIn(username))
-		throw statusException(STATUS_DOESNT_LOGGED_IN);
+		throw std::exception("Error: the user is not logged in");
 	for (int i = 0; i < m_loggedUsers.size(); i++)
 		if (m_loggedUsers[i].getUsername() == username)
 		{

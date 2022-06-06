@@ -27,16 +27,19 @@ RequestResult RoomMemberHandler::leaveRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	LeaveRoomResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try
 	{
 		m_roomManager.removeUserFromARoom(m_room.getMetaData().id, m_user);
+		response.response = JsonResponsePacketSerializer::serializeResponse<LeaveRoomResponse>(data, LEAVE_GAME_RESPONSE);
 	}
-	catch (statusException& se)
+	catch (std::exception& e)
 	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<LeaveRoomResponse>(data, LEAVE_GAME_RESPONSE);
 	if(data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	else

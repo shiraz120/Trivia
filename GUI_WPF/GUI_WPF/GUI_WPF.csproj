@@ -83,6 +83,7 @@
     </Compile>
     <Compile Include="objectsForCommunication\closeRoomResponse.cs" />
     <Compile Include="objectsForCommunication\createRoomRequestAndResponse.cs" />
+    <Compile Include="objectsForCommunication\ErrorResponse.cs" />
     <Compile Include="objectsForCommunication\getHighScoreResponse.cs" />
     <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
     <Compile Include="objectsForCommunication\getPlayersInRoom.cs" />

@@ -71,15 +71,18 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request)
 {
 	RequestResult response;
 	LogoutResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		m_handlerFactory.getLoginManager().logout(m_user.getUsername());
+		response.response = JsonResponsePacketSerializer::serializeResponse<LogoutResponse>(data, LOGOUT_RESPONSE);
 	}
-	catch (statusException& se)
+	catch (std::exception& e)
 	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<LogoutResponse>(data, LOGOUT_RESPONSE);
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createLoginRequestHandler();
 	else
@@ -97,10 +100,7 @@ RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
 	RequestResult response;
 	GetRoomsResponse data;
 	std::vector<RoomData> rooms = m_roomManager.getRooms();
-	if (rooms.size() == 0)
-		data.status = STATUS_NO_ROOMS;
-	else
-		data.status = STATUS_SUCCESS;
+	data.status = STATUS_SUCCESS;
 	data.rooms = rooms;
 	response.response = JsonResponsePacketSerializer::serializeResponse<GetRoomsResponse>(data, GET_ROOMS_RESPONSE);
 	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
@@ -117,16 +117,18 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
 	RequestResult response;
 	GetPlayersInRoomRequest roomID = JsonRequestPacketDeserializer::deserializeRequest<GetPlayersInRoomRequest>(request.buffer);
 	GetPlayersInRoomResponse data;
+	ErrorResponse error;
 	std::vector<std::string> allUsersInRequestedRoom;  
 	try {
 		allUsersInRequestedRoom = m_roomManager.getAllUsersFromSpecificRoom(roomID.roomId);
 		data.players = allUsersInRequestedRoom;
+		response.response = JsonResponsePacketSerializer::serializeResponse<GetPlayersInRoomResponse>(data, GET_PLAYERS_IN_ROOM_RESPONSE);
 	}
-	catch (statusException& se)
+	catch (std::exception& e)
 	{
-		data.players = {}; // means there are no players, because the room doesnt exist
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<GetPlayersInRoomResponse>(data, GET_PLAYERS_IN_ROOM_RESPONSE);
 	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
@@ -140,19 +142,18 @@ RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
 {
 	RequestResult response;
 	getPersonalStatsResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		data.statistics = m_statisticsManager.getUserStatistics(m_user.getUsername());
+		response.response = JsonResponsePacketSerializer::serializeResponse<getPersonalStatsResponse>(data, GET_PERSONAL_STATS_RESPONSE);
 	}
-	catch (dataBaseException& dbe)
+	catch (std::exception& e)
 	{
-		data.status = STATUS_DB_PROBLEM;
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	catch (statusException& se)
-	{
-		data.status = se.statusRet();
-	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<getPersonalStatsResponse>(data, GET_PERSONAL_STATS_RESPONSE);
 	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
@@ -166,19 +167,18 @@ RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
 {
 	RequestResult response;
 	getHighScoreResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		data.statistics = m_statisticsManager.getHighScore();
+		response.response = JsonResponsePacketSerializer::serializeResponse<getHighScoreResponse>(data, GET_HIGH_SCORE_RESPONSE);
 	}
-	catch (dataBaseException& dbe)
+	catch (std::exception& e)
 	{
-		data.status = STATUS_DB_PROBLEM;
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	catch (statusException& se)
-	{
-		data.status = se.statusRet();
-	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<getHighScoreResponse>(data, GET_HIGH_SCORE_RESPONSE);
 	response.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
 	return response;
 }
@@ -193,15 +193,18 @@ RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
 	RequestResult response;
 	JoinRoomRequest roomData = JsonRequestPacketDeserializer::deserializeRequest<JoinRoomRequest>(request.buffer);
 	JoinRoomResponse data;
+	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try{
 		m_roomManager.addUserToRoom(roomData.roomId, m_user);
+		response.response = JsonResponsePacketSerializer::serializeResponse<JoinRoomResponse>(data, JOIN_ROOM_RESPONSE);
 	}
-	catch (statusException& se)
+	catch (std::exception& e)
 	{
-		data.status = se.statusRet();
+		error.message = e.what();
+		response.response = JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE);
+		data.status = STATUS_FAILED;
 	}
-	response.response = JsonResponsePacketSerializer::serializeResponse<JoinRoomResponse>(data, JOIN_ROOM_RESPONSE);
 	if (data.status == STATUS_SUCCESS)
 		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user); 
 	else
