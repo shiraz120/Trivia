@@ -82,16 +82,17 @@ void Communicator::handleNewClient(SOCKET clientSocket)
 			infoFromClient.receivalTime = ctime(&curentTime);
 			infoFromClient.buffer = Helper::getStringPartFromSocket(clientSocket, Helper::getSizePart(clientSocket, MAX_DATA_LENGTH));
 
+			std::cout << "client code: " << infoFromClient.id << std::endl;
+			std::cout << "message from client: " + infoFromClient.buffer << std::endl;
 			/* if the request is valid for the current handler, create and send the response and replace the handler to a new handler */
 			if (!m_clients[clientSocket]->isRequestRelevant(infoFromClient))
 			{
 				error.message = "Error: request isnt relevant for the current handler.";
+				std::cout << "server response: " + error.message << std::endl;
 				Helper::sendData(clientSocket, JsonResponsePacketSerializer::serializeResponse<ErrorResponse>(error, ERROR_RESPONSE));
 			}
 			else
 			{
-				std::cout << "client code: " << infoFromClient.id << std::endl;
-				std::cout << "message from client: " + infoFromClient.buffer << std::endl;
 				infoToClient = m_clients[clientSocket]->handleRequest(infoFromClient);
 				delete m_clients[clientSocket];
 				m_clients[clientSocket] = infoToClient.newHandler;

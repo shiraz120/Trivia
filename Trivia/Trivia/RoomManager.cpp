@@ -104,7 +104,8 @@ void RoomManager::removeUserFromARoom(const unsigned id, const LoggedUser userna
 {
 	if (m_rooms.find(id) == m_rooms.end())
 		throw statusException(STATUS_ROOM_DOESNT_EXIST);
-	else if(std::count(m_rooms[id].getAllUsers().begin(), m_rooms[id].getAllUsers().end(), username.getUsername()) < 1)
+	std::vector<string> players = m_rooms[id].getAllUsers();
+	if(std::count(players.begin(), players.end(), username.getUsername()) == 0)
 		throw statusException(STATUS_USER_NOT_IN_ROOM);
 	m_rooms[id].removeUser(username);
 }

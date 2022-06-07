@@ -25,7 +25,7 @@ output: none
 */
 bool RoomAdminHandler::isRequestRelevant(RequestInfo request)
 {
-	if (request.id == CLOSE_ROOM_REQUEST || request.id == START_GAME_REQUEST || request.id == LEAVE_ROOM_REQUEST)
+	if (request.id == CLOSE_ROOM_REQUEST || request.id == START_GAME_REQUEST || request.id == GET_ROOM_STATE_REQUEST)
 		return true;
 	return false;
 }

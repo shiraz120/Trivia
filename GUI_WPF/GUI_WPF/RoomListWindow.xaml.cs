@@ -43,14 +43,18 @@ namespace GUI_WPF
             {
                 string request = Convert.ToString(Communicator.GET_ROOMS_REQUEST) + "\0\0\0\0";
                 Communicator.sendData(request);
-                Communicator.GetMessageTypeCode();
-                string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
-                GetRoomsResponse stats = desirializer.deserializeRequest<GetRoomsResponse>(response);
-                listOfRooms = stats.rooms;
-                roomList.Dispatcher.Invoke(() => { roomList.Items.Clear(); });
-                foreach (RoomData room in listOfRooms)
+                string error = checkServerResponse.checkIfErrorResponse();
+                if (error == "")
                 {
-                    roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
+                    string response = Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE));
+                    GetRoomsResponse stats = desirializer.deserializeRequest<GetRoomsResponse>(response);
+                    listOfRooms = stats.rooms;
+                    if(roomList != null)
+                        roomList.Dispatcher.Invoke(() => { roomList.Items.Clear(); });
+                    foreach (RoomData room in listOfRooms)
+                    {
+                        roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
+                    }
                 }
                 Thread.Sleep(2000);
             }
@@ -88,12 +92,16 @@ namespace GUI_WPF
                 joinRoomDataText.Text = checkServerResponse.checkIfErrorResponse();
                 if (joinRoomDataText.Text == "")
                 {
-                    keepRunning = false;
-                    Closing -= HandleClosingWindow;
-                    sharedFunctionsBetweenWindows.current_room_id = id;
-                    WaitingWindow newStatsWindow = new WaitingWindow();
-                    this.Close();
-                    newStatsWindow.Show();
+                    joinRoomDataText.Text = checkServerResponse.checkIfjoinRoomSucceeded(id);
+                    if(joinRoomDataText.Text == checkServerResponse.JOINED_ROOM_SUCCEEDED)
+                    {
+                        keepRunning = false;
+                        Closing -= HandleClosingWindow;
+                        sharedFunctionsBetweenWindows.current_room_id = id;
+                        WaitingWindow newStatsWindow = new WaitingWindow();
+                        this.Close();
+                        newStatsWindow.Show();
+                    }
                 }
             }
         }

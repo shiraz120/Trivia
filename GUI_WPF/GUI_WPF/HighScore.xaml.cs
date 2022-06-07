@@ -26,18 +26,22 @@ namespace GUI_WPF
             string request = Convert.ToString(Communicator.GET_HIGH_SCORE_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
             string error = checkServerResponse.checkIfErrorResponse();
-            if (error != "")
-            {
-                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
-                highScoreDataText.Text = error;
-            }
-            else
+            if (error == "")
             {
                 getHighScoreResponse stats = desirializer.deserializeRequest<getHighScoreResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 foreach(var item in stats.statistics)
                 {
                     highestUsers.Items.Add(item.Key + " - " + Convert.ToString(item.Value));
                 }
+            }
+            else if(error == "Error: request isnt relevant for the current handler.")
+            {
+                HandleClosingWindow(null, new CancelEventArgs());
+            }
+            else
+            {
+                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
+                highScoreDataText.Text = error;
             }
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

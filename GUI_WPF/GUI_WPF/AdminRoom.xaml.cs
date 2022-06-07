@@ -25,9 +25,9 @@ namespace GUI_WPF
         private List<string> listOfPlayers;
         public AdminRoom()
         {
+            InitializeComponent();
             Thread getPlayers = new Thread(() => getPlayersInRoom(sharedFunctionsBetweenWindows.current_room_id)); ;
             getPlayers.Start();
-            InitializeComponent();
         }
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
@@ -38,35 +38,41 @@ namespace GUI_WPF
         {
             while (keepRunning)
             {
-                GetPlayersInRoomRequest request = new GetPlayersInRoomRequest { roomId = id };
-                string requestAsString = serializer.serializeResponse<GetPlayersInRoomRequest>(request, Communicator.GET_PLAYERS_IN_ROOM_REQUEST);
-                Communicator.sendData(requestAsString);
-                Communicator.GetMessageTypeCode();
-                GetPlayersInRoomResponse createRoomResponse = desirializer.deserializeRequest<GetPlayersInRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                listOfPlayers = createRoomResponse.players;
-                if (listOfPlayers != null)
-                    playersList.Dispatcher.Invoke(() => { playersList.ItemsSource = listOfPlayers; });
-                Thread.Sleep(2000);
+                Communicator.sendData(Convert.ToString(Communicator.GET_ROOM_STATE_REQUEST) + "\0\0\0\0");
+                string error = checkServerResponse.checkIfErrorResponse();
+                if (error == "")
+                {
+                    getRoomStateResponse createRoomResponse = desirializer.deserializeRequest<getRoomStateResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                    listOfPlayers = createRoomResponse.players;
+                    if (listOfPlayers != null)
+                        playersList.Dispatcher.Invoke(() => { playersList.ItemsSource = listOfPlayers; });
+                }
+                Thread.Sleep(3000);
             }
         }
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
-            keepRunning = false;
             closeRoom();
             Communicator.logOut();
-            Closing -= HandleClosingWindow;
         }
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
-            keepRunning = false;
             closeRoom();
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
-        private void closeRoom()
+        private bool closeRoom()
         {
+            keepRunning = false;
             Communicator.sendData(Convert.ToString(Communicator.CLOSE_ROOM_REQUEST) + "\0\0\0\0");
-            closeRoomResponse response = desirializer.deserializeRequest<closeRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+            string error = checkServerResponse.checkIfErrorResponse();
+            if (error == "")
+            {
+                closeRoomResponse response = desirializer.deserializeRequest<closeRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                return true;
+            }
+            MessageBox.Show(error);
+            return false;
         }
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
@@ -76,18 +82,29 @@ namespace GUI_WPF
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
             Communicator.sendData(Convert.ToString(Communicator.START_GAME_REQUEST) + "\0\0\0\0");
-            keepRunning = false;
-            /* need to add game window openning */
+            string error = checkServerResponse.checkIfErrorResponse();
+            if(error == "")
+            {
+                createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                keepRunning = false;
+                /* need to add game window openning */
+            }
+            else
+                HandleClosingWindow(null, new CancelEventArgs());
         }
         
         private void closeRoomButton_Click(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
-            closeRoom();
-            Closing -= HandleClosingWindow;
-            RoomListWindow newRoomListWindow = new RoomListWindow();
-            this.Close();
-            newRoomListWindow.Show();
+            if(closeRoom())
+            {
+                Closing -= HandleClosingWindow;
+                RoomListWindow newRoomListWindow = new RoomListWindow();
+                this.Close();
+                newRoomListWindow.Show();
+            }
+            else
+                HandleClosingWindow(null, new CancelEventArgs());
         }
     }
 }

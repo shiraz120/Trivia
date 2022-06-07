@@ -189,7 +189,7 @@
       <Filter>Header Files\Handlers</Filter>
     </ClInclude>
     <ClInclude Include="statusException.h">
-      <Filter>Header Files\dataBases</Filter>
+      <Filter>Header Files\exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

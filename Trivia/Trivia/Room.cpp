@@ -43,6 +43,11 @@ output: none
 */
 void Room::addUser(const LoggedUser newUser)
 {
+	for (int i = 0; i < m_users.size(); i++)
+	{
+		if(m_users[i].getUsername() == newUser.getUsername())
+			throw statusException(STATUS_USER_ALREADY_IN_ROOM);
+	}
 	if (m_users.size() < m_metadata.maxPlayers)
 	{
 		std::lock_guard<std::mutex> usersListLock(usersMutex);
@@ -62,8 +67,10 @@ void Room::removeUser(const LoggedUser existingUser)
 	for(auto it = m_users.begin(); it != m_users.end(); it++)
 		if (it->getUsername() == existingUser.getUsername())
 		{
-			std::lock_guard<std::mutex> usersListLock(usersMutex);
+			std::unique_lock<std::mutex> usersListLock(usersMutex);
 			m_users.erase(it);
+			usersListLock.unlock();
+			return;
 		}
 }
 

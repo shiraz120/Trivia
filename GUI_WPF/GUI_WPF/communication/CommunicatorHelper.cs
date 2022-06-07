@@ -36,10 +36,9 @@ namespace GUI_WPF
             string request = Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0";
             sendData(request);
             string error = checkServerResponse.checkIfErrorResponse();
-            if (error == "")
-                Application.Current.Shutdown();
-            else
+            if (error != "")
                 MessageBox.Show(error);
+            Application.Current.Shutdown();
         }
         public static void StartCommunication()
         {

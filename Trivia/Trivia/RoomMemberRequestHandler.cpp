@@ -60,7 +60,7 @@ output: none
 */
 bool RoomMemberHandler::isRequestRelevant(const RequestInfo request)
 {
-	if (request.id == CLOSE_ROOM_REQUEST || request.id == START_GAME_REQUEST || request.id == LEAVE_ROOM_REQUEST)
+	if (request.id == GET_ROOM_STATE_REQUEST || request.id == LEAVE_ROOM_REQUEST)
 		return true;
 	return false;
 }

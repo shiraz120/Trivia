@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 
 namespace GUI_WPF
@@ -12,13 +13,14 @@ namespace GUI_WPF
     {
         public const char ERROR_RESPONSE = 'c';
         public const int MAX_DATA_SIZE = 4;
-        public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL, STATUS_USER_NOT_IN_ROOM }
+        public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL, STATUS_USER_NOT_IN_ROOM, STATUS_USER_ALREADY_IN_ROOM, STATUS_FAILED }
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
         public const string DATA_BASE_PROBLEM = "dataBase problem.";
         public const string ROOM_IS_FULL = "the room is full.";
         public const string ROOM_DOESNT_EXIST = "the room doesnt seem to exist.";
         public const string JOINED_ROOM_SUCCEEDED = "joined room successfully!";
+        public const string JOIN_ROOM_MORE_THAN_ONCE = "you cant join a room more than once.";
 
         static public string checkIfSigupSucceded()
         {
@@ -51,13 +53,10 @@ namespace GUI_WPF
                     return ROOM_DOESNT_EXIST;
                 case (int)Status.STATUS_SUCCESS:
                     return JOINED_ROOM_SUCCEEDED;
+                case (int)Status.STATUS_USER_ALREADY_IN_ROOM:
+                    return JOIN_ROOM_MORE_THAN_ONCE;
             }
             return "";
-        }
-        static public int checkIfLogoutSucceeded()
-        {
-            logoutResponse logoutResponse = desirializer.deserializeRequest<logoutResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
-            return logoutResponse.status;
         }
         static public string checkIfLoginSucceded()
         {

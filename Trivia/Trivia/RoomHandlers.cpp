@@ -16,9 +16,13 @@ RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager) : m_us
 		}
 		catch(statusException& e)
 		{ }
-		if (std::count(players.begin(), players.end(), user.getUsername()))
+		if (std::count(players.begin(), players.end(), user.getUsername()) == 1)
 		{
 			m_room = Room(room, LoggedUser(players[0]));
+			for (int i = 1; i < players.size(); i++)
+			{
+				m_room.addUser(players[i]);
+			}
 		}
 	}
 }
@@ -44,6 +48,7 @@ RequestResult RoomHandler::getRoomData(RequestInfo request) const
 	responseData.status = STATUS_SUCCESS;
 	try {
 		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id); // if exception thrown it means that the room doesnt exist
+		responseData.questionCount = m_room.getMetaData().numOfQuestionsInGame;
 		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
 		responseData.players = m_room.getAllUsers();
 	}

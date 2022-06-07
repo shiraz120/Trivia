@@ -30,12 +30,7 @@ namespace GUI_WPF
             InitializeComponent();
             Communicator.sendData(Convert.ToString(Communicator.GET_PERSONAL_STATS_REQUEST) + "\0\0\0\0");
             string error = checkServerResponse.checkIfErrorResponse();
-            if (error != "")
-            {
-                statisticsDataText.Foreground = System.Windows.Media.Brushes.Red;
-                statisticsDataText.Text = error;
-            }
-            else
+            if (error == "")
             {
                 getPersonalStatsResponse stats = desirializer.deserializeRequest<getPersonalStatsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 Title.Text = stats.statistics[0] + " Statistics";
@@ -43,6 +38,15 @@ namespace GUI_WPF
                 amountOfWrongAnswers.Text = amountOfWrongAnswers.Text + "      " + Convert.ToString(int.Parse(stats.statistics[totalAnswersIndex]) - int.Parse(stats.statistics[CorrectAnswersIndex]));
                 amountOfCorrectAnswers.Text = amountOfCorrectAnswers.Text + "      " + stats.statistics[CorrectAnswersIndex];
                 amountOfGames.Text = amountOfGames.Text + "      " + stats.statistics[amountOfGamesIndex];
+            }
+            else if (error == "Error: request isnt relevant for the current handler.")
+            {
+                HandleClosingWindow(null, new CancelEventArgs());
+            }
+            else
+            {
+                statisticsDataText.Foreground = System.Windows.Media.Brushes.Red;
+                statisticsDataText.Text = error;
             }
         }
         public void HandleClosingWindow(object sender, CancelEventArgs e)

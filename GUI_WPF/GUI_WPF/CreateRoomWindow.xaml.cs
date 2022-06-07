@@ -86,6 +86,8 @@ namespace GUI_WPF
                     this.Close();
                     newAdminWindow.Show();
                 }
+                else
+                    HandleClosingWindow(null, new CancelEventArgs());
             }
         }
     }
