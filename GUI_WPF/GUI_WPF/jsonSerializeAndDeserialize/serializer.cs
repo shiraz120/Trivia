@@ -11,6 +11,11 @@ namespace GUI_WPF
     {
 		const int MAX_BYTE_NUMBER = 256;
 		const int MAX_DATA_LENGTH = 4;
+		/*
+		this function adds padding to the length
+		input: the length
+		output: the padded string
+		*/
 		private static string addPaddingZeros(int length)
 		{
 			string sizeMsg = "";
@@ -26,6 +31,12 @@ namespace GUI_WPF
 			padded = sizeMsg.PadLeft(MAX_DATA_LENGTH, '\0');
 			return padded;
 		}
+		
+		/*
+		this function serialize the response so that it will be ready to send to the server
+		input: the response and the code
+		output: the response
+		*/
 		public static string serializeResponse<T>(T response, char code)
         {
 			string data = JsonConvert.SerializeObject(response);

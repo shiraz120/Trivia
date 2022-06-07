@@ -31,6 +31,12 @@ namespace GUI_WPF
         static IPEndPoint serverEndPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), DEFAULT_PORT);
         static TcpClient client = new TcpClient();
         static NetworkStream clientStream;
+
+        /*
+        this function logs out the user from the server
+        input: none
+        output: none
+        */
         public static void logOut()
         {
             string request = Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0";
@@ -40,6 +46,12 @@ namespace GUI_WPF
                 MessageBox.Show(error);
             Application.Current.Shutdown();
         }
+
+        /*
+        this function connects to the server
+        input: none
+        output: none
+        */
         public static void StartCommunication()
         {
             try
@@ -54,10 +66,22 @@ namespace GUI_WPF
                 Communicator.closeStream();
             }
         }
+
+        /*
+        this function closes the stream and disconnect from the server
+        input: none
+        output: none
+        */
         public static void closeStream()
         {
             clientStream.Close();
         }
+
+        /*
+        this function gets the part of the type code of the message
+        input: none
+        output: the message type code
+        */
         public static string GetMessageTypeCode()
         {
             byte[] buffer = new byte[TYPE_CODE_LENGTH];
@@ -73,6 +97,12 @@ namespace GUI_WPF
             }
             return System.Text.Encoding.UTF8.GetString(buffer);
         }
+        
+        /*
+        this function gets the string part from the message
+        input: the length of the string
+        output: the string part from the message
+        */
         public static string GetStringPartFromSocket(int bytesNum)
         {
             byte[] buffer = new byte[bytesNum];
@@ -88,6 +118,12 @@ namespace GUI_WPF
             }
             return System.Text.Encoding.UTF8.GetString(buffer);
         }
+
+        /*
+        this function send data to the server
+        input: the message
+        output: none
+        */
         public static void sendData(string message)
         {
             try
@@ -103,10 +139,22 @@ namespace GUI_WPF
                 Communicator.closeStream();
             }
         }
+
+        /*
+        this function converts string to int
+        input: the message
+        output: the numbers of the message
+        */
         public static int convertStringToInt(string msg)
         {
             return (int)(msg[0]) * (BYTES_SIZE* BYTES_SIZE* BYTES_SIZE) + (int)(msg[1]) * (BYTES_SIZE * BYTES_SIZE) + (int)(msg[2]) * BYTES_SIZE + (int)(msg[3]);
         }
+
+        /*
+        this function gets the size of the message from the message
+        input: the length
+        output: the size in int
+        */
         public static int getSizePart(int bytesNum)
         {
             byte[] buffer = new byte[bytesNum];

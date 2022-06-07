@@ -17,11 +17,20 @@ namespace GUI_WPF
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
         public const string DATA_BASE_PROBLEM = "dataBase problem.";
+        public const string USER_EXIST = "user already exist.";
         public const string ROOM_IS_FULL = "the room is full.";
         public const string ROOM_DOESNT_EXIST = "the room doesnt seem to exist.";
         public const string JOINED_ROOM_SUCCEEDED = "joined room successfully!";
         public const string JOIN_ROOM_MORE_THAN_ONCE = "you cant join a room more than once.";
+        public const string USER_DOESNT_EXIST = "user doesnt exist.";
+        public const string PASSWORD_DOESNT_MATCH = "password doesnt match.";
+        public const string USER_ALREADY_LOGGED = "user already logged in.";
 
+        /*
+        this function checks if the signed up action succeded or not
+        input: none
+        output: the status of the status of the request
+        */
         static public string checkIfSigupSucceded()
         {
             SignupResponse SignupResponse = desirializer.deserializeRequest<SignupResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
@@ -29,7 +38,7 @@ namespace GUI_WPF
             {
                 case (int)Status.STATUS_USER_EXIST:
                     {
-                        return "user already exist.";
+                        return USER_EXIST;
                     }
                 case (int)Status.STATUS_SUCCESS:
                     {
@@ -42,6 +51,12 @@ namespace GUI_WPF
             }
             return "";
         }
+
+        /*
+        this function checks if the user has joined a room succesfuly
+        input: the id of the user
+        output: the status of the request
+        */
         static public string checkIfjoinRoomSucceeded(int id)
         {
             JoinRoomResponse response = desirializer.deserializeRequest<JoinRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
@@ -58,6 +73,11 @@ namespace GUI_WPF
             }
             return "";
         }
+        /*
+        this function checks if the login action succeded or not
+        input: none
+        output: the status of the request
+        */
         static public string checkIfLoginSucceded()
         {
             loginResponse LoginResponse = desirializer.deserializeRequest<loginResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
@@ -65,11 +85,11 @@ namespace GUI_WPF
             {
                 case (int)Status.STATUS_USER_DOESNT_EXIST:
                     {
-                        return "user doesnt exist.";
+                        return USER_DOESNT_EXIST;
                     }
                 case (int)Status.STATUS_PASSWORD_DOESNT_MATCH:
                     {
-                        return "password doesnt match.";
+                        return PASSWORD_DOESNT_MATCH;
                     }
                 case (int)Status.STATUS_SUCCESS:
                     {
@@ -77,7 +97,7 @@ namespace GUI_WPF
                     }
                 case (int)Status.STATUS_ALREADY_LOGGED_IN:
                     {
-                        return "user already logged in.";
+                        return USER_ALREADY_LOGGED;
                     }
                 case (int)Status.STATUS_DB_PROBLEM:
                     {
@@ -86,6 +106,11 @@ namespace GUI_WPF
             }
             return "";
         }
+        /*
+        this function checks if the response if error
+        input: none
+        output: the message of the error, if there is no error than its an empty string
+        */
         static public string checkIfErrorResponse()
         {
             if (Communicator.GetMessageTypeCode() == Convert.ToString(ERROR_RESPONSE))

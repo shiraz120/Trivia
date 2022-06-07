@@ -1,18 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 namespace GUI_WPF
 {
@@ -23,13 +14,25 @@ namespace GUI_WPF
     {
         private bool keepRunning = true;
         private List<string> listOfPlayers;
+
+        /*
+        this function initialize the window and starts a thread gets the players in the room
+        input: none
+        output: none
+        */
         public WaitingWindow()
         {
             InitializeComponent();
-            Thread getPlayers = new Thread(() => getPlayersInRoom(sharedFunctionsBetweenWindows.current_room_id)); ;
+            Thread getPlayers = new Thread(getPlayersInRoom);
             getPlayers.Start();
         }
-        public void getPlayersInRoom(int id)
+
+        /*
+        this function gets the players in the room every 2 seconds
+        input: none
+        output: none
+        */
+        public void getPlayersInRoom()
         {
             while (keepRunning)
             {
@@ -43,13 +46,13 @@ namespace GUI_WPF
                     Communicator.logOut();
                 }
                 getRoomStateResponse getRoomStateResponse = desirializer.deserializeRequest<getRoomStateResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                if(getRoomStateResponse.status == (int)checkServerResponse.Status.STATUS_ROOM_DOESNT_EXIST)
+                if(getRoomStateResponse.status == (int)checkServerResponse.Status.STATUS_ROOM_DOESNT_EXIST) //if the room has been closed
                 {
                     keepRunning = false;
                     MessageBox.Show("The room has been closed by the admin.");
                     replaceWindowOnExit();
                 }
-                if(getRoomStateResponse.hasGameBegun)
+                if(getRoomStateResponse.hasGameBegun) //if game begun
                 {
                     /* MOVE TO GAME WINDOW */
                     keepRunning = false;
@@ -64,17 +67,35 @@ namespace GUI_WPF
                 Thread.Sleep(3000);
             }
         }
+
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+
+        /*
+        this function log out of the communicator and stops the thread
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             keepRunning = false;
             leaveRoom_Click(null, null);
             Communicator.logOut();
         }
+
+        /*
+        this function closes the window and stop the thread
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
@@ -82,6 +103,12 @@ namespace GUI_WPF
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
+
+        /*
+        this function replaces the window on exit
+        input: sender and event
+        output: none
+        */
         public void replaceWindowOnExit()
         {
             Closing -= HandleClosingWindow;
@@ -89,11 +116,22 @@ namespace GUI_WPF
             this.Close();
             newRoomListWindow.Show();
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
 
+        /*
+        this function leaves the room
+        input: sender and event
+        output: none
+        */
         private void leaveRoom_Click(object sender, RoutedEventArgs e)
         {
             string request = Convert.ToString(Communicator.LEAVE_ROOM_REQUEST) + "\0\0\0\0";
@@ -104,7 +142,7 @@ namespace GUI_WPF
                 leaveRoomResponse stats = desirializer.deserializeRequest<leaveRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 replaceWindowOnExit();
             }
-            else
+            else //fails the leave room
             {
                 keepRunning = false;
                 MessageBox.Show(error);

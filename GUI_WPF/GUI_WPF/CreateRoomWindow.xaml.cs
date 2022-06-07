@@ -26,34 +26,75 @@ namespace GUI_WPF
         private readonly string INVALID_AMOUNT_OF_PLAYERS = "Room must have 2 players or more.";
         private readonly string INVALID_AMOUNT_OF_QUESTIONS = "choose amount of questions.";
         private readonly string CREATE_ROOM_SUCCEEDED = "created room successfully!";
+
+        /*
+        this function intializes the window
+        input: none
+        output: none
+        */
         public CreateRoomWindow()
         {
             InitializeComponent();
         }
+
+        /*
+        this function logs out of the communicator
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             Communicator.logOut();
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
+
+        /*
+        this function goes to menu window
+        input: sender and event
+        output: none
+        */
         private void menuButton_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
             sharedFunctionsBetweenWindows.moveToMenu(this);
         }
+
+        /*
+        this function closes the window
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
+
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
 
+        /*
+        this function creates the room
+        input: sender and event
+        output: none
+        */
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtTime.Text) || int.Parse(txtTime.Text) <= 0)

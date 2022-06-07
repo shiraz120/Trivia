@@ -20,6 +20,11 @@ namespace GUI_WPF
     /// </summary>
     public partial class HighScore : Window
     {
+        /*
+        this function initialize the window, gets top users and shows them
+        input: none
+        output: none
+        */
         public HighScore()
         {
             InitializeComponent();
@@ -44,19 +49,43 @@ namespace GUI_WPF
                 highScoreDataText.Text = error;
             }
         }
+
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
+
+        /*
+        this function logs out of the communicator
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             Communicator.logOut();
         }
+
+        /*
+        this function goes to the statistics menu
+        input: sender and event
+        output: none
+        */
         private void statisticsMenuButton_Click(object sender, RoutedEventArgs e)
         {
             Closing -= HandleClosingWindow;
@@ -64,6 +93,12 @@ namespace GUI_WPF
             this.Close();
             newStatsWindow.Show();
         }
+
+        /*
+        this function closes the window
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             Communicator.logOut();

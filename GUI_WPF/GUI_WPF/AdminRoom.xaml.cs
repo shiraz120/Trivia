@@ -23,18 +23,36 @@ namespace GUI_WPF
     {
         private bool keepRunning = true;
         private List<string> listOfPlayers;
+
+        /*
+        this function intializes the widow and starts a thread that will check the players in the room
+        input: none
+        output: none
+        */
         public AdminRoom()
         {
             InitializeComponent();
-            Thread getPlayers = new Thread(() => getPlayersInRoom(sharedFunctionsBetweenWindows.current_room_id)); ;
+            Thread getPlayers = new Thread(getPlayersInRoom);
             getPlayers.Start();
         }
+
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
-        public void getPlayersInRoom(int id)
+
+        /*
+        this function is a thread that gets the player from the room 
+        input: none
+        output: none
+        */
+        public void getPlayersInRoom()
         {
             while (keepRunning)
             {
@@ -50,17 +68,35 @@ namespace GUI_WPF
                 Thread.Sleep(3000);
             }
         }
+
+        /*
+        this function closing the window
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             closeRoom();
             Communicator.logOut();
         }
+
+        /*
+        this function closing the window
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             closeRoom();
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
+
+        /*
+        this function colses the room
+        input: none
+        output: bool
+        */
         private bool closeRoom()
         {
             keepRunning = false;
@@ -74,11 +110,22 @@ namespace GUI_WPF
             MessageBox.Show(error);
             return false;
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
 
+        /*
+        this function creates the room
+        input: sender and event
+        output: none
+        */
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
             Communicator.sendData(Convert.ToString(Communicator.START_GAME_REQUEST) + "\0\0\0\0");
@@ -92,7 +139,12 @@ namespace GUI_WPF
             else
                 HandleClosingWindow(null, new CancelEventArgs());
         }
-        
+
+        /*
+        this function closes the room
+        input: sender and event
+        output: none
+        */
         private void closeRoomButton_Click(object sender, RoutedEventArgs e)
         {
             keepRunning = false;

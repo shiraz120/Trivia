@@ -26,21 +26,44 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
+
+        /*
+        this function exits the app
+        input: sender and event
+        output: none
+        */
         private void exitApp(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
         }
 
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
 
+
+        /*
+        this function goes to the login window
+        input: sender and event
+        output: none
+        */
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow newLoginWindow = new MainWindow();
@@ -48,22 +71,27 @@ namespace GUI_WPF
             newLoginWindow.Show();
         }
 
+        /*
+        this function tries to sign up the user
+        input: sender and event
+        output: none
+        */
         private void signupButton_Click(object sender, RoutedEventArgs e)
         {
             signupDataText.Foreground = System.Windows.Media.Brushes.Red;
-            if (string.IsNullOrWhiteSpace(txtUsername.Text))
+            if (string.IsNullOrWhiteSpace(txtUsername.Text)) //if not empty
             {
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
             }
-            else if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)
+            else if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH) //if password not too short
             {
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_PASSWORD;
             }
-            else if (string.IsNullOrWhiteSpace(txtEmail.Text))
+            else if (string.IsNullOrWhiteSpace(txtEmail.Text)) //if not empty
             {
                 signupDataText.Text = INVALID_EMAIL;
             }
-            else
+            else //signs up
             {
                 SignupRequest signup = new SignupRequest
                 {
@@ -82,6 +110,11 @@ namespace GUI_WPF
             }
         }
 
+        /*
+        this function changes the error message to username error
+        input: sender and event
+        output: none
+        */
         private void txtUsername_TextChanged(object sender, TextChangedEventArgs e)
         {
             if(!string.IsNullOrWhiteSpace(txtUsername.Text))
@@ -89,7 +122,12 @@ namespace GUI_WPF
             else
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_NAME;
         }
-        
+
+        /*
+        this function changes the error message to password error
+        input: sender and event
+        output: none
+        */
         private void txtPassword_PasswordChanged(object sender, RoutedEventArgs e)
         {
             if (txtPassword.Password.Length < sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH)
@@ -98,6 +136,11 @@ namespace GUI_WPF
                 signupDataText.Text = sharedFunctionsBetweenWindows.INVALID_PASSWORD;
         }
 
+        /*
+        this function changes the error message to the email error
+        input: sender and event
+        output: none
+        */
         private void txtEmail_TextChanged(object sender, TextChangedEventArgs e)
         {
             if(!string.IsNullOrWhiteSpace(txtEmail.Text))

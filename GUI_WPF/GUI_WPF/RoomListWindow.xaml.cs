@@ -26,17 +26,35 @@ namespace GUI_WPF
         private bool keepRunning = true;
         private int whereIdStarts = 4;
         private List<RoomData> listOfRooms;
+
+        /*
+        this function starts a thread that will get all rooms
+        input: none
+        output: none
+        */
         public RoomListWindow()
         {
-            Thread roomsThread = new Thread(getRooms); ;
+            Thread roomsThread = new Thread(getRooms);
             roomsThread.Start();
             InitializeComponent();
         }
+
+        /*
+        this function makes the window movable
+        input: event
+        output: none
+        */
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
+
+        /*
+        this function gets all the rooms every 2 seconds
+        input: none
+        output: none
+        */
         public void getRooms()
         {
             while (keepRunning)
@@ -59,22 +77,45 @@ namespace GUI_WPF
                 Thread.Sleep(2000);
             }
         }
+
+        /*
+        this function closes the thread and logs out of the communicator
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, CancelEventArgs e)
         {
             keepRunning = false;
             Communicator.logOut();
         }
+
+        /*
+        this function closes the window
+        input: sender and event
+        output: none
+        */
         public void HandleClosingWindow(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         private void toggleTheme(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.toggleTheme(sender, e);
         }
 
+        /*
+        this function closes the thread and goes to the main menu
+        input: sender and event
+        output: none
+        */
         private void mainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
@@ -82,6 +123,11 @@ namespace GUI_WPF
             sharedFunctionsBetweenWindows.moveToMenu(this);
         }
 
+        /*
+        this function selects the room
+        input: sender and event
+        output: none
+        */
         private void roomList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(roomList.SelectedItem != null)
@@ -98,13 +144,19 @@ namespace GUI_WPF
                         keepRunning = false;
                         Closing -= HandleClosingWindow;
                         sharedFunctionsBetweenWindows.current_room_id = id;
-                        WaitingWindow newStatsWindow = new WaitingWindow();
+                        WaitingWindow newStatsWindow = new WaitingWindow(); //goes to the waiting room window
                         this.Close();
                         newStatsWindow.Show();
                     }
                 }
             }
         }
+
+        /*
+        this function gets the id
+        input: string
+        output: id
+        */
         private int getId(string dataAboutRoom)
         {
             int counter = whereIdStarts;

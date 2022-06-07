@@ -16,12 +16,24 @@ namespace GUI_WPF
         static public readonly string INVALID_PASSWORD = "password filed must contain at least " + Convert.ToString(sharedFunctionsBetweenWindows.MIN_PASSWORD_LENGTH) + " characters.";
         static public int current_room_id { get; set; }
         static private readonly PaletteHelper paletteHelper = new PaletteHelper();
+
+        /*
+        this function goes to menu
+        input: current window
+        output: none
+        */
         static public void moveToMenu(Window pointerToWindow)
         {
             MainMenu newStatsWindow = new MainMenu();
             pointerToWindow.Close();
             newStatsWindow.Show();
         }
+
+        /*
+        this function toggles the theme
+        input: sender and event
+        output: none
+        */
         static public void toggleTheme(object sender, RoutedEventArgs e)
         {
             ITheme theme = paletteHelper.GetTheme();
