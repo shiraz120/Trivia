@@ -151,9 +151,7 @@ namespace GUI_WPF
             if(closeRoom())
             {
                 Closing -= HandleClosingWindow;
-                RoomListWindow newRoomListWindow = new RoomListWindow();
-                this.Close();
-                newRoomListWindow.Show();
+                sharedFunctionsBetweenWindows.moveToMenu(this);
             }
             else
                 HandleClosingWindow(null, new CancelEventArgs());
