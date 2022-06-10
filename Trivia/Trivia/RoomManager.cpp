@@ -39,7 +39,7 @@ this function will close a room
 input: id
 output: none
 */
-void RoomManager::deleteRoom(const unsigned id)
+void RoomManager::deleteRoom(const unsigned id) 
 {
 	if (m_rooms.find(id) == m_rooms.end())
 		throw statusException(STATUS_ROOM_DOESNT_EXIST);
@@ -52,7 +52,7 @@ this function will return the room state
 input: id
 output: the room state
 */
-unsigned int RoomManager::getRoomState(const unsigned id)
+unsigned int RoomManager::getRoomState(const unsigned id) 
 {
 	if (m_rooms.find(id) == m_rooms.end())
 		throw statusException(STATUS_ROOM_DOESNT_EXIST);
@@ -64,7 +64,7 @@ this function will return all the rooms available
 input: none
 output: all the rooms
 */
-std::vector<RoomData> RoomManager::getRooms()
+std::vector<RoomData> RoomManager::getRooms() const
 {
 	std::vector<RoomData> activeRooms;
 	for (auto it = m_rooms.begin(); it != m_rooms.end(); it++)

@@ -23,7 +23,7 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 		sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
 		initQuestionsTable();
 	}
-	catch (std::exception& e)
+	catch (std::exception&)
 	{
 		std::cerr << "data base problem occurred" << std::endl;
 		exit(1);
@@ -46,7 +46,7 @@ this function will check if a user already exists in the data base
 input: username
 output: bool - if a user already exists in the data base
 */
-bool SqliteDatabase::doesUserExist(const string username)
+bool SqliteDatabase::doesUserExist(const string username) const
 {
 	float count;
 	sendQuery("SELECT COUNT(*) FROM clients where user_name == '" + username + "';", callbackCounter, &count);
@@ -60,7 +60,7 @@ this function will check if a password matches the user
 input: username, password
 output: bool - if a password matches the user
 */
-bool SqliteDatabase::doesPasswordMatch(const string username, const string password)
+bool SqliteDatabase::doesPasswordMatch(const string username, const string password) const
 {
 	float count;
 	sendQuery("SELECT COUNT(*) FROM clients where password == '" + password + "' AND user_name == '" + username + "';", callbackCounter, &count);
@@ -74,7 +74,7 @@ this function will add a new user to the data base
 input: username, password, email
 output: none
 */
-void SqliteDatabase::addNewUser(const string username, const string password, const string email)
+void SqliteDatabase::addNewUser(const string username, const string password, const string email) const
 {
 	if (!doesUserExist(username)) 
 	{
@@ -88,7 +88,7 @@ this function will return all the questions and answers
 input: int 
 output: all the questions and answers
 */
-std::list<questionMetaData> SqliteDatabase::getQuestions(const int i) // will replace questionMetaData with Question on v4.0.0
+std::list<questionMetaData> SqliteDatabase::getQuestions(const int i) const  
 {
 	std::list<questionMetaData> questionsData;
 	sendQuery("select * from questions limit " + std::to_string(i) + ";", callBackQuestion, &questionsData);
@@ -100,7 +100,7 @@ this function will return the requested user amount of games played
 input: username
 output: the user amount of games played
 */
-int SqliteDatabase::getNumOfPlayerGames(const string username)
+int SqliteDatabase::getNumOfPlayerGames(const string username) const
 {
 	float numOfGames;
 	sendQuery("select amount_of_games from statistics where user_name == '" + username + "';", callbackCounter, &numOfGames);
@@ -112,7 +112,7 @@ this function will return the requested user amount of answers
 input: username
 output: the user amount of answers
 */
-int SqliteDatabase::getNumOfTotalAnswers(const string username)
+int SqliteDatabase::getNumOfTotalAnswers(const string username) const
 {
 	float numOfIncorrectAnswers;
 	float numOfCorrectAnswers;
@@ -126,7 +126,7 @@ this function will return the requested user amount of correct answers
 input: username
 output: the user amount of correct answers
 */
-int SqliteDatabase::getNumOfCorrectAnswers(const string username)
+int SqliteDatabase::getNumOfCorrectAnswers(const string username) const
 {
 	float numOfCorrectAnswers;
 	sendQuery("select correct_answers from statistics where user_name == '" + username + "';", callbackCounter, &numOfCorrectAnswers);
@@ -138,7 +138,7 @@ this function will return the requested user average answer time
 input: username
 output: the avarage answer time
 */
-float SqliteDatabase::getPlayerAverageAnswerTime(const string username)
+float SqliteDatabase::getPlayerAverageAnswerTime(const string username) const
 {
 	float avgTime;
 	sendQuery("select avarage_answer_time from statistics where user_name == '" + username + "';", callbackCounter, &avgTime);
@@ -151,7 +151,7 @@ this function returns usernames with stats
 input: none
 output: usernames with stats
 */
-std::map<string, std::pair<int, float>> SqliteDatabase::getUsersStatsForScore()
+std::map<string, std::pair<int, float>> SqliteDatabase::getUsersStatsForScore() const
 {
 	std::map<string, std::pair<int, float>> users;
 	sendQuery("select user_name, correct_answers, avarage_answer_time from statistics;", callbackStats, &users);
@@ -165,7 +165,7 @@ also use a template for diffenet list types
 input: query, callback function, print function, list
 output: bool - return true if the query succeeded and false if not
 */
-template <class T> void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::list<T>* list)
+template <class T> void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::list<T>* list) const
 {
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, list, &error);
@@ -219,7 +219,7 @@ this function will receive a callback function and a map and send the requested 
 input: query, callback, counter
 output: none
 */
-void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::map<string, std::pair<int, float>>* map)
+void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::map<string, std::pair<int, float>>* map) const
 {
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, map, &error);
@@ -232,7 +232,7 @@ this function will send query with no pointer to a container
 input: query, callback, print
 output: bool - sended successfully or not
 */
-void SqliteDatabase::sendQuery(const std::string query)
+void SqliteDatabase::sendQuery(const std::string query) const
 {
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), nullptr, nullptr, &error);
@@ -245,7 +245,7 @@ this function will receive a callback function and a counter and send the reques
 input: query, callback, counter
 output: none
 */
-void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), float* counter)
+void SqliteDatabase::sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), float* counter) const
 {
 	char* error = nullptr;
 	int res = sqlite3_exec(_db, query.c_str(), callBack, counter, &error);
@@ -259,7 +259,7 @@ of times this variable appears
 input: data, argc, argv, azColName
 output: int
 */
-int callbackCounter(void* data, int argc, char** argv, char** azColName)
+int callbackCounter(void* data, int argc, char** argv, char** azColName) 
 {
 	float* counter = static_cast<float*>(data);
 	*counter = atof(argv[0]);

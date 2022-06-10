@@ -23,7 +23,7 @@ this function will check if a request is relevant using the request id
 input: request
 output: none
 */
-bool RoomAdminHandler::isRequestRelevant(RequestInfo request)
+bool RoomAdminHandler::isRequestRelevant(const RequestInfo request) const
 {
 	if (request.id == CLOSE_ROOM_REQUEST || request.id == START_GAME_REQUEST || request.id == GET_ROOM_STATE_REQUEST)
 		return true;
@@ -35,7 +35,7 @@ this function will handle the request
 input: request
 output: RequestResult
 */
-RequestResult RoomAdminHandler::handleRequest(RequestInfo request)
+RequestResult RoomAdminHandler::handleRequest(const RequestInfo request) const
 {
 	switch (request.id)
 	{
@@ -56,7 +56,7 @@ this function will return the room state and the room data
 input: request
 output: requestResult
 */
-RequestResult RoomAdminHandler::getRoomState(RequestInfo request) const
+RequestResult RoomAdminHandler::getRoomState(const RequestInfo request) const
 {
 	RequestResult response = RoomHandler::getRoomData(request);
 	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user);
@@ -68,7 +68,7 @@ this function will close a room
 input: request
 output: RequestResult
 */
-RequestResult RoomAdminHandler::closeRoom(RequestInfo request) const
+RequestResult RoomAdminHandler::closeRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	CloseRoomResponse data;
@@ -91,7 +91,7 @@ this function will start a game
 input: request
 output: RequestResult
 */
-RequestResult RoomAdminHandler::startGame(RequestInfo request) const
+RequestResult RoomAdminHandler::startGame(const RequestInfo request) const
 {
 	RequestResult response;
 	StartGameResponse data;

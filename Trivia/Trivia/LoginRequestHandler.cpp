@@ -22,7 +22,7 @@ this function will check if a request is valid for login handler
 input: request
 output: bool - if a request is valid for login handler
 */
-bool LoginRequestHandler::isRequestRelevant(RequestInfo request)
+bool LoginRequestHandler::isRequestRelevant(const RequestInfo request) const
 {
 	if (request.id == LOGIN_REQUEST || request.id == SIGNUP_REQUEST)
 		return true;
@@ -34,7 +34,7 @@ this function will receive a request and return the request result that contains
 input: request
 output: result
 */
-RequestResult LoginRequestHandler::handleRequest(RequestInfo request)
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo request) const
 {
 	if (request.id == LOGIN_REQUEST)
 		return login(request);
@@ -47,7 +47,7 @@ this function will log a new user in and return the result of the request, if it
 input: request
 output: result
 */
-RequestResult LoginRequestHandler::login(RequestInfo request)
+RequestResult LoginRequestHandler::login(const RequestInfo request) const
 {
 	RequestResult result;
 	loginResponse data;
@@ -77,7 +77,7 @@ this function will sign in a new user in and return the result of the request, i
 input: request
 output: result
 */
-RequestResult LoginRequestHandler::signup(RequestInfo request)
+RequestResult LoginRequestHandler::signup(const RequestInfo request) const
 {
 	RequestResult result;
 	signUpResponse data;

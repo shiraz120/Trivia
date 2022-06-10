@@ -26,15 +26,15 @@ using std::string;
 class IDatabase
 {
 public:
-	virtual bool doesUserExist(const string username) = 0;
-	virtual bool doesPasswordMatch(const string username, const string password) = 0;
-	virtual void addNewUser(const string username, const string password, const string email) = 0;
-	virtual std::list<questionMetaData> getQuestions(const int i) = 0;
-	virtual float getPlayerAverageAnswerTime(const string username) = 0;
-	virtual int getNumOfCorrectAnswers(const string username) = 0;
-	virtual int getNumOfTotalAnswers(const string username) = 0;
-	virtual int getNumOfPlayerGames(const string username) = 0;
-	virtual std::map<string, std::pair<int, float>> getUsersStatsForScore() = 0;
+	virtual bool doesUserExist(const string username) const = 0;
+	virtual bool doesPasswordMatch(const string username, const string password) const = 0;
+	virtual void addNewUser(const string username, const string password, const string email) const = 0;
+	virtual std::list<questionMetaData> getQuestions(const int i) const = 0;
+	virtual float getPlayerAverageAnswerTime(const string username) const = 0;
+	virtual int getNumOfCorrectAnswers(const string username) const = 0;
+	virtual int getNumOfTotalAnswers(const string username) const = 0;
+	virtual int getNumOfPlayerGames(const string username) const = 0;
+	virtual std::map<string, std::pair<int, float>> getUsersStatsForScore() const = 0;
 };
 
 class SqliteDatabase : public IDatabase
@@ -42,24 +42,24 @@ class SqliteDatabase : public IDatabase
 public:
 	SqliteDatabase();
 	~SqliteDatabase();
-	bool doesUserExist(const string username) override;
-	bool doesPasswordMatch(const string username, const string password) override;
-	void addNewUser(const string username, const string password, const string email) override;
-	std::list<questionMetaData> getQuestions(const int i) override;
-	int getNumOfPlayerGames(const string username) override;
-	int getNumOfTotalAnswers(const string username) override;
-	int getNumOfCorrectAnswers(const string username) override;
-	float getPlayerAverageAnswerTime(const string username) override;
-	std::map<string, std::pair<int, float>> getUsersStatsForScore() override;
+	bool doesUserExist(const string username) const override;
+	bool doesPasswordMatch(const string username, const string password) const override;
+	void addNewUser(const string username, const string password, const string email) const override;
+	std::list<questionMetaData> getQuestions(const int i) const override;
+	int getNumOfPlayerGames(const string username) const  override;
+	int getNumOfTotalAnswers(const string username) const override;
+	int getNumOfCorrectAnswers(const string username) const override;
+	float getPlayerAverageAnswerTime(const string username) const override;
+	std::map<string, std::pair<int, float>> getUsersStatsForScore() const override;
 
 private:
 	sqlite3* _db;
 	void initQuestionsTable();
 	void createJsonFile() const;
-	void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::map<string, std::pair<int, float>>* map);
-	template<class T> void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::list<T>* list);
-	void sendQuery(const std::string query);
-	void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), float* counter);
+	void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::map<string, std::pair<int, float>>* map) const;
+	template<class T> void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), std::list<T>* list) const;
+	void sendQuery(const std::string query) const;
+	void sendQuery(const std::string query, int(callBack)(void* data, int argc, char** argv, char** azColName), float* counter) const;
 };
 
 int callBackQuestion(void* data, int argc, char** argv, char** azColName);

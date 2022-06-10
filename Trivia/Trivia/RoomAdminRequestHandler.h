@@ -8,11 +8,11 @@ class RoomAdminHandler : public IRequestHandler, public RoomHandler
 public:
 	RoomAdminHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
 	virtual ~RoomAdminHandler();
-	bool isRequestRelevant(const RequestInfo request) override;
-	RequestResult handleRequest(const RequestInfo request) override;
+	bool isRequestRelevant(const RequestInfo request) const override;
+	RequestResult handleRequest(const RequestInfo request) const override;
 private:
 	RequestHandlerFactory& m_handlerFactory;
-	RequestResult getRoomState(RequestInfo request) const;
-	RequestResult closeRoom(RequestInfo request) const;
-	RequestResult startGame(RequestInfo request) const;
+	RequestResult getRoomState(const RequestInfo request) const;
+	RequestResult closeRoom(const RequestInfo request) const;
+	RequestResult startGame(const RequestInfo request) const;
 };

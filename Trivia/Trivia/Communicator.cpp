@@ -64,7 +64,7 @@ this function will handle a new client
 input: none
 output: none
 */
-void Communicator::handleNewClient(SOCKET clientSocket)
+void Communicator::handleNewClient(const SOCKET clientSocket)
 {
 	RequestInfo infoFromClient;
 	RequestResult infoToClient;

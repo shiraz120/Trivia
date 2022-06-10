@@ -22,7 +22,7 @@ this function will check if a request is relevant
 input: request
 output: bool - is relevant or not
 */
-bool MenuRequestHandler::isRequestRelevant(RequestInfo request)
+bool MenuRequestHandler::isRequestRelevant(const RequestInfo request) const
 {
 	if (CREATE_ROOM_REQUEST == request.id || request.id == JOIN_ROOM_REQUEST || request.id == GET_ROOMS_REQUEST || request.id == GET_PLAYERS_IN_ROOM_REQUEST || request.id == GET_PERSONAL_STATS_REQUEST || request.id == GET_HIGH_SCORE_REQUEST || request.id == SIGN_OUT_REQUEST)
 		return true;
@@ -34,7 +34,7 @@ this function will handle a request by using the request id
 input: request
 output: the request result
 */
-RequestResult MenuRequestHandler::handleRequest(RequestInfo request)
+RequestResult MenuRequestHandler::handleRequest(const RequestInfo request) const
 {
 	switch (request.id)
 	{
@@ -67,7 +67,7 @@ this function will logout a user
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::signout(const RequestInfo request)
+RequestResult MenuRequestHandler::signout(const RequestInfo request) const
 {
 	RequestResult response;
 	LogoutResponse data;
@@ -93,7 +93,7 @@ this function will get all the rooms that exist
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::getRooms(const RequestInfo request)
+RequestResult MenuRequestHandler::getRooms(const RequestInfo request) const
 {
 	RequestResult response;
 	GetRoomsResponse data;
@@ -110,7 +110,7 @@ this function will get all the players connected to a requested room
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
+RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	GetPlayersInRoomRequest roomID = JsonRequestPacketDeserializer::deserializeRequest<GetPlayersInRoomRequest>(request.buffer);
@@ -120,7 +120,7 @@ RequestResult MenuRequestHandler::getPlayersInRoom(const RequestInfo request)
 	{
 		allUsersInRequestedRoom = m_roomManager.getAllUsersFromSpecificRoom(roomID.roomId);
 	}
-	catch (statusException& e)
+	catch (statusException&)
 	{
 		allUsersInRequestedRoom = {};
 	}
@@ -135,7 +135,7 @@ this function will get the personal stats of a user
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request)
+RequestResult MenuRequestHandler::getPersonalStats(const RequestInfo request) const
 {
 	RequestResult response;
 	getPersonalStatsResponse data;
@@ -160,7 +160,7 @@ this function will get the top 5 top users and their scores
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::getHighScore(const RequestInfo request)
+RequestResult MenuRequestHandler::getHighScore(const RequestInfo request) const
 {
 	RequestResult response;
 	getHighScoreResponse data;
@@ -185,7 +185,7 @@ this function will log a user into a room
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::joinRoom(const RequestInfo request)
+RequestResult MenuRequestHandler::joinRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	JoinRoomRequest roomData = JsonRequestPacketDeserializer::deserializeRequest<JoinRoomRequest>(request.buffer);
@@ -211,7 +211,7 @@ this function will create a new room
 input: request
 output: requestResult
 */
-RequestResult MenuRequestHandler::createRoom(const RequestInfo request)
+RequestResult MenuRequestHandler::createRoom(const RequestInfo request) const
 {
 	RequestResult response;
 	CreateRoomResponse data;

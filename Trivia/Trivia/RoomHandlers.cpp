@@ -14,7 +14,7 @@ RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager) : m_us
 		{
 			players = m_roomManager.getAllUsersFromSpecificRoom(room.id);
 		}
-		catch(statusException& e)
+		catch(statusException&)
 		{ }
 		if (std::count(players.begin(), players.end(), user.getUsername()) == 1)
 		{
@@ -41,7 +41,7 @@ this function will get the room data
 input: request
 output: result
 */
-RequestResult RoomHandler::getRoomData(RequestInfo request) const
+RequestResult RoomHandler::getRoomData(const RequestInfo request) const
 {
 	GetRoomStateResponse responseData;
 	RequestResult data;

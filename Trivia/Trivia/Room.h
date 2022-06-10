@@ -18,7 +18,7 @@ public:
 	std::vector<string> getAllUsers() const;
 
 	/*ADDED FUNCTIONS - NOT IN THE DESIGN*/
-	void setActivity(int active);
+	void setActivity(const int active);
 	RoomData getMetaData() const;
 	Room& operator=(const Room& other);
 	

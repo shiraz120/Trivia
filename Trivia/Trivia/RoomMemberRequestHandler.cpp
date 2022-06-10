@@ -46,7 +46,7 @@ this function will return the room state and the room data
 input: request
 output: requestResult
 */
-RequestResult RoomMemberHandler::getRoomState(RequestInfo request) const
+RequestResult RoomMemberHandler::getRoomState(const RequestInfo request) const
 {
 	RequestResult response = RoomHandler::getRoomData(request);
 	response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
@@ -58,7 +58,7 @@ this function will check if a request is relevant using the request id
 input: request 
 output: none
 */
-bool RoomMemberHandler::isRequestRelevant(const RequestInfo request)
+bool RoomMemberHandler::isRequestRelevant(const RequestInfo request) const
 {
 	if (request.id == GET_ROOM_STATE_REQUEST || request.id == LEAVE_ROOM_REQUEST)
 		return true;
@@ -70,7 +70,7 @@ this function will handle the request
 input: request
 output: RequestResult
 */
-RequestResult RoomMemberHandler::handleRequest(RequestInfo request)
+RequestResult RoomMemberHandler::handleRequest(const RequestInfo request) const
 {
 	switch (request.id)
 	{

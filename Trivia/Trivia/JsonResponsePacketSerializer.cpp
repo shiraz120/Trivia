@@ -25,7 +25,7 @@ this function will create the response string using data and code
 input: data, code
 output: the full response
 */
-string JsonResponsePacketSerializer::buildSerializeResponse(string data, char code)
+string JsonResponsePacketSerializer::buildSerializeResponse(const string data, const char code)
 {
 	string size = addPaddingZeros(data.size());
 	string codeAsString(CODE_LENGTH, code);

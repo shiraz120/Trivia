@@ -10,7 +10,7 @@ public:
 
 private:
 	static string addPaddingZeros(int length);
-	static string buildSerializeResponse(string data, char code);
+	static string buildSerializeResponse(const string data, const char code);
 };
 
 /*

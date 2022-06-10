@@ -1,5 +1,10 @@
 #include "Room.h"
 
+/*
+this function will init a room by copy all variables from one room to another
+input: other
+output: room refernce
+*/
 Room::Room(const Room& copyFrom)
 {
 	*this = copyFrom;
@@ -31,7 +36,7 @@ this function will set the activity of the room
 input: active
 output: none
 */
-void Room::setActivity(int active)
+void Room::setActivity(const int active)
 {
 	m_metadata.isActive = active;
 }
@@ -97,6 +102,11 @@ std::vector<string> Room::getAllUsers() const
 	return users;
 }
 
+/*
+this function will copy all variables from one room to another
+input: other
+output: room refernce
+*/
 Room& Room::operator=(const Room& other)
 {
 	if (this != &other)

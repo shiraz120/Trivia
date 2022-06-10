@@ -66,7 +66,7 @@ this function will return m_statisticsManager
 input: none
 output: m_statisticsManager
 */
-StatisticsManager& RequestHandlerFactory::getStatisticsManager() 
+StatisticsManager& RequestHandlerFactory::getStatisticsManager()
 {
 	return m_statisticsManager;
 }
@@ -86,7 +86,7 @@ this function will return the object login manager
 input: none
 output: m_loginManager
 */
-LoginManager& RequestHandlerFactory::getLoginManager()
+LoginManager& RequestHandlerFactory::getLoginManager() 
 {
 	return m_loginManager;
 }

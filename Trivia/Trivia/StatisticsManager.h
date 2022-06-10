@@ -14,7 +14,7 @@ public:
 	StatisticsManager(IDatabase* db);
 	~StatisticsManager();
 	std::map<string, int> getHighScore() const;
-	std::vector<string> getUserStatistics(string username) const;
+	std::vector<string> getUserStatistics(const string username) const;
 	
 private:
 	IDatabase* m_database;

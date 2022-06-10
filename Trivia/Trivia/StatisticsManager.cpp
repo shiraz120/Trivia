@@ -50,7 +50,7 @@ this function will return all the user stats
 input: username
 output: the user stats
 */
-std::vector<string> StatisticsManager::getUserStatistics(string username) const
+std::vector<string> StatisticsManager::getUserStatistics(const string username) const
 {
 	std::vector<string> stats;
 	stats.push_back(username);

@@ -27,7 +27,7 @@ public:
 private:
 	RequestHandlerFactory& m_handlerFactory;
 	void bindAndListen();
-	void handleNewClient(SOCKET clientSocket);
+	void handleNewClient(const SOCKET clientSocket);
 	void acceptUsers();
 	std::map<SOCKET, IRequestHandler*> m_clients;
 	mutex cLock;

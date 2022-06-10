@@ -56,11 +56,21 @@ void Helper::sendData(const SOCKET sc, const std::string message)
 	}
 }
 
+/*
+this function will convert bytes to int
+input: msg
+output: the bytes as int
+*/
 int Helper::convertStringToInt(const char* msg)
 {
 	return (int)msg[0] * pow(BYTES_SIZE, 3) + (int)msg[1] * pow(BYTES_SIZE, 2) + (int)msg[2] * BYTES_SIZE + (int)msg[3];
 }
 
+/*
+this function will return the size part from the code massage
+input: socket, bytesNum
+output: the size
+*/
 int Helper::getSizePart(const SOCKET sc, const int bytesNum)
 {
 	char* sizeAsBytes = getPartFromSocket(sc, bytesNum, 0);
@@ -71,6 +81,11 @@ int Helper::getSizePart(const SOCKET sc, const int bytesNum)
 	return sizeAsInt;
 }
 
+/*
+this function will receive requested amount of bytes to get out from the socket and return them
+input: socket, bytesNum, flags
+output: data
+*/
 char* Helper::getPartFromSocket(const SOCKET sc, const int bytesNum, const int flags)
 {
 	if (bytesNum == 0)

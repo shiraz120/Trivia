@@ -7,19 +7,19 @@ class MenuRequestHandler : public IRequestHandler
 public:
 	MenuRequestHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
 	virtual ~MenuRequestHandler();
-	bool isRequestRelevant(RequestInfo request) override;
-	RequestResult handleRequest(RequestInfo request) override;
+	bool isRequestRelevant(const RequestInfo request) const override;
+	RequestResult handleRequest(const RequestInfo request) const override;
 
 private:
 	LoggedUser m_user;
 	RoomManager& m_roomManager;
 	StatisticsManager& m_statisticsManager;
 	RequestHandlerFactory& m_handlerFactory;
-	RequestResult signout(const RequestInfo request);
-	RequestResult getRooms(const RequestInfo request);
-	RequestResult getPlayersInRoom(const RequestInfo request);
-	RequestResult getPersonalStats(const RequestInfo request);
-	RequestResult getHighScore(const RequestInfo request);
-	RequestResult joinRoom(const RequestInfo request);
-	RequestResult createRoom(const RequestInfo request);
+	RequestResult signout(const RequestInfo request) const;
+	RequestResult getRooms(const RequestInfo request) const;
+	RequestResult getPlayersInRoom(const RequestInfo request) const;
+	RequestResult getPersonalStats(const RequestInfo request) const;
+	RequestResult getHighScore(const RequestInfo request) const;
+	RequestResult joinRoom(const RequestInfo request) const;
+	RequestResult createRoom(const RequestInfo request) const;
 };
