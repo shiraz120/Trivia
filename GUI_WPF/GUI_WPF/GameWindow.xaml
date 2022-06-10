@@ -50,13 +50,13 @@
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Margin="0 0 0 0" x:Name="answerOne" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 1" Click="answerOne_Click" Grid.Column="0" Grid.Row="0"/>
+                    <Button Margin="0 0 0 0" x:Name="answerOne" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 1" Grid.Column="0" Grid.Row="0"/>
 
-                    <Button Margin="0 0 0 0" x:Name="answerTwo" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 2" Click="answerTwo_Click" Grid.Column="1" Grid.Row="0"/>
+                    <Button Margin="0 0 0 0" x:Name="answerTwo" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 2" Grid.Column="1" Grid.Row="0"/>
 
-                    <Button Margin="0 0 0 0" x:Name="answerThree" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 3" Click="answerThree_Click" Grid.Column="0" Grid.Row="1"/>
+                    <Button Margin="0 0 0 0" x:Name="answerThree" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 3" Grid.Column="0" Grid.Row="1"/>
 
-                    <Button Margin="0 0 0 0" x:Name="answerFour" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 4" Click="answerFour_Click" Grid.Column="1" Grid.Row="1"/>
+                    <Button Margin="0 0 0 0" x:Name="answerFour" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="200" Width="325" materialDesign:ButtonAssist.CornerRadius="10" FontSize="18" Content="ANSWER 4" Grid.Column="1" Grid.Row="1"/>
                 </Grid>
 
             </StackPanel>
