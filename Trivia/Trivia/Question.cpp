@@ -6,6 +6,18 @@ Question::Question()
 
 Question::Question(const string question, const string correctAnswer, const string firstIncorrect, const string secondIncorrect, const string thirdIncorrect) : m_question(question), m_correctAnswer(correctAnswer)
 {
+	vector<string> temp = { firstIncorrect, secondIncorrect, thirdIncorrect };
+	int counter = 0;
+	m_possibleAnswers.resize(MAX + 1);
+	m_possibleAnswers[rand() % (MAX - MIN + 1) + MIN] = correctAnswer;
+	for (int i = 0; i < m_possibleAnswers.size(); i++)
+	{
+		if (m_possibleAnswers[i] != correctAnswer)
+		{
+			m_possibleAnswers[i] = temp[counter];
+			counter++;
+		}
+	}
 }
 
 Question::~Question()

@@ -139,9 +139,15 @@ void from_json(const json& jsonSubmitAnswerRequest, SubmitAnswerRequest& createR
 
 void from_json(const json& jsonQuestion, Question& questionFromJson)
 {
-	vector<string> incorrectAnswers = jsonQuestion.at("incorrect_answers");
+	vector<string> incorrectAnswers;
+	string question;
+	string correctAnswer;
+	string data = jsonQuestion.dump();
+	jsonQuestion.at("question").get_to(question);
+	jsonQuestion.at("correct_answer").get_to(correctAnswer);
+	jsonQuestion.at("incorrect_answers").get_to(incorrectAnswers);
 	if(3 - incorrectAnswers.size() > 0)
 		incorrectAnswers.insert(incorrectAnswers.end(), (3 - incorrectAnswers.size()), "");
-	Question temp(jsonQuestion.at("question"), jsonQuestion.at("correct_answer"), incorrectAnswers[0], incorrectAnswers[1], incorrectAnswers[2]);
+	Question temp(question, correctAnswer, incorrectAnswers[0], incorrectAnswers[1], incorrectAnswers[2]);
 	questionFromJson = temp;
 }

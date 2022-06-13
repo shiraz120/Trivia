@@ -190,7 +190,7 @@ void SqliteDatabase::initQuestionsTable()
 	} while (file.peek() != EOF);
 	file.close();
 	json jsonFromData = json::parse(data);
-	std::vector<Question> qs = jsonFromData;
+	vector<Question> qs = jsonFromData["results"].get<vector<Question>>();
 	data = "";
 	for (auto it = qs.begin(); it != qs.end(); it++)
 	{

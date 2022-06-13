@@ -1,6 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <cstdlib>
+#define MIN 0
+#define MAX 3
 
 using std::vector;
 using std::string;
