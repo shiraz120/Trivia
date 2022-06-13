@@ -84,23 +84,31 @@
     <Compile Include="MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="objectsForCommunication\getGameResultsResponse.cs" />
+    <Compile Include="objectsForCommunication\PlayerResults.cs" />
     <Compile Include="objectsForCommunication\closeRoomResponse.cs" />
     <Compile Include="objectsForCommunication\createRoomRequestAndResponse.cs" />
     <Compile Include="objectsForCommunication\ErrorResponse.cs" />
     <Compile Include="objectsForCommunication\getHighScoreResponse.cs" />
     <Compile Include="objectsForCommunication\getPersonalStatsResponse.cs" />
     <Compile Include="objectsForCommunication\getPlayersInRoom.cs" />
+    <Compile Include="objectsForCommunication\getQuestionResponse.cs" />
     <Compile Include="objectsForCommunication\GetRooms.cs" />
     <Compile Include="objectsForCommunication\getRoomStateResponse.cs" />
     <Compile Include="objectsForCommunication\JoinRoom.cs" />
+    <Compile Include="objectsForCommunication\leaveGameResponse.cs" />
     <Compile Include="objectsForCommunication\leaveRoomResponse.cs" />
     <Compile Include="objectsForCommunication\loginRequestAndResponse.cs" />
     <Compile Include="jsonSerializeAndDeserialize\serializer.cs" />
     <Compile Include="objectsForCommunication\logoutResponse.cs" />
     <Compile Include="objectsForCommunication\signupReuqestAndResponse.cs" />
     <Compile Include="objectsForCommunication\startGameResponse.cs" />
+    <Compile Include="objectsForCommunication\submitAnswerResponseAndRequest.cs" />
     <Compile Include="RoomListWindow.xaml.cs">
       <DependentUpon>RoomListWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ScoreboardWindow.xaml.cs">
+      <DependentUpon>ScoreboardWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="sharedFunctionsBetweenWindows.cs" />
     <Compile Include="Signup.xaml.cs">
@@ -148,6 +156,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="RoomListWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ScoreboardWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
