@@ -25,6 +25,10 @@ namespace GUI_WPF
         public const char GET_ROOM_STATE_REQUEST = 'B';
         public const char START_GAME_REQUEST = 'C';
         public const char LEAVE_ROOM_REQUEST = 'D';
+        public const char SUBMIT_ANSWER_REQUEST = 'E';
+        public const char LEAVE_GAME_REQUEST = 'F';
+        public const char GET_QUESTION_REQUEST = 'G';
+        public const char GET_GAME_RESULTS_REQUEST = 'H';
         const int BYTES_SIZE = 256;
         const int TYPE_CODE_LENGTH = 1;
         const int DEFAULT_PORT = 8826;

@@ -33,10 +33,10 @@
                 <Image Margin="10 -30 0 5" Source="Logo.png" Height="50" HorizontalAlignment="Left"/>
 
                 <TextBlock Margin="0 -40 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Scoreboard"/>
-                
-                <TextBlock Margin="0 0 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Winner: "/>
 
-                <ListBox Name="highestUsers" FontSize="20" Margin="0 10 0 0" Height="535" Width="420"/>
+                <TextBlock Margin="0 0 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Winner: " x:Name="winner"/>
+                
+                <ListBox Name="usersList" FontSize="20" Margin="0 10 0 0" Height="535" Width="420"/>
 
                 <TextBlock  HorizontalAlignment="Center"  Margin="0 5 0 0" x:Name ="highScoreDataText" FontSize="14" FontWeight="SemiBold"  Text="" Foreground="Red"/>
 
