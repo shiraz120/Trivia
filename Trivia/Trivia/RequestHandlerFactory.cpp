@@ -62,6 +62,16 @@ RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const L
 }
 
 /*
+this function will return m_gameManager
+input: none
+output: m_gameManager
+*/
+GameManager& RequestHandlerFactory::getGameManager() 
+{
+	return m_gameManager;
+}
+
+/*
 this function will return m_statisticsManager
 input: none
 output: m_statisticsManager

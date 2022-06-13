@@ -22,6 +22,11 @@
 #define GET_ROOM_STATE_RESPONSE 'm'
 #define LEAVE_GAME_RESPONSE 'n'
 
+#define SUBMIT_ANSWER_RSPONSE 'o'
+#define LEAVE_GAME_RSPONSE 'p'
+#define GET_QUESTION_RSPONSE 'q'
+#define GET_GAME_RESULTS_RSPONSE 'r'
+
 using std::string;
 using json = nlohmann::json;
 
@@ -92,7 +97,7 @@ struct GetRoomStateResponse
 {
 	unsigned int status;
 	bool hasGameBegun;
-	std::vector<std::string> players;
+	std::vector<string> players;
 	unsigned int questionCount;
 	unsigned int answerTimeout;
 };
@@ -100,4 +105,36 @@ struct GetRoomStateResponse
 struct LeaveRoomResponse
 {
 	unsigned int status;
+};
+
+struct LeaveGameResponse
+{
+	unsigned int status;
+};
+
+struct GetQuestionResponse
+{
+	unsigned int status;
+	string question;
+	std::map<unsigned int, string> answers;
+};
+
+struct SubmitAnswerResponse
+{
+	unsigned int status;
+	unsigned int correctAnswerId;
+};
+
+struct PlayerResults
+{
+	string username;
+	unsigned int correctAnswerCount;
+	unsigned int wrongAnswerCount;
+	unsigned int averageAnswerTime;
+};
+
+struct GetGameResultsResponse
+{
+	unsigned int status;
+	std::vector<PlayerResults> results;
 };

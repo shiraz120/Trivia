@@ -3,11 +3,13 @@
 #include "MenuRequestHandler.h"
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
+#include "GameRequestHandler.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomMemberHandler;
 class RoomAdminHandler;
+class GameHandler;
 class RequestHandlerFactory
 {
 public:
@@ -17,11 +19,14 @@ public:
 	MenuRequestHandler* createMenuRequestHandler(const LoggedUser user);
 	RoomAdminHandler* createRoomAdminRequestHandler(const LoggedUser user);
 	RoomMemberHandler* createRoomMemberRequestHandler(const LoggedUser user);
+	GameHandler* createGameRequestHandler();
+	GameManager& getGameManager();
 	StatisticsManager& getStatisticsManager();
 	RoomManager& getRoomManager();
 	LoginManager& getLoginManager();
 
 private:
+	GameManager m_gameManager; 
 	LoginManager m_loginManager;
 	RoomManager m_roomManager;
 	StatisticsManager m_statisticsManager;

@@ -140,8 +140,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
-    <ClCompile Include="convertJsonToHelpers.cpp" />
     <ClCompile Include="dataBase.cpp" />
+    <ClCompile Include="GameRequestHandler.cpp" />
     <ClCompile Include="JsonResponsePacketSerializer.cpp" />
     <ClCompile Include="LoggedUser.cpp" />
     <ClCompile Include="LoginManager.cpp" />
@@ -149,6 +149,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MenuRequestHandler.cpp" />
     <ClCompile Include="objectsToOrFromJson.cpp" />
+    <ClCompile Include="Question.cpp" />
     <ClCompile Include="RequestHandlerFactory.cpp" />
     <ClCompile Include="Room.cpp" />
     <ClCompile Include="RoomAdminRequestHandler.cpp" />
@@ -163,10 +164,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Communicator.h" />
-    <ClInclude Include="convertJsonToHelpers.h" />
     <ClInclude Include="dataBase.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="GameData.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameRequestHandler.h" />
+    <ClInclude Include="Question.h" />
     <ClInclude Include="statusException.h" />
-    <ClInclude Include="dataBaseStructsHelpers.h" />
     <ClInclude Include="LoggedUser.h" />
     <ClInclude Include="LoginManager.h" />
     <ClInclude Include="LoginRequestHandler.h" />

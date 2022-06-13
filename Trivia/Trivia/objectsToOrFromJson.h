@@ -1,4 +1,5 @@
 #pragma once
+#include "Question.h"
 #include "Response.h"
 #include "Request.h"
 // to be able to turn structs to json we created for each struct type a function that does that
@@ -18,6 +19,10 @@ void to_json(json& jsonCloseRoomResponse, const CloseRoomResponse& closeRoom);
 void to_json(json& jsonStartGameResponse, const StartGameResponse& createRoom);
 void to_json(json& jsonGetRoomStateResponse, const GetRoomStateResponse& getRoomState);
 void to_json(json& jsonLeaveRoomResponse, const LeaveRoomResponse& leaveRoom);
+void to_json(json& jsonLeaveGameResponse, const LeaveGameResponse& leaveGame);
+void to_json(json& jsonGetQuestionResponse, const GetQuestionResponse& getQuestion);
+void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitAnswer);
+void to_json(json& jsonGetGameResultsResponse, const GetGameResultsResponse& getGameResults);
 
 /* Request */
 void from_json(const json& jsonLoginRequest, loginRequest& login);
@@ -25,6 +30,13 @@ void from_json(const json& jsonSignupRequest, signupRequest& signup);
 void from_json(const json& jsonGetPlayersInRoomRequest, GetPlayersInRoomRequest& getPlayers);
 void from_json(const json& jsonJoinRoomRequest, JoinRoomRequest& joinRoom);
 void from_json(const json& jsonCreateRoomRequest, CreateRoomRequest& createRoom);
+void from_json(const json& jsonSubmitAnswerRequest, SubmitAnswerRequest& createRoom);
 
 /*RoomData*/
 void to_json(json& jsonRoom, const RoomData& room);
+
+/*PlayerResults*/
+void to_json(json& jsonResults, const PlayerResults& results);
+
+/*Question*/
+void from_json(const json& jsonQuestion, Question& questionFromJson);

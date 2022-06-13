@@ -9,9 +9,11 @@
 #include <vector>
 #include "statusException.h"
 #include "sqlite3.h"
-#include "convertJsonToHelpers.h"
+#include "Question.h"
+#include "objectsToOrFromJson.h"
 #include <fstream>
 #pragma comment(lib, "urlmon.lib")
+
 #define DB_NAME "ClientsTriviaDB.sqlite"
 #define URL "https://opentdb.com/api.php?amount=10&type=multiple"
 #define FILE_NAME "questions.txt"
@@ -21,6 +23,12 @@
 #define STATS_CORRECT_ANSWER "correct_answers"
 #define STATS_AMOUNT_OF_GAMES "amount_of_games"
 #define DATA_BASE_PROBLEM "Error: dataBase problem occurred."
+#define QUESTION "question"
+#define CORRECT_ANSWER "correctAnswer"
+#define FIRST_INCORRECT_ANSWER "firstIncorrectAnswer"
+#define SECOND_INCORRECT_ANSWER "secondIncorrectAnswer"
+#define THIRD_INCORRECT_ANSWER "thirdIncorrectAnswer"
+
 using std::string;
 
 class IDatabase
@@ -29,7 +37,7 @@ public:
 	virtual bool doesUserExist(const string username) const = 0;
 	virtual bool doesPasswordMatch(const string username, const string password) const = 0;
 	virtual void addNewUser(const string username, const string password, const string email) const = 0;
-	virtual std::list<questionMetaData> getQuestions(const int i) const = 0;
+	virtual std::list<Question> getQuestions(const int amountOfQuestions) const = 0;
 	virtual float getPlayerAverageAnswerTime(const string username) const = 0;
 	virtual int getNumOfCorrectAnswers(const string username) const = 0;
 	virtual int getNumOfTotalAnswers(const string username) const = 0;
@@ -45,7 +53,7 @@ public:
 	bool doesUserExist(const string username) const override;
 	bool doesPasswordMatch(const string username, const string password) const override;
 	void addNewUser(const string username, const string password, const string email) const override;
-	std::list<questionMetaData> getQuestions(const int i) const override;
+	std::list<Question> getQuestions(const int amountOfQuestions) const override;
 	int getNumOfPlayerGames(const string username) const  override;
 	int getNumOfTotalAnswers(const string username) const override;
 	int getNumOfCorrectAnswers(const string username) const override;

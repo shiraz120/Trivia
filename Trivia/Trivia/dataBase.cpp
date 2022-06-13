@@ -23,9 +23,9 @@ SqliteDatabase::SqliteDatabase() : _db(nullptr)
 		sendQuery("drop table if exists questions; create table if not exists questions(id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, question TEXT NOT NULL, correctAnswer TEXT NOT NULL, firstIncorrectAnswer TEXT NOT NULL, secondIncorrectAnswer TEXT NOT NULL, thirdIncorrectAnswer TEXT NOT NULL);");
 		initQuestionsTable();
 	}
-	catch (std::exception&)
+	catch (std::exception& e)
 	{
-		std::cerr << "data base problem occurred" << std::endl;
+		std::cerr << e.what() << std::endl;
 		exit(1);
 	}
 }
@@ -88,10 +88,10 @@ this function will return all the questions and answers
 input: int 
 output: all the questions and answers
 */
-std::list<questionMetaData> SqliteDatabase::getQuestions(const int i) const  
+std::list<Question> SqliteDatabase::getQuestions(const int amountOfQuestions) const
 {
-	std::list<questionMetaData> questionsData;
-	sendQuery("select * from questions limit " + std::to_string(i) + ";", callBackQuestion, &questionsData);
+	std::list<Question> questionsData;
+	sendQuery("select * from questions limit " + std::to_string(amountOfQuestions) + ";", callBackQuestion, &questionsData);
 	return questionsData;
 }
 
@@ -190,16 +190,14 @@ void SqliteDatabase::initQuestionsTable()
 	} while (file.peek() != EOF);
 	file.close();
 	json jsonFromData = json::parse(data);
-	results qs = jsonFromData;
+	std::vector<Question> qs = jsonFromData;
 	data = "";
-	for (auto it = qs.resultsFromJson.begin(); it != qs.resultsFromJson.end(); it++)
+	for (auto it = qs.begin(); it != qs.end(); it++)
 	{
-		if(it->inncorrectAnswers.size() == 3)
-			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '" + it->inncorrectAnswers[1] + "', '" + it->inncorrectAnswers[2] + "');");
-		else if (it->inncorrectAnswers.size() == 2)
-			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '" + it->inncorrectAnswers[1] + "', '');");
-		else if (it->inncorrectAnswers.size() == 1)
-			sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->question + "', '" + it->correctAnswer + "', '" + it->inncorrectAnswers[0] + "', '', '');");
+		string correctAnswer = it->getCorrentAnswer();
+		std::vector<string> incorrectAnswers = it->getPossibleAnswers();
+		std::replace(incorrectAnswers.begin(), incorrectAnswers.end(), correctAnswer, string(""));
+		sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->getQuestion() + "', '" + correctAnswer + "', '" + incorrectAnswers[0] + "', '" + incorrectAnswers[1] + "', '" + incorrectAnswers[2] + "');");
 	}
 }
 
@@ -273,18 +271,26 @@ output: int
 */
 int callBackQuestion(void* data, int argc, char** argv, char** azColName)
 {
-	std::list<questionMetaData>* questions = static_cast<std::list<questionMetaData>*>(data);
-	questionMetaData question;
+	std::list<Question>* questions = static_cast<std::list<Question>*>(data);
+	string question;
+	string correctAnswer;
+	string firstIncorrectAnswer;
+	string secondIncorrectAnswer;
+	string thirdIncorrectAnswer;
 	for (int i = 0; i < argc; i++)
 	{
 		if (string(azColName[i]) == QUESTION)
-			question.question = argv[i];
+			question = argv[i];
 		else if (string(azColName[i]) == CORRECT_ANSWER)
-			question.correctAnswer = argv[i];
-		else if (string(azColName[i]) == FIRST_INCORRECT_ANSWER || string(azColName[i]) == SECOND_INCORRECT_ANSWER || string(azColName[i]) == THIRD_INCORRECT_ANSWER)
-			question.inncorrectAnswers.push_back(argv[i]);
+			correctAnswer = argv[i];
+		else if (string(azColName[i]) == FIRST_INCORRECT_ANSWER)
+			firstIncorrectAnswer = argv[i];
+		else if(string(azColName[i]) == SECOND_INCORRECT_ANSWER)
+			secondIncorrectAnswer = argv[i];
+		else if(string(azColName[i]) == THIRD_INCORRECT_ANSWER)
+			thirdIncorrectAnswer = argv[i];
 	}
-	questions->push_back(question);
+	questions->push_back(Question(question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer));
 	return 0;
 }
 

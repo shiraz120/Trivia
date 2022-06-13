@@ -50,6 +50,26 @@ void to_json(json& jsonLeaveRoomResponse, const LeaveRoomResponse& leaveRoom)
 	jsonLeaveRoomResponse = json{ "status", leaveRoom.status };
 }
 
+void to_json(json& jsonLeaveGameResponse, const LeaveGameResponse& leaveGame)
+{
+	jsonLeaveGameResponse = json{ "status", leaveGame.status };
+}
+
+void to_json(json& jsonGetQuestionResponse, const GetQuestionResponse& getQuestion)
+{
+	jsonGetQuestionResponse = json{ { "question", getQuestion.question }, {"answers", getQuestion.answers}, {"status", getQuestion.status}};
+}
+
+void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitAnswer)
+{
+	jsonSubmitAnswerResponse = json{ { "status", submitAnswer.status }, {"correctAnswerId", submitAnswer.correctAnswerId}};
+}
+
+void to_json(json& jsonGetGameResultsResponse, const GetGameResultsResponse& getGameResults)
+{
+	jsonGetGameResultsResponse = json{ { "status", getGameResults.status }, {"results", getGameResults.results} };
+}
+
 void to_json(json& jsonLogoutResponse, const LogoutResponse& logout)
 {
 	jsonLogoutResponse = json{ {"status", logout.status}};
@@ -59,6 +79,12 @@ void to_json(json& jsonRoom, const RoomData& room)
 {
 	jsonRoom = json{ {"id", room.id}, {"isActive", room.isActive}, {"maxPlayers", room.maxPlayers}, {"name", room.name}, {"numOfQuestionsInGame", room.numOfQuestionsInGame}, {"timePerQuestion", room.timePerQuestion} };
 }
+
+void to_json(json& jsonResults, const PlayerResults& results)
+{
+	jsonResults = json{ {"wrongAnswerCount", results.wrongAnswerCount} ,{"username", results.username}, {"averageAnswerTime", results.averageAnswerTime}, {"correctAnswerCount",results.correctAnswerCount}};
+}
+
 
 void to_json(json& jsonGetRoomsResponse, const GetRoomsResponse& getRooms)
 {
@@ -104,4 +130,18 @@ void from_json(const json& jsonCreateRoomRequest, CreateRoomRequest& createRoom)
 	jsonCreateRoomRequest.at("maxUsers").get_to(createRoom.maxUsers);
 	jsonCreateRoomRequest.at("questionCount").get_to(createRoom.questionCount);
 	jsonCreateRoomRequest.at("roomName").get_to(createRoom.roomName);
+}
+
+void from_json(const json& jsonSubmitAnswerRequest, SubmitAnswerRequest& createRoom)
+{
+	jsonSubmitAnswerRequest.at("answerId").get_to(createRoom.answerId);
+}
+
+void from_json(const json& jsonQuestion, Question& questionFromJson)
+{
+	vector<string> incorrectAnswers = jsonQuestion.at("incorrect_answers");
+	if(3 - incorrectAnswers.size() > 0)
+		incorrectAnswers.insert(incorrectAnswers.end(), (3 - incorrectAnswers.size()), "");
+	Question temp(jsonQuestion.at("question"), jsonQuestion.at("correct_answer"), incorrectAnswers[0], incorrectAnswers[1], incorrectAnswers[2]);
+	questionFromJson = temp;
 }

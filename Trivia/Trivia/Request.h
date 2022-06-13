@@ -21,6 +21,12 @@
 #define START_GAME_REQUEST 'C'
 #define LEAVE_ROOM_REQUEST 'D'
 
+/*GAME_HANDLER*/
+#define SUBMIT_ANSWER_REQUEST 'E'
+#define LEAVE_GAME_REQUEST 'F'
+#define GET_QUESTION_REQUEST 'G'
+#define GET_GAME_RESULTS_REQUEST 'H'
+
 #define MAX_DATA_LENGTH 4 
 #define CODE_LENGTH 1
 #define START_OF_DATA MAX_DATA_LENGTH + CODE_LENGTH
@@ -58,4 +64,9 @@ struct CreateRoomRequest
 	unsigned int maxUsers;
 	unsigned int questionCount;
 	unsigned int answerTimeout;
+};
+
+struct SubmitAnswerRequest
+{
+	unsigned int answerId;
 };
