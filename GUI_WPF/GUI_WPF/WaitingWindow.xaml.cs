@@ -80,28 +80,14 @@ namespace GUI_WPF
         }
 
         /*
-        this function log out of the communicator and stops the thread
+        this function closes the thread and logs out of the communicator
         input: sender and event
         output: none
         */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        private void exitBtnClick(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
-            leaveRoom_Click(null, null);
-            Communicator.logOut();
-        }
-
-        /*
-        this function closes the window and stop the thread
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
-        {
-            keepRunning = false;
-            leaveRoom_Click(null, null);
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
+            Application.Current.Shutdown();
         }
 
         /*
@@ -111,7 +97,6 @@ namespace GUI_WPF
         */
         public void replaceWindowOnExit()
         {
-            Closing -= HandleClosingWindow;
             RoomListWindow newRoomListWindow = new RoomListWindow();
             this.Close();
             newRoomListWindow.Show();

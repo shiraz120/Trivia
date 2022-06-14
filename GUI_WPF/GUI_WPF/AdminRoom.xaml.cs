@@ -37,6 +37,16 @@ namespace GUI_WPF
         }
 
         /*
+        this function closes the application
+        input: sender and event
+        output: none
+        */
+        private void exitBtnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        /*
         this function makes the window movable
         input: event
         output: none
@@ -67,29 +77,6 @@ namespace GUI_WPF
                 }
                 Thread.Sleep(3000);
             }
-        }
-
-        /*
-        this function closing the window
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
-        {
-            closeRoom();
-            Communicator.logOut();
-        }
-
-        /*
-        this function closing the window
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
-        {
-            closeRoom();
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
         }
 
         /*
@@ -134,13 +121,12 @@ namespace GUI_WPF
             {
                 createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 keepRunning = false;
-                Closing -= HandleClosingWindow;
                 GameWindow newStatsWindow = new GameWindow();
                 this.Close();
                 newStatsWindow.Show();
             }
             else
-                HandleClosingWindow(null, new CancelEventArgs());
+                Application.Current.Shutdown();
         }
 
         /*
@@ -153,11 +139,9 @@ namespace GUI_WPF
             keepRunning = false;
             if(closeRoom())
             {
-                Closing -= HandleClosingWindow;
                 sharedFunctionsBetweenWindows.moveToMenu(this);
             }
-            else
-                HandleClosingWindow(null, new CancelEventArgs());
+            Application.Current.Shutdown();
         }
     }
 }

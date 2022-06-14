@@ -24,15 +24,6 @@ namespace GUI_WPF
         {
             InitializeComponent();
         }
-        /*
-        this function logs out of the communicator
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
-        {
-            Communicator.logOut();
-        }
 
         /*
         this function makes the window movable
@@ -56,19 +47,23 @@ namespace GUI_WPF
         }
 
         /*
-        this function closes the window
-        input: sender and event
+        this function leaves the game
+        input: none
         output: none
         */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
-        {
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
-        }
-
         private void leaveGameButton_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        /*
+        this function closes the thread and logs out of the communicator
+        input: sender and event
+        output: none
+        */
+        private void exitBtnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
