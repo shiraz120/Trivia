@@ -79,29 +79,6 @@ namespace GUI_WPF
         }
 
         /*
-        this function closes the thread and logs out of the communicator
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
-        {
-            keepRunning = false;
-            Communicator.logOut();
-        }
-
-        /*
-        this function closes the window
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
-        {
-            keepRunning = false;
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
-        }
-
-        /*
         this function toggles the theme
         input: sender and event
         output: none
@@ -112,14 +89,24 @@ namespace GUI_WPF
         }
 
         /*
-        this function closes the thread and goes to the main menu
+        this function closes the thread and logs out of the communicator
+        input: sender and event
+        output: none
+        */
+        private void btn_exit_Click(object sender, RoutedEventArgs e)
+        {
+            keepRunning = false;
+            Application.Current.Shutdown();
+        }
+
+        /*
+        this function closes the window and goes to the main menu
         input: sender and event
         output: none
         */
         private void mainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             keepRunning = false;
-            Closing -= HandleClosingWindow;
             sharedFunctionsBetweenWindows.moveToMenu(this);
         }
 
@@ -142,7 +129,6 @@ namespace GUI_WPF
                     if(joinRoomDataText.Text == checkServerResponse.JOINED_ROOM_SUCCEEDED)
                     {
                         keepRunning = false;
-                        Closing -= HandleClosingWindow;
                         sharedFunctionsBetweenWindows.current_room_id = id;
                         WaitingWindow newStatsWindow = new WaitingWindow(); //goes to the waiting room window
                         this.Close();
@@ -168,5 +154,6 @@ namespace GUI_WPF
             }
             return int.Parse(idAsString);
         }
+
     }
 }

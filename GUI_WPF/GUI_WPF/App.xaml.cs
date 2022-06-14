@@ -24,5 +24,10 @@ namespace GUI_WPF
             var mainWindow = new MainWindow();
             mainWindow.Show();
         }
+
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            Communicator.logOut();
+        }
     }
 }

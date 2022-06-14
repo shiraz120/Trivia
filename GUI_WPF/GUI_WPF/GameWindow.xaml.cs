@@ -65,5 +65,10 @@ namespace GUI_WPF
             Communicator.logOut();
             Closing -= HandleClosingWindow;
         }
+
+        private void leaveGameButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
