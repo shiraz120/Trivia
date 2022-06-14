@@ -38,16 +38,6 @@ namespace GUI_WPF
         }
 
         /*
-        this function logs out of the communicator
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
-        {
-            Communicator.logOut();
-        }
-
-        /*
         this function toggles the theme
         input: sender and event
         output: none
@@ -64,19 +54,17 @@ namespace GUI_WPF
         */
         private void menuButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing -= HandleClosingWindow;
             sharedFunctionsBetweenWindows.moveToMenu(this);
         }
 
         /*
-        this function closes the window
+        this function closes the application
         input: sender and event
         output: none
         */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
+        private void exitBtnClick(object sender, RoutedEventArgs e)
         {
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
+            Application.Current.Shutdown();
         }
 
         /*
@@ -122,13 +110,12 @@ namespace GUI_WPF
                     sharedFunctionsBetweenWindows.current_room_id = createRoomResponse.status;
                     createRoomDataText.Text = CREATE_ROOM_SUCCEEDED;
                     createRoomDataText.Foreground = System.Windows.Media.Brushes.Green;
-                    Closing -= HandleClosingWindow;
                     AdminRoom newAdminWindow = new AdminRoom();
                     this.Close();
                     newAdminWindow.Show();
                 }
                 else
-                    HandleClosingWindow(null, new CancelEventArgs());
+                    Application.Current.Shutdown();
             }
         }
     }

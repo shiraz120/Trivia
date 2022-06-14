@@ -109,5 +109,15 @@ namespace GUI_WPF
             this.Close();
             newHighScoreWindow.Show();
         }
+
+        /*
+        this function closes the thread and logs out of the communicator
+        input: sender and event
+        output: none
+        */
+        private void exitBtnClick(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
     }
 }

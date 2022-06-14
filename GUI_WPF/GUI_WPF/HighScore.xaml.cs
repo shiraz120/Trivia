@@ -41,7 +41,7 @@ namespace GUI_WPF
             }
             else if(error == "Error: request isnt relevant for the current handler.")
             {
-                HandleClosingWindow(null, new CancelEventArgs());
+                Application.Current.Shutdown();
             }
             else
             {
@@ -72,37 +72,25 @@ namespace GUI_WPF
         }
 
         /*
-        this function logs out of the communicator
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
-        {
-            Communicator.logOut();
-        }
-
-        /*
         this function goes to the statistics menu
         input: sender and event
         output: none
         */
         private void statisticsMenuButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing -= HandleClosingWindow;
             StatisticsMenu newStatsWindow = new StatisticsMenu();
             this.Close();
             newStatsWindow.Show();
         }
 
         /*
-        this function closes the window
+        this function closes the thread and logs out of the communicator
         input: sender and event
         output: none
         */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
+        private void exitBtnClick(object sender, RoutedEventArgs e)
         {
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
+            Application.Current.Shutdown();
         }
     }
 }

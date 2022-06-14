@@ -32,13 +32,13 @@ namespace GUI_WPF
         }
 
         /*
-        this function logs out of the communicator
+        this function closes the thread and logs out of the communicator
         input: sender and event
         output: none
         */
-        public void HandleClosingWindow(object sender, CancelEventArgs e)
+        private void exitBtnClick(object sender, RoutedEventArgs e)
         {
-            Communicator.logOut();
+            Application.Current.Shutdown();
         }
 
         /*
@@ -63,24 +63,12 @@ namespace GUI_WPF
         }
 
         /*
-        this function closes the window
-        input: sender and event
-        output: none
-        */
-        public void HandleClosingWindow(object sender, RoutedEventArgs e)
-        {
-            Communicator.logOut();
-            Closing -= HandleClosingWindow;
-        }
-
-        /*
         this function goes to the create button window
         input: sender and event
         output: none
         */
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing -= HandleClosingWindow;
             CreateRoomWindow newStatsWindow = new CreateRoomWindow();
             this.Close();
             newStatsWindow.Show();
@@ -93,7 +81,6 @@ namespace GUI_WPF
         */
         private void joinRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing -= HandleClosingWindow;
             RoomListWindow newRoomListWindow = new RoomListWindow();
             this.Close();
             newRoomListWindow.Show();
@@ -106,7 +93,6 @@ namespace GUI_WPF
         */
         private void statisticsButton_Click(object sender, RoutedEventArgs e)
         {
-            Closing -= HandleClosingWindow;
             StatisticsMenu newStatsWindow = new StatisticsMenu();
             this.Close();
             newStatsWindow.Show();
