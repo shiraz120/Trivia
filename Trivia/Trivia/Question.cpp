@@ -13,7 +13,7 @@ Question::Question(const string question, const string correctAnswer, const stri
 	m_possibleAnswers[rand() % (amountOfAnswers - MIN + 1) + MIN] = correctAnswer;
 	for (int i = 0; i < m_possibleAnswers.size(); i++)
 	{
-		if (m_possibleAnswers[i] != correctAnswer && m_possibleAnswers[i] != "")
+		if (m_possibleAnswers[i] != correctAnswer)
 		{
 			m_possibleAnswers[i] = temp[counter];
 			counter++;

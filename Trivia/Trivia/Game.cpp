@@ -9,7 +9,7 @@ Game::Game(const vector<string> players, const vector<Question> questions) : m_q
 	m_questions.push_back(Question(NO_MORE_QUESTIONS, "", "", "", ""));
 	for (string player : players)
 	{
-		m_players.insert({ LoggedUser(player), GameData{m_questions[0], 0, 0, 0}});
+		m_players.insert({ LoggedUser(player), GameData{m_questions[0], 0, 0, 0} });
 	}
 }
 

@@ -4,14 +4,12 @@
 #include "RoomAdminRequestHandler.h"
 #include "RoomMemberRequestHandler.h"
 #include "GameRequestHandler.h"
-#include "RoomHandlers.h"
 
 class LoginRequestHandler;
 class MenuRequestHandler;
 class RoomMemberHandler;
 class RoomAdminHandler;
 class GameHandler;
-class RoomHandler;
 class RequestHandlerFactory
 {
 public:

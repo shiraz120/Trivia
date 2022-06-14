@@ -4,7 +4,7 @@ this function will create a RoomHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory) : m_user(user), m_roomManager(roomManager), m_handlerFactory(handlerFactory)
+RoomHandler::RoomHandler(const LoggedUser user, RoomManager& roomManager) : m_user(user), m_roomManager(roomManager)
 {
 	std::vector<RoomData> rooms = m_roomManager.getRooms();
 	std::vector<string> players;
@@ -41,7 +41,7 @@ this function will get the room data
 input: request
 output: result
 */
-RequestResult RoomHandler::getRoomData(const RequestInfo request) const
+RequestResult RoomHandler::getRoomData(const RequestInfo request, IRequestHandler* handler) const
 {
 	GetRoomStateResponse responseData;
 	RequestResult data;
@@ -52,7 +52,7 @@ RequestResult RoomHandler::getRoomData(const RequestInfo request) const
 		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
 		responseData.players = m_room.getAllUsers();
 		if (responseData.hasGameBegun == ACTIVE)
-			data.newHandler = m_handlerFactory.createGameRequestHandler(m_user);
+			data.newHandler = handler;
 		else
 			data.newHandler = NULL;
 	}

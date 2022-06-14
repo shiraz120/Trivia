@@ -26,3 +26,13 @@ string LoggedUser::getUsername() const
 {
 	return m_username;
 }
+
+/*
+this function will be used as operator < for a kep map usage
+input: first, second
+output: bool - is smaller
+*/
+bool operator<(const LoggedUser& first, const LoggedUser& second)
+{
+	return first.m_username < second.m_username;
+}

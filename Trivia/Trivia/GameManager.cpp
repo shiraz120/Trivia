@@ -20,14 +20,14 @@ Game GameManager::createGame(const Room room)
 
 void GameManager::deleteGame(const LoggedUser userInRoom)
 {
-	for (Game game : m_games)
+	for (int i = 0; i < m_games.size(); i ++)
 	{
-		vector<string> players = game.getPlayersInRoom();
+		vector<string> players = m_games[i].getPlayersInRoom();
 		if (std::count(players.begin(), players.end(), userInRoom.getUsername()))
 		{
-			std::lock_guard<std::mutex> gameLock(m_gameMutex);
-			m_games.erase(std::remove(m_games.begin(), m_games.end(), game), m_games.end());
-			return;
+			std::unique_lock<std::mutex> gameLock(m_gameMutex);
+			m_games.erase(m_games.begin() + i);
+			gameLock.unlock();
 		}
 	}
 }

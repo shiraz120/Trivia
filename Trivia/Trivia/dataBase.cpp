@@ -195,8 +195,10 @@ void SqliteDatabase::initQuestionsTable()
 	for (auto it = qs.begin(); it != qs.end(); it++)
 	{
 		string correctAnswer = it->getCorrentAnswer();
-		std::vector<string> incorrectAnswers = it->getPossibleAnswers();
-		std::replace(incorrectAnswers.begin(), incorrectAnswers.end(), correctAnswer, string(""));
+		std::vector<string> possibleAnswers = it->getPossibleAnswers();
+		std::vector<string> incorrectAnswers;
+		std::copy_if(possibleAnswers.begin(), possibleAnswers.end(), std::back_inserter(incorrectAnswers),[correctAnswer](const string& answer) { return answer != correctAnswer; }); // copy to incorrectAnswers all incorrect answers
+		incorrectAnswers.resize(MAX, ""); // add empty answers if the question as less than max amount of incorrect answers
 		sendQuery("INSERT INTO questions (question, correctAnswer, firstIncorrectAnswer, secondIncorrectAnswer, thirdIncorrectAnswer) VALUES('" + it->getQuestion() + "', '" + correctAnswer + "', '" + incorrectAnswers[0] + "', '" + incorrectAnswers[1] + "', '" + incorrectAnswers[2] + "');");
 	}
 }

@@ -1,17 +1,14 @@
 #pragma once
-#include "RequestHandlerFactory.h"
 #include "IRequestHandler.h"
 
-class RequestHandlerFactory;
-class RoomHandler
+class RoomHandler : public IRequestHandler
 {
 public:
-	RoomHandler(const LoggedUser user, RoomManager& roomManager, RequestHandlerFactory& handlerFactory);
+	RoomHandler(const LoggedUser user, RoomManager& roomManager);
 	~RoomHandler();
-	RequestResult getRoomData(const RequestInfo request) const;
+	RequestResult getRoomData(const RequestInfo request, IRequestHandler* handler) const;
 protected:
 	LoggedUser m_user;
 	Room m_room;
-	RequestHandlerFactory& m_handlerFactory;
 	RoomManager& m_roomManager;
 };
