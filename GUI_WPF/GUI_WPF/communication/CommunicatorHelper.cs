@@ -43,11 +43,9 @@ namespace GUI_WPF
         */
         public static void logOut()
         {
-            string request = Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0";
-            sendData(request);
-            string error = checkServerResponse.checkIfErrorResponse();
-            if (error != "")
-                MessageBox.Show(error);
+            sendData(Convert.ToString(CLOSE_ROOM_REQUEST) + "\0\0\0\0");
+            sendData(Convert.ToString(LEAVE_ROOM_REQUEST) + "\0\0\0\0");
+            sendData(Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0");
             Application.Current.Shutdown();
         }
 
