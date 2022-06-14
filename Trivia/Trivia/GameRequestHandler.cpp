@@ -2,6 +2,22 @@
 
 GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername())
 {
+	std::vector<RoomData> rooms = m_handlerFactory.getRoomManager().getRooms();
+	std::vector<string> players;
+	for (RoomData room : rooms)
+	{
+		try
+		{
+			players = m_handlerFactory.getRoomManager().getAllUsersFromSpecificRoom(room.id);
+		}
+		catch (statusException&)
+		{
+		}
+		if (std::count(players.begin(), players.end(), user.getUsername()) == 1)
+		{
+			m_game = m_gameManager.createGame(Room(room, LoggedUser(players[0]))); // data base might throw an exception if there is a problem with the question table, it will be catched by whoever create the handler to be able to notify the client
+		}
+	}
 }
 
 GameHandler::~GameHandler()

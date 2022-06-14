@@ -48,11 +48,8 @@ output: none
 */
 void Room::addUser(const LoggedUser newUser)
 {
-	for (int i = 0; i < m_users.size(); i++)
-	{
-		if(m_users[i].getUsername() == newUser.getUsername())
-			throw statusException(STATUS_USER_ALREADY_IN_ROOM);
-	}
+	if(m_metadata.isActive == ACTIVE)
+		throw statusException(STATUS_GAME_ALREADY_START);
 	if (m_users.size() < m_metadata.maxPlayers)
 	{
 		std::lock_guard<std::mutex> usersListLock(usersMutex);
@@ -60,6 +57,11 @@ void Room::addUser(const LoggedUser newUser)
 	}
 	else
 		throw statusException(STATUS_ROOM_IS_FULL);
+	for (int i = 0; i < m_users.size(); i++)
+	{
+		if(m_users[i].getUsername() == newUser.getUsername())
+			throw statusException(STATUS_USER_ALREADY_IN_ROOM);
+	}
 }
 
 /*

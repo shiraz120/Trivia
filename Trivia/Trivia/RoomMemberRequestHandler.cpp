@@ -5,7 +5,7 @@ this function will create a new RoomMemberHandler object
 input: user, room, handlerFactory
 output: none
 */
-RoomMemberHandler::RoomMemberHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : RoomHandler(user, handlerFactory.getRoomManager()), m_handlerFactory(handlerFactory)
+RoomMemberHandler::RoomMemberHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : RoomHandler(user, handlerFactory.getRoomManager(), handlerFactory)
 {
 }
 
@@ -49,7 +49,8 @@ output: requestResult
 RequestResult RoomMemberHandler::getRoomState(const RequestInfo request) const
 {
 	RequestResult response = RoomHandler::getRoomData(request);
-	response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
+	if(response.newHandler == NULL)
+		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
 	return response;
 }
 

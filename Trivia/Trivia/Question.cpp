@@ -7,12 +7,13 @@ Question::Question()
 Question::Question(const string question, const string correctAnswer, const string firstIncorrect, const string secondIncorrect, const string thirdIncorrect) : m_question(question), m_correctAnswer(correctAnswer)
 {
 	vector<string> temp = { firstIncorrect, secondIncorrect, thirdIncorrect };
+	int amountOfAnswers = MAX - std::count(temp.begin(), temp.end(), "");
 	int counter = 0;
-	m_possibleAnswers.resize(MAX + 1);
-	m_possibleAnswers[rand() % (MAX - MIN + 1) + MIN] = correctAnswer;
+	m_possibleAnswers.resize(amountOfAnswers + 1);
+	m_possibleAnswers[rand() % (amountOfAnswers - MIN + 1) + MIN] = correctAnswer;
 	for (int i = 0; i < m_possibleAnswers.size(); i++)
 	{
-		if (m_possibleAnswers[i] != correctAnswer)
+		if (m_possibleAnswers[i] != correctAnswer && m_possibleAnswers[i] != "")
 		{
 			m_possibleAnswers[i] = temp[counter];
 			counter++;

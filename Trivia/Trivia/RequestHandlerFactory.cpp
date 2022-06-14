@@ -4,7 +4,7 @@ this function will init a RequestHandlerFactory object with a data base
 input: db
 output: none
 */
-RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db), m_loginManager(db), m_statisticsManager(db)
+RequestHandlerFactory::RequestHandlerFactory(IDatabase* db) : m_database(db), m_loginManager(db), m_statisticsManager(db), m_gameManager(db)
 {
 }
 
@@ -59,6 +59,11 @@ RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const L
 {
 	RoomMemberHandler* newMemberHandler = new RoomMemberHandler(user, *this);
 	return newMemberHandler;
+}
+
+GameHandler* RequestHandlerFactory::createGameRequestHandler(const LoggedUser user)
+{
+	return new GameHandler(user, *this);
 }
 
 /*

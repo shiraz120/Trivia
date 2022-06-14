@@ -5,10 +5,13 @@
 class GameManager
 {
 public:
-	Game createGame(Room room);
-	void deleteGame();
+	GameManager(IDatabase* db);
+	~GameManager();
+	Game createGame(const Room room);
+	void deleteGame(const LoggedUser userInRoom);
 
 private:
 	IDatabase* m_database;
 	vector<Game> m_games;
+	std::mutex m_gameMutex;
 };

@@ -1,5 +1,4 @@
 #pragma once
-#include "RoomHandlers.h"
 #include "RequestHandlerFactory.h"
 
 class RequestHandlerFactory;
@@ -11,7 +10,6 @@ public:
 	bool isRequestRelevant(const RequestInfo request) const override;
 	RequestResult handleRequest(const RequestInfo request) const override;
 private:
-	RequestHandlerFactory& m_handlerFactory;
 	RequestResult leaveRoom(const RequestInfo request) const;
 	RequestResult getRoomState(const RequestInfo request) const;
 };
