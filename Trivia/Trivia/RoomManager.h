@@ -13,7 +13,7 @@ public:
 	void deleteRoom(const unsigned id);
 	unsigned int getRoomState(const unsigned id);
 	std::vector<RoomData> getRooms() const;
-
+	
 	/*ADDED FUNCTIONS - NOT IN THE DESIGN*/
 	std::vector<std::string> getAllUsersFromSpecificRoom(const unsigned id);
 	void addUserToRoom(const unsigned id, const LoggedUser username);

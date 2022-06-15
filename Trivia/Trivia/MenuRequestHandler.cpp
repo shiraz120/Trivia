@@ -34,7 +34,7 @@ this function will handle a request by using the request id
 input: request
 output: the request result
 */
-RequestResult MenuRequestHandler::handleRequest(const RequestInfo request) const
+RequestResult MenuRequestHandler::handleRequest(const RequestInfo request)
 {
 	switch (request.id)
 	{

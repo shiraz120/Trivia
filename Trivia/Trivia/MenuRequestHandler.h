@@ -8,7 +8,7 @@ public:
 	MenuRequestHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
 	virtual ~MenuRequestHandler();
 	bool isRequestRelevant(const RequestInfo request) const override;
-	RequestResult handleRequest(const RequestInfo request) const override;
+	RequestResult handleRequest(const RequestInfo request) override;
 
 private:
 	LoggedUser m_user;

@@ -43,6 +43,10 @@ public:
 	virtual int getNumOfTotalAnswers(const string username) const = 0;
 	virtual int getNumOfPlayerGames(const string username) const = 0;
 	virtual std::map<string, std::pair<int, float>> getUsersStatsForScore() const = 0;
+	virtual void updateNumOfPlayersGames(const string username) const = 0;
+	virtual void updateNumOfTotalAnswers(const string username, unsigned int answers) const = 0;
+	virtual void updateNumOfCorrectAnswers(const string username, unsigned int answers) const = 0;
+	virtual void updatePlayerAverageAnswerTime(const string username, unsigned int time) const = 0;
 };
 
 class SqliteDatabase : public IDatabase
@@ -59,6 +63,10 @@ public:
 	int getNumOfCorrectAnswers(const string username) const override;
 	float getPlayerAverageAnswerTime(const string username) const override;
 	std::map<string, std::pair<int, float>> getUsersStatsForScore() const override;
+	void updateNumOfPlayersGames(const string username) const  override;
+	void updateNumOfTotalAnswers(const string username, unsigned int answers) const  override;
+	void updateNumOfCorrectAnswers(const string username, unsigned int answers) const  override;
+	void updatePlayerAverageAnswerTime(const string username, unsigned int time) const override;
 
 private:
 	sqlite3* _db;

@@ -34,7 +34,7 @@ this function will receive a request and return the request result that contains
 input: request
 output: result
 */
-RequestResult LoginRequestHandler::handleRequest(const RequestInfo request) const
+RequestResult LoginRequestHandler::handleRequest(const RequestInfo request)
 {
 	if (request.id == LOGIN_REQUEST)
 		return login(request);

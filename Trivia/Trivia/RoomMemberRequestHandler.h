@@ -9,7 +9,7 @@ public:
 	RoomMemberHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory);
 	virtual ~RoomMemberHandler();
 	bool isRequestRelevant(const RequestInfo request) const override;
-	RequestResult handleRequest(const RequestInfo request) const override;
+	RequestResult handleRequest(const RequestInfo request) override;
 private:
 	RequestHandlerFactory& m_handlerFactory;
 	RequestResult leaveRoom(const RequestInfo request) const;

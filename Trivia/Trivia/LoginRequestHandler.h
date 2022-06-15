@@ -8,7 +8,7 @@ public:
 	LoginRequestHandler(LoginManager& loginManager, RequestHandlerFactory& handlerFactory);
 	virtual ~LoginRequestHandler();
 	bool isRequestRelevant(const RequestInfo request)  const override;
-	RequestResult handleRequest(const RequestInfo request) const override;
+	RequestResult handleRequest(const RequestInfo request) override;
 private:
 	LoginManager& m_loginManager;
 	RequestHandlerFactory& m_handlerFactory;

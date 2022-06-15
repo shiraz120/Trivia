@@ -71,7 +71,7 @@ this function will handle the request
 input: request
 output: RequestResult
 */
-RequestResult RoomMemberHandler::handleRequest(const RequestInfo request) const
+RequestResult RoomMemberHandler::handleRequest(const RequestInfo request)
 {
 	switch (request.id)
 	{

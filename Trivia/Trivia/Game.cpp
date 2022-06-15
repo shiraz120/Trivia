@@ -17,42 +17,31 @@ Game::~Game()
 {
 }
 
-Question Game::getQuestionForUser(const LoggedUser user)
+Question Game::getQuestionForUser(const LoggedUser user) 
 {
-	auto it = m_players.find(user);
-	if (it == m_players.end())
-		throw statusException(STATUS_USER_NOT_IN_ROOM);
-	Question currentQuestion = it->second.currentQuestion;
-	if(currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
+	if (m_players[user].currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
 		throw statusException(STATUS_NO_MORE_QUESTIONS);
 	for (int i = 0; i < m_questions.size(); i++ )
 	{
-		if (m_questions[i].getQuestion() == currentQuestion.getQuestion())
+		if (m_questions[i].getQuestion() == m_players[user].currentQuestion.getQuestion())
 		{
-			if ((i + 1) != m_questions.size())
-				it->second.currentQuestion = m_questions[i + 1];
+			if ((i + 1) < m_questions.size())
+				m_players[user].currentQuestion = m_questions[i + 1];
 		}
 	}
-	return currentQuestion;
+	return m_players[user].currentQuestion;
 }
 
 void Game::submitAnswer(const LoggedUser user, const string answer)
 {
-	auto it = m_players.find(user);
-	std::pair<int, bool> data;
-	if (it == m_players.end())
-		throw statusException(STATUS_USER_NOT_IN_ROOM);
-	Question currentQuestion = it->second.currentQuestion;
-	if (currentQuestion.getCorrentAnswer() == answer)
-		it->second.correctAnswerCount += 1;
+	if (m_players[user].currentQuestion.getCorrentAnswer() == answer)
+		m_players[user].correctAnswerCount += 1;
 	else
-		it->second.wrongAnswerCount += 1;
+		m_players[user].wrongAnswerCount += 1;
 }
 
 void Game::removeUser(const LoggedUser user)
 {
-	if(m_players.find(user) == m_players.end())
-		throw statusException(STATUS_USER_NOT_IN_ROOM);
 	m_players.erase(user);
 }
 
@@ -65,4 +54,35 @@ vector<string> Game::getPlayersInRoom() const
 	}
 	return players;
 }
+
+GameData Game::getPlayerGameData(const LoggedUser user) const
+{
+	GameData playerData;
+	for (const auto& playersData : m_players) {
+		if (playersData.first.getUsername() == user.getUsername())
+			playerData = playersData.second;
+	}
+	return playerData;
+}
+
+bool Game::checkIfGameOver() const
+{
+	for (auto player : m_players)
+	{
+		if (player.second.currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
+			return false;
+	}
+	return true;
+}
+
+vector<PlayerResults> Game::getAllPlayersData() const
+{
+	vector<PlayerResults> playersData;
+	for (auto it : m_players)
+	{
+		playersData.push_back(PlayerResults{it.first.getUsername(), it.second.correctAnswerCount, it.second.wrongAnswerCount, it.second.averageAnswerTime});
+	}
+	return playersData;
+}
+
 

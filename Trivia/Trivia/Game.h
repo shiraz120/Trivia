@@ -2,12 +2,16 @@
 #include "GameData.h"
 #include "LoggedUser.h"
 #include "statusException.h"
+#include "Response.h"
+#include <ctime>
 #include <iostream>
 #include <vector>
 #include <map>
 #define NO_MORE_QUESTIONS "GameError: NO MORE QUESTIONS"
 #define STATUS_NO_MORE_QUESTIONS 0
 #define STATUS_THERE_ARE_STILL_QUESTIONS 1
+#define STATUS_GAME_OVER 1
+#define STATUS_GAME_NOT_OVER 0
 using std::map;
 using std::vector;
 
@@ -21,7 +25,9 @@ public:
 	void submitAnswer(const LoggedUser user, const string answer);
 	void removeUser(const LoggedUser user);
 	vector<string> getPlayersInRoom() const;
-
+	GameData getPlayerGameData(const LoggedUser user) const;
+	bool checkIfGameOver() const;
+	vector<PlayerResults> getAllPlayersData() const;
 private:
 	vector<Question> m_questions;
 	map<LoggedUser, GameData> m_players;
