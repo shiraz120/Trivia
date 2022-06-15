@@ -138,10 +138,9 @@ namespace GUI_WPF
         {
             keepRunning = false;
             if(closeRoom())
-            {
                 sharedFunctionsBetweenWindows.moveToMenu(this);
-            }
-            Application.Current.Shutdown();
+            else
+                Application.Current.Shutdown();
         }
     }
 }
