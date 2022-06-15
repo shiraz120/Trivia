@@ -106,8 +106,7 @@ RequestResult GameHandler::getQuestion(const RequestInfo request)
 		data.question = question.getQuestion();
 		for (unsigned int i = 0; i < answers.size(); i++)
 		{
-			if (answers[i] == correctAnswer)
-				data.answers = map<unsigned int, std::vector<string>>{ { i, answers } };
+			data.answers[i] = answers[i];
 		}
 	}
 	catch (statusException& e)

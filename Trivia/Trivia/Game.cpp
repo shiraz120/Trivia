@@ -32,6 +32,11 @@ Game::~Game()
 {
 }
 
+/*
+this function will return the current question of the user
+input: user
+output: question
+*/
 Question Game::getQuestionForUser(const LoggedUser user) 
 {
 	if (m_players[user].currentQuestion.getQuestion() == NO_MORE_QUESTIONS)

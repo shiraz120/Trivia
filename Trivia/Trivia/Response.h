@@ -116,7 +116,7 @@ struct GetQuestionResponse
 {
 	unsigned int status;
 	string question;
-	std::map<unsigned int, std::vector<string>> answers;
+	std::map<unsigned int, string> answers;
 };
 
 struct SubmitAnswerResponse
