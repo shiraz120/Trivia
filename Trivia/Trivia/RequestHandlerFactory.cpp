@@ -61,6 +61,11 @@ RoomMemberHandler* RequestHandlerFactory::createRoomMemberRequestHandler(const L
 	return newMemberHandler;
 }
 
+/*
+this function will create a new GameRequestHandler object
+input: user
+output: new GameRequestHandler object
+*/
 GameHandler* RequestHandlerFactory::createGameRequestHandler(const LoggedUser user)
 {
 	return new GameHandler(user, *this);

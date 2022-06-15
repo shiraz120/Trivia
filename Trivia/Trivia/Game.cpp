@@ -47,6 +47,11 @@ Question Game::getQuestionForUser(const LoggedUser user)
 	return m_players[user].currentQuestion;
 }
 
+/*
+this function will check if a requested user answer is correct or not and change the gameData of that user
+input: user, answer
+output: none
+*/
 void Game::submitAnswer(const LoggedUser user, const string answer)
 {
 	if (m_players[user].currentQuestion.getCorrentAnswer() == answer)
@@ -55,11 +60,23 @@ void Game::submitAnswer(const LoggedUser user, const string answer)
 		m_players[user].wrongAnswerCount += 1;
 }
 
+/*
+this function will remove a requested user from a m_players
+input: user
+output: none
+*/
 void Game::removeUser(const LoggedUser user)
 {
-	m_players.erase(user);
+	for (auto it : m_players)
+		if (it.first.getUsername() == user.getUsername())
+			m_players.erase(it.first);
 }
 
+/*
+this function will return all the players in the room
+input: none
+output: players
+*/
 vector<string> Game::getPlayersInRoom() const
 {
 	vector<string> players;
@@ -70,6 +87,11 @@ vector<string> Game::getPlayersInRoom() const
 	return players;
 }
 
+/*
+this function will return a requested user game data
+input: user
+output: playerData
+*/
 GameData Game::getPlayerGameData(const LoggedUser user) const
 {
 	GameData playerData;
@@ -80,6 +102,11 @@ GameData Game::getPlayerGameData(const LoggedUser user) const
 	return playerData;
 }
 
+/*
+this function will check if the game is over - if all the players answered all the questions, the game is over
+input: none
+output: bool - if the game is over or not
+*/
 bool Game::checkIfGameOver() const
 {
 	for (auto player : m_players)
@@ -90,6 +117,11 @@ bool Game::checkIfGameOver() const
 	return true;
 }
 
+/*
+this function will return all players game results
+input: none
+output: playersData
+*/
 vector<PlayerResults> Game::getAllPlayersData() const
 {
 	vector<PlayerResults> playersData;

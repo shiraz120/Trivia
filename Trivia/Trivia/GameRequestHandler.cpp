@@ -1,5 +1,10 @@
 #include "GameRequestHandler.h"
 
+/*
+this function will create a new GameHandler object
+input: user, handlerFactory
+output: none
+*/
 GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername())
 {
 	std::vector<RoomData> rooms = m_handlerFactory.getRoomManager().getRooms();
@@ -20,10 +25,20 @@ GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFa
 	}
 }
 
+/*
+this function will remove a GameHandler object
+input: none
+output: none
+*/
 GameHandler::~GameHandler()
 {
 }
 
+/*
+this function will check if a request is relevant
+input: request
+output: if the request is relevant or not
+*/
 bool GameHandler::isRequestRelevant(const RequestInfo request) const
 {
 	if (request.id == LEAVE_ROOM_REQUEST || request.id == SUBMIT_ANSWER_REQUEST || request.id == GET_GAME_RESULTS_REQUEST || request.id == GET_QUESTION_REQUEST)
@@ -31,6 +46,11 @@ bool GameHandler::isRequestRelevant(const RequestInfo request) const
 	return false;
 }
 
+/*
+this function will handle a request and return a result
+input: request
+output: RequestResult
+*/
 RequestResult GameHandler::handleRequest(const RequestInfo request) 
 {
 	switch (request.id)
@@ -50,6 +70,11 @@ RequestResult GameHandler::handleRequest(const RequestInfo request)
 	}
 }
 
+/*
+this function will receive a room id from the room manager and return it
+input: none
+output: roomId
+*/
 unsigned int GameHandler::getRoomId() const
 {
 	RoomManager& roomManager = m_handlerFactory.getRoomManager();
@@ -62,6 +87,11 @@ unsigned int GameHandler::getRoomId() const
 	}
 }
 
+/*
+this function will get the next question for m_user and send it in RequestResult
+input: request
+output: RequestResult
+*/
 RequestResult GameHandler::getQuestion(const RequestInfo request)
 {
 	RequestResult response;
@@ -89,6 +119,11 @@ RequestResult GameHandler::getQuestion(const RequestInfo request)
 	return response;
 }
 
+/*
+this function will receive a request and check if the user answer is correct or not and return the currect answer index
+input: request
+output: RequestResult
+*/
 RequestResult GameHandler::submitAnswer(const RequestInfo request)  
 {
 	RequestResult response;
@@ -116,6 +151,11 @@ RequestResult GameHandler::submitAnswer(const RequestInfo request)
 	return response;
 }
 
+/*
+this function will receive a request and return the game results if the game is over
+input: request
+output: RequestResult
+*/
 RequestResult GameHandler::getGameResults(const RequestInfo request) const
 {
 	RequestResult response;
@@ -141,6 +181,11 @@ RequestResult GameHandler::getGameResults(const RequestInfo request) const
 	return response;
 }
 
+/*
+this function will receive a request and remove a m_user from the room and from the game he is currently part of
+input: request
+output: RequestResult
+*/
 RequestResult GameHandler::leaveGame(const RequestInfo request) const
 {
 	RequestResult response;

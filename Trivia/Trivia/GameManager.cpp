@@ -1,18 +1,38 @@
 #include "GameManager.h"
 
+/*
+this function will create a gameManager object
+input: db
+output: none
+*/
 GameManager::GameManager(IDatabase* db) : m_database(db)
 {
 }
 
+/*
+this function will delete a gameManager object
+input: none
+output: none
+*/
 GameManager::~GameManager()
 {
 }
 
+/*
+this function will remove a user from a room
+input: user
+output: none
+*/
 void GameManager::removeUser(const LoggedUser user)
 {
 	getGameByUser(user).removeUser(user);
 }
 
+/*
+this function will create a game
+input: room
+output: newGame
+*/
 Game GameManager::createGame(const Room room)
 {
 	std::list<Question> questions;
@@ -32,6 +52,11 @@ Game GameManager::createGame(const Room room)
 	return newGame;
 }
 
+/*
+this function will delete a game
+input: userInRoom
+output: none
+*/
 void GameManager::deleteGame(const LoggedUser userInRoom)
 {
 	for (int i = 0; i < m_games.size(); i++)
@@ -46,6 +71,11 @@ void GameManager::deleteGame(const LoggedUser userInRoom)
 	}
 }
 
+/*
+this function will update the user data in the data base
+input: user
+output: none
+*/
 void GameManager::updateUserDataInDataBase(const LoggedUser user)
 {
 	string username = user.getUsername();
@@ -56,6 +86,11 @@ void GameManager::updateUserDataInDataBase(const LoggedUser user)
 	m_database->updatePlayerAverageAnswerTime(username, playerData.averageAnswerTime);
 }
 
+/*
+this function will return a refrence to a game that the requested user is part of
+input: user
+output: game refrence
+*/
 Game& GameManager::getGameByUser(const LoggedUser user)
 {
 	for (int i = 0; i < m_games.size(); i++)
