@@ -106,6 +106,6 @@ RequestResult RoomAdminHandler::startGame(const RequestInfo request) const
 		data.status = e.statusRet();
 	}
 	response.response = JsonResponsePacketSerializer::serializeResponse<StartGameResponse>(data, START_GAME_RESPONSE);
-	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user); // change in v4
+	response.newHandler = m_handlerFactory.createGameRequestHandler(m_user); 
 	return response;
 }

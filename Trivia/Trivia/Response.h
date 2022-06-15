@@ -64,7 +64,7 @@ struct GetPlayersInRoomResponse
 struct getHighScoreResponse
 {
 	unsigned int status;
-	vector<std::pair<string, int>> statistics;
+	std::map<string, int> statistics;
 };
 
 struct getPersonalStatsResponse

@@ -23,7 +23,7 @@ this function will return the top 5 most scored players and their score
 input: none
 output: top 5 most scored players
 */
-std::vector<std::pair<string, int>> StatisticsManager::getHighScore() const
+std::map<string, int> StatisticsManager::getHighScore() const
 {
 	std::map<string, std::pair<int, float>> users;
 	std::vector<std::pair<string, int>> score;
@@ -37,9 +37,12 @@ std::vector<std::pair<string, int>> StatisticsManager::getHighScore() const
 		counter++;
 	}
 	std::sort(score.begin(), score.end(), [](auto& left, auto& right) {return left.second > right.second;});
-	vector<std::pair<string, int>> topUsers;
-	topUsers.insert(topUsers.end(), score.begin(), score.begin() + AMOUNT_OF_USERS);
-	return topUsers;
+	std::map<string, int> scoreAsMap;
+	for (int i = 0; i < AMOUNT_OF_USERS; i++)
+	{
+		scoreAsMap[score[i].first] = score[i].second;
+	}
+	return scoreAsMap; 
 }
 
 /*

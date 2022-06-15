@@ -13,7 +13,7 @@ class StatisticsManager
 public:
 	StatisticsManager(IDatabase* db);
 	~StatisticsManager();
-	std::vector<std::pair<string, int>> getHighScore() const;
+	std::map<string, int> getHighScore() const;
 	std::vector<string> getUserStatistics(const string username) const;
 	
 private:

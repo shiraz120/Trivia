@@ -36,6 +36,7 @@ Question Game::getQuestionForUser(const LoggedUser user)
 {
 	if (m_players[user].currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
 		throw statusException(STATUS_NO_MORE_QUESTIONS);
+	Question currentQuestion = m_players[user].currentQuestion;
 	for (int i = 0; i < m_questions.size(); i++ )
 	{
 		if (m_questions[i].getQuestion() == m_players[user].currentQuestion.getQuestion())
@@ -44,7 +45,7 @@ Question Game::getQuestionForUser(const LoggedUser user)
 				m_players[user].currentQuestion = m_questions[i + 1];
 		}
 	}
-	return m_players[user].currentQuestion;
+	return currentQuestion;
 }
 
 /*
