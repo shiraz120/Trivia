@@ -52,7 +52,7 @@ void GameManager::updateUserDataInDataBase(const LoggedUser user)
 	GameData playerData = getGameByUser(user).getPlayerGameData(user);
 	m_database->updateNumOfCorrectAnswers(username, playerData.correctAnswerCount);
 	m_database->updateNumOfPlayersGames(username);
-	m_database->updateNumOfTotalAnswers(username, playerData.correctAnswerCount + playerData.wrongAnswerCount);
+	m_database->updateNumOfIncorrectAnswers(username, playerData.wrongAnswerCount);
 	m_database->updatePlayerAverageAnswerTime(username, playerData.averageAnswerTime);
 }
 

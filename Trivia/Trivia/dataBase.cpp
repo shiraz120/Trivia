@@ -158,6 +158,46 @@ std::map<string, std::pair<int, float>> SqliteDatabase::getUsersStatsForScore() 
 	return users;
 }
 
+/*
+this function will increase amount of games the requested user has played by 1
+input: username
+output: none
+*/
+void SqliteDatabase::updateNumOfPlayersGames(const string username) const
+{
+	sendQuery("UPDATE statistics SET amount_of_games = amount_of_games + 1 WHERE user_name == '" + username + "';");
+}
+
+/*
+this function will receive amount of wrong answers and calculate the new incorrect answers value for the requested user in the data base
+input: username, answers
+output: none
+*/
+void SqliteDatabase::updateNumOfIncorrectAnswers(const string username, unsigned int answers) const
+{
+	sendQuery("UPDATE statistics SET incorrect_answers = incorrect_answers + " + std::to_string(answers) + " WHERE user_name == '" + username + "';");
+}
+
+/*
+this function will receive amount of correct answers and calculate the new correct answers value for the requested user in the data base
+input: username, answers
+output: none
+*/
+void SqliteDatabase::updateNumOfCorrectAnswers(const string username, unsigned int answers) const
+{
+	sendQuery("UPDATE statistics SET correct_answers = correct_answers + " + std::to_string(answers) + " WHERE user_name == '" + username + "';");
+}
+
+/*
+this function will receive avarage answer time and calculate the new avarage answer time for the requested user in the data base
+input: username, time
+output: none
+*/
+void SqliteDatabase::updatePlayerAverageAnswerTime(const string username, unsigned int time) const
+{
+	sendQuery("UPDATE statistics SET avarage_answer_time =  (avarage_answer_time + " + std::to_string(time) + ") / 2 WHERE user_name == '" + username + "';");
+}
+
 
 /*
 this function will receive a query and send it, return true if the query succeeded and false if not, the fuunction will

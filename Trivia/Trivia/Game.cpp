@@ -1,9 +1,19 @@
 #include "Game.h"
 
+/*
+this function will create an empty game object
+input: none
+output: none
+*/
 Game::Game()
 {
 }
 
+/*
+this function will create a game object
+input: players, questions
+output: none
+*/
 Game::Game(const vector<string> players, const vector<Question> questions) : m_questions(questions)
 {
 	m_questions.push_back(Question(NO_MORE_QUESTIONS, "", "", "", ""));
@@ -13,6 +23,11 @@ Game::Game(const vector<string> players, const vector<Question> questions) : m_q
 	}
 }
 
+/*
+this function will remove a game object
+input: none
+output: none
+*/
 Game::~Game()
 {
 }
