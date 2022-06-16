@@ -71,7 +71,6 @@ RequestResult MenuRequestHandler::signout(const RequestInfo request) const
 {
 	RequestResult response;
 	LogoutResponse data;
-	ErrorResponse error;
 	data.status = STATUS_SUCCESS;
 	try {
 		m_handlerFactory.getLoginManager().logout(m_user.getUsername());

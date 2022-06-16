@@ -51,7 +51,6 @@ RequestResult LoginRequestHandler::login(const RequestInfo request) const
 {
 	RequestResult result;
 	loginResponse data;
-	ErrorResponse error;
 	loginRequest clientData = JsonRequestPacketDeserializer::deserializeRequest<loginRequest>(request.buffer);
 	data.status = STATUS_SUCCESS;
 	try {

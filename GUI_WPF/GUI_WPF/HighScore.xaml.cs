@@ -34,9 +34,15 @@ namespace GUI_WPF
             if (error == "")
             {
                 getHighScoreResponse stats = desirializer.deserializeRequest<getHighScoreResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                List<Tuple<string, int>> statsAsList = new List<Tuple<string, int>>();
                 foreach(var item in stats.statistics)
                 {
-                    highestUsers.Items.Add(item.Key + " - " + Convert.ToString(item.Value));
+                    statsAsList.Add(new Tuple<string, int>(item.Key, item.Value));
+                }
+                var orderedStats = statsAsList.OrderByDescending(x => x.Item2 ).ToList();
+                foreach(Tuple<string, int> data in orderedStats)
+                {
+                    highestUsers.Items.Add(data.Item1 + " - " + Convert.ToString(data.Item2));
                 }
             }
             else if(error == "Error: request isnt relevant for the current handler.")
