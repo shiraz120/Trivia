@@ -21,10 +21,10 @@ namespace GUI_WPF
     /// </summary>
     public partial class CreateRoomWindow : Window
     {
-        private readonly string INVALID_TIME = "Amount of time for answer cannot be less than 1s.";
-        private readonly string INVALID_NAME = "Name of room cannot be empty.";
+        private readonly string INVALID_TIME = "Amount of time field must contain only number and the number must be above 1.";
+        private readonly string INVALID_NAME = "The name of the room cannot be empty.";
         private readonly string INVALID_AMOUNT_OF_PLAYERS = "Room must have 2 players or more.";
-        private readonly string INVALID_AMOUNT_OF_QUESTIONS = "choose amount of questions.";
+        private readonly string INVALID_AMOUNT_OF_QUESTIONS = "Amount of questions field must contain only number and the number must be above 1.";
         private readonly string CREATE_ROOM_SUCCEEDED = "created room successfully!";
 
         /*
@@ -79,17 +79,33 @@ namespace GUI_WPF
         }
 
         /*
+        this function checks if a string contains digits only
+        input: string
+        output: bool
+        */
+        bool IsDigitsOnly(string str)
+        {
+            foreach (char c in str)
+            {
+                if (c < '0' || c > '9')
+                    return false;
+            }
+
+            return true;
+        }
+
+        /*
         this function creates the room
         input: sender and event
         output: none
         */
         private void createButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtTime.Text) || int.Parse(txtTime.Text) <= 0)
+            if (!IsDigitsOnly(txtTime.Text) || string.IsNullOrWhiteSpace(txtTime.Text) || int.Parse(txtTime.Text) <= 0)
                 createRoomDataText.Text = INVALID_TIME;
             else if (string.IsNullOrWhiteSpace(txtRoomname.Text))
                 createRoomDataText.Text = INVALID_NAME;
-            else if (string.IsNullOrWhiteSpace(txtPlayers.Text) || int.Parse(txtPlayers.Text) < 2)
+            else if (!IsDigitsOnly(txtPlayers.Text) || string.IsNullOrWhiteSpace(txtPlayers.Text) || int.Parse(txtPlayers.Text) < 2)
                 createRoomDataText.Text = INVALID_AMOUNT_OF_PLAYERS;
             else if (amountOfQuestions.SelectedIndex <= -1)
                 createRoomDataText.Text = INVALID_AMOUNT_OF_QUESTIONS;
