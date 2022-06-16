@@ -33,9 +33,9 @@
 
                 <TextBlock Margin="0 -40 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Waiting Room"/>
 
-                <TextBlock FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Amount of time per question: " Margin="15 20 0 0"/>
-                
-                <TextBlock FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Amount of questions: " Margin="15 10 0 0"/>
+                <TextBlock Name="amountOfTime" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Amount of time per question: " Margin="15 20 0 0"/>
+
+                <TextBlock Name="amountOfQuestions" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Amount of questions: " Margin="15 10 0 0"/>
                 
                 <TextBlock FontSize="18" FontWeight="SemiBold" HorizontalAlignment="Left" Text="Players: " Margin="15 15 0 0"/>
 

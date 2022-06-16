@@ -41,25 +41,22 @@ this function will get the room data
 input: request
 output: result
 */
-RequestResult RoomHandler::getRoomData(const RequestInfo request, IRequestHandler* handler) const
+GetRoomStateResponse RoomHandler::getRoomData(const RequestInfo request) const
 {
 	GetRoomStateResponse responseData;
-	RequestResult data;
 	responseData.status = STATUS_SUCCESS;
 	try {
-		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id); // if exception thrown it means that the room doesnt exist
+		responseData.hasGameBegun = m_roomManager.getRoomState(m_room.getMetaData().id); // if exception thrown it means that the room doesnt exist anymore
 		responseData.questionCount = m_room.getMetaData().numOfQuestionsInGame;
 		responseData.answerTimeout = m_room.getMetaData().timePerQuestion;
 		responseData.players = m_room.getAllUsers();
-		if (responseData.hasGameBegun == ACTIVE)
-			data.newHandler = handler;
-		else
-			data.newHandler = NULL;
 	}
 	catch (statusException& e)
 	{
+		responseData.questionCount = 0;
+		responseData.answerTimeout = 0;
+		responseData.players = {};
 		responseData.status = e.statusRet();
 	}
-	data.response = JsonResponsePacketSerializer::serializeResponse<GetRoomStateResponse>(responseData, GET_ROOM_STATE_RESPONSE);
-	return data;
+	return responseData;
 }

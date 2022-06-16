@@ -104,10 +104,9 @@ void Communicator::handleNewClient(const SOCKET clientSocket)
 	catch (std::exception& e)
 	{
 		std::cout << e.what() << std::endl;
-		std::unique_lock<std::mutex> clientLock(cLock);
+		std::lock_guard<std::mutex> clientLock(cLock);
 		delete m_clients[clientSocket];
 		m_clients.erase(clientSocket);
-		clientLock.unlock();
 		closesocket(clientSocket);
 	}
 }

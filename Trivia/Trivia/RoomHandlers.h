@@ -6,7 +6,7 @@ class RoomHandler : public IRequestHandler
 public:
 	RoomHandler(const LoggedUser user, RoomManager& roomManager);
 	~RoomHandler();
-	RequestResult getRoomData(const RequestInfo request, IRequestHandler* handler) const;
+	GetRoomStateResponse getRoomData(const RequestInfo request) const;
 protected:
 	LoggedUser m_user;
 	Room m_room;

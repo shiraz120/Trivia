@@ -48,10 +48,16 @@ output: requestResult
 */
 RequestResult RoomMemberHandler::getRoomState(const RequestInfo request) const
 {
-	RequestResult response = RoomHandler::getRoomData(request, m_handlerFactory.createGameRequestHandler(m_user));
-	if(response.newHandler == NULL)
-		response.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
-	return response;
+	GetRoomStateResponse response = RoomHandler::getRoomData(request);
+	RequestResult data;
+	data.response = JsonResponsePacketSerializer::serializeResponse<GetRoomStateResponse>(response, GET_ROOM_STATE_RESPONSE);
+	if (response.status == STATUS_SUCCESS && response.hasGameBegun == ACTIVE)
+		data.newHandler = m_handlerFactory.createGameRequestHandler(m_user);
+	else if (response.status == STATUS_SUCCESS)
+		data.newHandler = m_handlerFactory.createRoomMemberRequestHandler(m_user);
+	else
+		data.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	return data;
 }
 
 /*

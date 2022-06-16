@@ -43,6 +43,7 @@ namespace GUI_WPF
         */
         private void exitBtnClick(object sender, RoutedEventArgs e)
         {
+            keepRunning = false;
             Application.Current.Shutdown();
         }
 
@@ -72,6 +73,11 @@ namespace GUI_WPF
                 {
                     getRoomStateResponse createRoomResponse = desirializer.deserializeRequest<getRoomStateResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                     listOfPlayers = createRoomResponse.players;
+                    if (amountOfQuestions.Dispatcher.Invoke(() => { return amountOfQuestions.Text == "Amount of questions: "; }))
+                    {
+                        amountOfQuestions.Dispatcher.Invoke(() => { amountOfQuestions.Text = amountOfQuestions.Text + createRoomResponse.questionCount; });
+                        amountOfTime.Dispatcher.Invoke(() => { amountOfTime.Text = amountOfTime.Text + createRoomResponse.answerTimeout; });
+                    }
                     if (listOfPlayers != null)
                         playersList.Dispatcher.Invoke(() => { playersList.ItemsSource = listOfPlayers; });
                 }

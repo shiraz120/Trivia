@@ -59,9 +59,11 @@ output: requestResult
 RequestResult RoomAdminHandler::getRoomState(const RequestInfo request) const
 {
 	/* passes null and not gameHandler because its meaningless to change the handler to game handler when we are talking about the admin of the room, the change to gameHandler will happened when the admin starts the game */
-	RequestResult response = RoomHandler::getRoomData(request, NULL);
-	response.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user);
-	return response;
+	GetRoomStateResponse response = RoomHandler::getRoomData(request);
+	RequestResult data;
+	data.newHandler = m_handlerFactory.createRoomAdminRequestHandler(m_user);
+	data.response = JsonResponsePacketSerializer::serializeResponse<GetRoomStateResponse>(response, GET_ROOM_STATE_RESPONSE);
+	return data;
 }
 
 /*

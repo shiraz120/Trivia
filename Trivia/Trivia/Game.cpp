@@ -35,7 +35,7 @@ Game::~Game()
 /*
 this function will return the current question of the user
 input: user
-output: question
+output: currentQuestion
 */
 Question Game::getQuestionForUser(const LoggedUser user) 
 {

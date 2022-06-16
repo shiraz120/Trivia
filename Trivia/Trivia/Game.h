@@ -25,9 +25,9 @@ public:
 	void submitAnswer(const LoggedUser user, const string answer);
 	void removeUser(const LoggedUser user);
 
-	void updateAvgTime(const LoggedUser user, const float time);
 	vector<string> getPlayersInRoom() const;
 	GameData getPlayerGameData(const LoggedUser user) const;
+	void updateAvgTime(const LoggedUser user, const float time);
 	void updateUserData(const LoggedUser user, const GameData data);
 	
 private:
