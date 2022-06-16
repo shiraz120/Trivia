@@ -55,7 +55,7 @@ namespace GUI_WPF
         {
 
         }
-
+        
         /*
         this function closes the thread and logs out of the communicator
         input: sender and event

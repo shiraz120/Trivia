@@ -130,7 +130,7 @@ namespace GUI_WPF
                     {
                         keepRunning = false;
                         sharedFunctionsBetweenWindows.current_room_id = id;
-                        WaitingWindow newStatsWindow = new WaitingWindow(); //goes to the waiting room window
+                        WaitingWindow newStatsWindow = new WaitingWindow();
                         this.Close();
                         newStatsWindow.Show();
                     }
