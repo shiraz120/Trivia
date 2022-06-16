@@ -43,7 +43,7 @@ Game GameManager::createGame(const Room room)
 	catch (std::exception& e)
 	{
 		/* if there is a problem with data base, lets asume it got deleted etc the function will init the list with our questions */
-		questions = { Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", ""), Question("", "", "", "", "") }; 
+		questions = { Question("What is the order of the colors in Russia's flag?", "White Blue Red", "White Red Blue", "Red Blue White", "Blue White Red"), Question("What is the first programing language?", "Fortran", "Algol", "C", "Assembly"), Question("which south american country has the capital city of quito?", "Ecuador", "Colombia", "Paraguay", "Guyana"), Question("which of the following is not an organ in the human body?", "Ulna", "Eye", "Pancreas", "Gallbladder"), Question("what is the fastest land animal?", "cheetah", "giraffe", "tiger", "wolf"), Question("what does the roman numeral D stand for?", "500", "100", "50", "1000"), Question("when did pablo picasso die?", "1973", "1676", "1447", "1890"), Question("which of these numbers has a 1 in the thousadnths place?", "3.3412", "3.1234", "3.2341", "3.4123"), Question("where is manila?", "the philippines", "italy", "singapore", "spain"), Question("what is a common graph algorithm?", "depth first", "merge sort", "binary search", "radix sort") }; 
 	}
 	Game newGame(room.getAllUsers(), std::vector<Question>(questions.begin(), questions.end()));
 	std::unique_lock<std::mutex> gameLock(m_gameMutex);

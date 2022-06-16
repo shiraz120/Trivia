@@ -28,7 +28,7 @@ string LoggedUser::getUsername() const
 }
 
 /*
-this function will be used as operator < for a kep map usage
+this function will be used as operator < for a key map usage
 input: first, second
 output: bool - is smaller
 */
