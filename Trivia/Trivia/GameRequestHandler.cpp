@@ -5,7 +5,7 @@ this function will create a new GameHandler object
 input: user, handlerFactory
 output: none
 */
-GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername())
+GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername()), m_lastTimeAnswered(clock())
 {
 	std::vector<RoomData> rooms = m_handlerFactory.getRoomManager().getRooms();
 	std::vector<string> players;
@@ -128,6 +128,7 @@ RequestResult GameHandler::submitAnswer(const RequestInfo request)
 	RequestResult response;
 	SubmitAnswerResponse data;
 	SubmitAnswerRequest userData = JsonRequestPacketDeserializer::deserializeRequest<SubmitAnswerRequest>(request.buffer);
+	clock_t timeNow = clock();
 	data.status = STATUS_SUCCESS;
 	try
 	{
@@ -139,7 +140,9 @@ RequestResult GameHandler::submitAnswer(const RequestInfo request)
 			if (answers[i] == correctAnswer)
 				data.correctAnswerId = i;
 		}
-		m_gameManager.updateUserDataInDataBase(m_user);
+		m_game.updateAvgTime(m_user, float(timeNow - m_lastTimeAnswered));
+		m_lastTimeAnswered = timeNow;
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user));
 	}
 	catch (statusException& e)
 	{
@@ -160,10 +163,10 @@ RequestResult GameHandler::getGameResults(const RequestInfo request) const
 	RequestResult response;
 	GetGameResultsResponse data;
 	vector<string> allUsersInRequestedRoom;
-	if (m_game.checkIfGameOver())
+	if (m_gameManager.checkIfGameOver(m_user))
 	{
 		data.status = STATUS_GAME_OVER;
-		data.results = m_game.getAllPlayersData();
+		data.results = m_gameManager.getAllPlayersData(m_game.getPlayerGameData(m_user), m_user);
 		m_gameManager.deleteGame(m_user);
 		m_handlerFactory.getRoomManager().deleteRoom(getRoomId());
 	}
@@ -190,12 +193,11 @@ RequestResult GameHandler::leaveGame(const RequestInfo request) const
 	RequestResult response;
 	LeaveGameResponse data;
 	data.status = STATUS_SUCCESS;
-	std::vector<std::string> allUsersInRequestedRoom;
 	try
 	{
 		m_gameManager.removeUser(m_user);
 		m_handlerFactory.getRoomManager().removeUserFromARoom(getRoomId(), m_user);
-		m_gameManager.updateUserDataInDataBase(m_user);
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user));
 	}
 	catch (statusException& e)
 	{

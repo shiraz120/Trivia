@@ -9,8 +9,11 @@ public:
 	~GameManager();
 	Game createGame(const Room room);
 	void deleteGame(const LoggedUser userInRoom);
+
 	void removeUser(const LoggedUser user);
-	void updateUserDataInDataBase(const LoggedUser user);
+	bool checkIfGameOver(const LoggedUser user);
+	void updateUserData(const LoggedUser user, const GameData data);
+	vector<PlayerResults> getAllPlayersData(const GameData data, const LoggedUser user);
 	
 private:
 	Game& getGameByUser(const LoggedUser user);

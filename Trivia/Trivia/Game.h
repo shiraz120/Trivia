@@ -24,10 +24,12 @@ public:
 	Question getQuestionForUser(const LoggedUser user);
 	void submitAnswer(const LoggedUser user, const string answer);
 	void removeUser(const LoggedUser user);
+
+	void updateAvgTime(const LoggedUser user, const float time);
 	vector<string> getPlayersInRoom() const;
 	GameData getPlayerGameData(const LoggedUser user) const;
-	bool checkIfGameOver() const;
-	vector<PlayerResults> getAllPlayersData() const;
+	void updateUserData(const LoggedUser user, const GameData data);
+	
 private:
 	vector<Question> m_questions;
 	map<LoggedUser, GameData> m_players;

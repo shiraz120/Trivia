@@ -28,6 +28,7 @@ void GameManager::removeUser(const LoggedUser user)
 	getGameByUser(user).removeUser(user);
 }
 
+
 /*
 this function will create a game
 input: room
@@ -72,18 +73,50 @@ void GameManager::deleteGame(const LoggedUser userInRoom)
 }
 
 /*
-this function will update the user data in the data base
-input: user
+this function will update the user data in the data base and in the vector of games
+input: user, data
 output: none
 */
-void GameManager::updateUserDataInDataBase(const LoggedUser user)
+void GameManager::updateUserData(const LoggedUser user, const GameData data)
 {
 	string username = user.getUsername();
-	GameData playerData = getGameByUser(user).getPlayerGameData(user);
-	m_database->updateNumOfCorrectAnswers(username, playerData.correctAnswerCount);
+	getGameByUser(user).updateUserData(user, data);
+	m_database->updateNumOfCorrectAnswers(username, data.correctAnswerCount);
 	m_database->updateNumOfPlayersGames(username);
-	m_database->updateNumOfIncorrectAnswers(username, playerData.wrongAnswerCount);
-	m_database->updatePlayerAverageAnswerTime(username, playerData.averageAnswerTime);
+	m_database->updateNumOfIncorrectAnswers(username, data.wrongAnswerCount);
+	m_database->updatePlayerAverageAnswerTime(username, data.averageAnswerTime);
+}
+
+/*
+this function will check if the game is over - if all the players answered all the questions, the game is over
+input: user
+output: bool - if the game is over or not
+*/
+bool GameManager::checkIfGameOver(const LoggedUser user)
+{
+	for (string player : getGameByUser(user).getPlayersInRoom())
+	{
+		if (getGameByUser(user).getPlayerGameData(LoggedUser(player)).currentQuestion.getQuestion() != NO_MORE_QUESTIONS)
+			return false;
+	}
+	return true;
+}
+
+
+/*
+this function will return all players game results
+input: data, user
+output: playersData
+*/
+vector<PlayerResults> GameManager::getAllPlayersData(const GameData data, const LoggedUser user)
+{
+	vector<PlayerResults> results;
+	for (string player : getGameByUser(user).getPlayersInRoom())
+	{
+		GameData data = getGameByUser(user).getPlayerGameData(LoggedUser(player));
+		results.push_back(PlayerResults{player, data.correctAnswerCount, data.wrongAnswerCount, data.averageAnswerTime});
+	}
+	return results;
 }
 
 /*

@@ -94,6 +94,22 @@ vector<string> Game::getPlayersInRoom() const
 }
 
 /*
+this function will update avg time for a requested user
+input: user, time
+output: none
+*/
+void Game::updateAvgTime(const LoggedUser user, const float time)
+{
+	for (auto& playersData : m_players) {
+		if (playersData.first.getUsername() == user.getUsername())
+		{
+			int amountOfQuestionsAnswered = playersData.second.correctAnswerCount + playersData.second.wrongAnswerCount;
+			playersData.second.averageAnswerTime = ((playersData.second.averageAnswerTime * (amountOfQuestionsAnswered - 1)) + time) / (amountOfQuestionsAnswered);
+		}
+	}
+}
+
+/*
 this function will return a requested user game data
 input: user
 output: playerData
@@ -109,33 +125,18 @@ GameData Game::getPlayerGameData(const LoggedUser user) const
 }
 
 /*
-this function will check if the game is over - if all the players answered all the questions, the game is over
-input: none
-output: bool - if the game is over or not
+this function will receive a user and new game data for that user and update the current game data for that user in the map
+input: user, data
+output: none
 */
-bool Game::checkIfGameOver() const
+void Game::updateUserData(const LoggedUser user, const GameData data)
 {
-	for (auto player : m_players)
-	{
-		if (player.second.currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
-			return false;
-	}
-	return true;
-}
-
-/*
-this function will return all players game results
-input: none
-output: playersData
-*/
-vector<PlayerResults> Game::getAllPlayersData() const
-{
-	vector<PlayerResults> playersData;
 	for (auto it : m_players)
 	{
-		playersData.push_back(PlayerResults{it.first.getUsername(), it.second.correctAnswerCount, it.second.wrongAnswerCount, it.second.averageAnswerTime});
+		if (it.first.getUsername() == user.getUsername())
+		{
+			it.second = data;
+			return;
+		}
 	}
-	return playersData;
 }
-
-
