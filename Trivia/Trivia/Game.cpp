@@ -75,7 +75,10 @@ void Game::removeUser(const LoggedUser user)
 {
 	for (auto it : m_players)
 		if (it.first.getUsername() == user.getUsername())
+		{
 			m_players.erase(it.first);
+			return;
+		}
 }
 
 /*
@@ -139,4 +142,19 @@ void Game::updateUserData(const LoggedUser user, const GameData data)
 			return;
 		}
 	}
+}
+
+/*
+this function will copy all the data from one room to another
+input: other
+output: updated current room
+*/
+Game& Game::operator=(const Game& other)
+{
+	if (this != &other)
+	{
+		this->m_players = other.m_players;
+		this->m_questions = other.m_questions;
+	}
+	return *this;
 }

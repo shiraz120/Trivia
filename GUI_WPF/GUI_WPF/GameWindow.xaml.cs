@@ -53,7 +53,15 @@ namespace GUI_WPF
         */
         private void leaveGameButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Communicator.sendData(Convert.ToString(Communicator.LEAVE_GAME_REQUEST) + "\0\0\0\0");
+            string error = checkServerResponse.checkIfErrorResponse();
+            if (error == "")
+            {
+                leaveGameResponse stats = desirializer.deserializeRequest<leaveGameResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                RoomListWindow newStatsWindow = new RoomListWindow();
+                this.Close();
+                newStatsWindow.Show();
+            }
         }
         
         /*

@@ -41,7 +41,7 @@ output: if the request is relevant or not
 */
 bool GameHandler::isRequestRelevant(const RequestInfo request) const
 {
-	if (request.id == LEAVE_ROOM_REQUEST || request.id == SUBMIT_ANSWER_REQUEST || request.id == GET_GAME_RESULTS_REQUEST || request.id == GET_QUESTION_REQUEST)
+	if (request.id == LEAVE_GAME_REQUEST || request.id == SUBMIT_ANSWER_REQUEST || request.id == GET_GAME_RESULTS_REQUEST || request.id == GET_QUESTION_REQUEST)
 		return true;
 	return false;
 }
@@ -195,9 +195,16 @@ RequestResult GameHandler::leaveGame(const RequestInfo request) const
 	data.status = STATUS_SUCCESS;
 	try
 	{
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user)); // puts in another try because even if there is a problem with the data base the user still needs to get deleted from the room
+	}
+	catch (statusException& e)
+	{
+		data.status = e.statusRet();
+	}
+	try
+	{
 		m_gameManager.removeUser(m_user);
 		m_handlerFactory.getRoomManager().removeUserFromARoom(getRoomId(), m_user);
-		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user));
 	}
 	catch (statusException& e)
 	{

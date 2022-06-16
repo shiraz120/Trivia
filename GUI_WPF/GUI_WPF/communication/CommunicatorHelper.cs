@@ -43,6 +43,7 @@ namespace GUI_WPF
         */
         public static void logOut()
         {
+            sendData(Convert.ToString(LEAVE_GAME_REQUEST) + "\0\0\0\0");
             sendData(Convert.ToString(CLOSE_ROOM_REQUEST) + "\0\0\0\0");
             sendData(Convert.ToString(LEAVE_ROOM_REQUEST) + "\0\0\0\0");
             sendData(Convert.ToString(SIGNOUT_REQUEST) + "\0\0\0\0");

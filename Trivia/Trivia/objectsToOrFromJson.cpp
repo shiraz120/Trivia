@@ -47,17 +47,17 @@ void to_json(json& jsonGetRoomStateResponse, const GetRoomStateResponse& getRoom
 
 void to_json(json& jsonLeaveRoomResponse, const LeaveRoomResponse& leaveRoom)
 {
-	jsonLeaveRoomResponse = json{ "status", leaveRoom.status };
+	jsonLeaveRoomResponse = json{ {"status", leaveRoom.status } };
 }
 
 void to_json(json& jsonLeaveGameResponse, const LeaveGameResponse& leaveGame)
 {
-	jsonLeaveGameResponse = json{ "status", leaveGame.status };
+	jsonLeaveGameResponse = json{ {"status", leaveGame.status } };
 }
 
 void to_json(json& jsonGetQuestionResponse, const GetQuestionResponse& getQuestion)
 {
-	jsonGetQuestionResponse = json{ { "question", getQuestion.question }, {"answers", getQuestion.answers}, {"status", getQuestion.status}};
+	jsonGetQuestionResponse = json{ { "question", getQuestion.question }, {"answers", getQuestion.answers}, {"status", getQuestion.status} };
 }
 
 void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitAnswer)

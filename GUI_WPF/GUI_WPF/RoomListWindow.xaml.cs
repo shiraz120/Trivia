@@ -71,7 +71,8 @@ namespace GUI_WPF
                         roomList.Dispatcher.Invoke(() => { roomList.Items.Clear(); });
                     foreach (RoomData room in listOfRooms)
                     {
-                        roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
+                        if (roomList != null)
+                            roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
                     }
                 }
                 Thread.Sleep(2000);

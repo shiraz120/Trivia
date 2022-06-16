@@ -121,12 +121,12 @@ namespace GUI_WPF
         */
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
+            keepRunning = false;
             Communicator.sendData(Convert.ToString(Communicator.START_GAME_REQUEST) + "\0\0\0\0");
             string error = checkServerResponse.checkIfErrorResponse();
             if(error == "")
             {
                 createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                keepRunning = false;
                 GameWindow newStatsWindow = new GameWindow();
                 this.Close();
                 newStatsWindow.Show();

@@ -29,6 +29,7 @@ public:
 	GameData getPlayerGameData(const LoggedUser user) const;
 	void updateAvgTime(const LoggedUser user, const float time);
 	void updateUserData(const LoggedUser user, const GameData data);
+	Game& operator=(const Game& other);
 	
 private:
 	vector<Question> m_questions;
