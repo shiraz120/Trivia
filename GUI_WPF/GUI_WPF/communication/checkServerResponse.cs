@@ -13,7 +13,7 @@ namespace GUI_WPF
     {
         public const char ERROR_RESPONSE = 'c';
         public const int MAX_DATA_SIZE = 4;
-        public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL, STATUS_USER_NOT_IN_ROOM, STATUS_USER_ALREADY_IN_ROOM, STATUS_FAILED }
+        public enum Status { STATUS_USER_DOESNT_EXIST = 1, STATUS_USER_EXIST, STATUS_PASSWORD_DOESNT_MATCH, STATUS_SUCCESS, STATUS_ALREADY_LOGGED_IN, STATUS_DOESNT_LOGGED_IN, STATUS_NO_ROOMS, STATUS_NO_USERS_LOGGED_IN, STATUS_ROOM_DOESNT_EXIST, STATUS_DB_PROBLEM, STATUS_ROOM_IS_FULL, STATUS_USER_NOT_IN_ROOM, STATUS_USER_ALREADY_IN_ROOM, STATUS_FAILED };
         public const string SIGNUP_SUCCEEDED = "signup succeeded!";
         public const string LOGIN_SUCCEEDED = "login succeeded!";
         public const string DATA_BASE_PROBLEM = "dataBase problem.";
@@ -25,6 +25,10 @@ namespace GUI_WPF
         public const string USER_DOESNT_EXIST = "user doesnt exist.";
         public const string PASSWORD_DOESNT_MATCH = "password doesnt match.";
         public const string USER_ALREADY_LOGGED = "user already logged in.";
+        public const int STATUS_NO_MORE_QUESTIONS = 0;
+        public const int STATUS_THERE_ARE_STILL_QUESTIONS = 1;
+        public const int STATUS_GAME_OVER = 1;
+        public const int STATUS_GAME_NOT_OVER = 0;
 
         /*
         this function checks if the signed up action succeded or not

@@ -10,6 +10,6 @@ namespace GUI_WPF
     {
         public int status;
         public string question;
-        public Dictionary<int, string> answers;
+        public List<Tuple<int, string>> answers;
     }
 }

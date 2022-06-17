@@ -46,26 +46,19 @@ namespace GUI_WPF
                     Communicator.logOut();
                 }
                 getRoomStateResponse getRoomStateResponse = desirializer.deserializeRequest<getRoomStateResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                if (amountOfQuestions.Dispatcher.Invoke(() => { return amountOfQuestions.Text == "Amount of questions: "; }))
-                {
-                    amountOfQuestions.Dispatcher.Invoke(() => { amountOfQuestions.Text = amountOfQuestions.Text + getRoomStateResponse.questionCount; });
-                    amountOfTime.Dispatcher.Invoke(() => { amountOfTime.Text = amountOfTime.Text + getRoomStateResponse.answerTimeout; });
-                }
-                if (getRoomStateResponse.status == (int)checkServerResponse.Status.STATUS_ROOM_DOESNT_EXIST) //if the room has been closed
+                if(getRoomStateResponse.status == (int)checkServerResponse.Status.STATUS_ROOM_DOESNT_EXIST) //if the room has been closed
                 {
                     keepRunning = false;
                     MessageBox.Show("The room has been closed by the admin.");
                     replaceWindowOnExit();
                 }
-                if(getRoomStateResponse.hasGameBegun && getRoomStateResponse.status == (int)checkServerResponse.Status.STATUS_SUCCESS) 
+                if(getRoomStateResponse.hasGameBegun) //if game begun
                 {
                     /* MOVE TO GAME WINDOW */
                     keepRunning = false;
-                    Application.Current.Dispatcher.Invoke(() => {
-                        GameWindow newRoomListWindow = new GameWindow();
-                        this.Close();
-                        newRoomListWindow.Show();
-                    });
+                    sharedFunctionsBetweenWindows.amountOfQuestions = getRoomStateResponse.questionCount;
+                    sharedFunctionsBetweenWindows.timeLeft = getRoomStateResponse.answerTimeout;
+                    MessageBox.Show("GAME BEGUN");
                 }
                 else
                 {
@@ -106,11 +99,9 @@ namespace GUI_WPF
         */
         public void replaceWindowOnExit()
         {
-            Application.Current.Dispatcher.Invoke(() => {
-                RoomListWindow newRoomListWindow = new RoomListWindow();
-                this.Close();
-                newRoomListWindow.Show();            
-            });
+            RoomListWindow newRoomListWindow = new RoomListWindow();
+            this.Close();
+            newRoomListWindow.Show();
         }
 
         /*
@@ -138,7 +129,7 @@ namespace GUI_WPF
                 leaveRoomResponse stats = desirializer.deserializeRequest<leaveRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 replaceWindowOnExit();
             }
-            else 
+            else //fails the leave room
             {
                 keepRunning = false;
                 MessageBox.Show(error);

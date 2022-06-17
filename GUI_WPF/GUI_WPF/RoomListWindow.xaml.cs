@@ -71,8 +71,7 @@ namespace GUI_WPF
                         roomList.Dispatcher.Invoke(() => { roomList.Items.Clear(); });
                     foreach (RoomData room in listOfRooms)
                     {
-                        if (roomList != null)
-                            roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
+                        roomList.Dispatcher.Invoke(() => { roomList.Items.Add("Id: " + room.id.ToString() + " max players: " + room.maxPlayers.ToString()); });
                     }
                 }
                 Thread.Sleep(2000);
@@ -131,7 +130,7 @@ namespace GUI_WPF
                     {
                         keepRunning = false;
                         sharedFunctionsBetweenWindows.current_room_id = id;
-                        WaitingWindow newStatsWindow = new WaitingWindow();
+                        WaitingWindow newStatsWindow = new WaitingWindow(); //goes to the waiting room window
                         this.Close();
                         newStatsWindow.Show();
                     }

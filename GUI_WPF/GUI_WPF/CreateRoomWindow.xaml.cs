@@ -21,10 +21,10 @@ namespace GUI_WPF
     /// </summary>
     public partial class CreateRoomWindow : Window
     {
-        private readonly string INVALID_TIME = "Amount of time field must contain only number and must be above 1.";
+        private readonly string INVALID_TIME = "The time field is invalid. Numbers from 1 and above.";
         private readonly string INVALID_NAME = "The name of the room cannot be empty.";
         private readonly string INVALID_AMOUNT_OF_PLAYERS = "Room must have 2 players or more.";
-        private readonly string INVALID_AMOUNT_OF_QUESTIONS = "Amount of questions field must contain only number and must be above 1.";
+        private readonly string INVALID_AMOUNT_OF_QUESTIONS = "The questions field is invalid. Numbers from 1 and above.";
         private readonly string CREATE_ROOM_SUCCEEDED = "created room successfully!";
 
         /*

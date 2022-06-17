@@ -43,7 +43,6 @@ namespace GUI_WPF
         */
         private void exitBtnClick(object sender, RoutedEventArgs e)
         {
-            keepRunning = false;
             Application.Current.Shutdown();
         }
 
@@ -72,12 +71,9 @@ namespace GUI_WPF
                 if (error == "")
                 {
                     getRoomStateResponse createRoomResponse = desirializer.deserializeRequest<getRoomStateResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                    sharedFunctionsBetweenWindows.amountOfQuestions = createRoomResponse.questionCount;
+                    sharedFunctionsBetweenWindows.timeLeft = createRoomResponse.answerTimeout;
                     listOfPlayers = createRoomResponse.players;
-                    if (amountOfQuestions.Dispatcher.Invoke(() => { return amountOfQuestions.Text == "Amount of questions: "; }))
-                    {
-                        amountOfQuestions.Dispatcher.Invoke(() => { amountOfQuestions.Text = amountOfQuestions.Text + createRoomResponse.questionCount; });
-                        amountOfTime.Dispatcher.Invoke(() => { amountOfTime.Text = amountOfTime.Text + createRoomResponse.answerTimeout; });
-                    }
                     if (listOfPlayers != null)
                         playersList.Dispatcher.Invoke(() => { playersList.ItemsSource = listOfPlayers; });
                 }
@@ -121,12 +117,12 @@ namespace GUI_WPF
         */
         private void createRoomButton_Click(object sender, RoutedEventArgs e)
         {
-            keepRunning = false;
             Communicator.sendData(Convert.ToString(Communicator.START_GAME_REQUEST) + "\0\0\0\0");
             string error = checkServerResponse.checkIfErrorResponse();
             if(error == "")
             {
                 createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                keepRunning = false;
                 GameWindow newStatsWindow = new GameWindow();
                 this.Close();
                 newStatsWindow.Show();
