@@ -101,6 +101,7 @@ RequestResult RoomAdminHandler::startGame(const RequestInfo request) const
 	data.status = STATUS_SUCCESS;
 	try {
 		m_roomManager.setRoomActivity(m_room.getMetaData().id, ACTIVE);
+		m_handlerFactory.getGameManager().createGame(m_room);
 	}
 	catch (statusException& e)
 	{

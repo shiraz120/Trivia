@@ -37,13 +37,19 @@ namespace GUI_WPF
             {
                 getGameResultsResponse results = desirializer.deserializeRequest<getGameResultsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 winnerUsername = results.results[0].username;
-                highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
+                if (results.results[0].averageAnswerTime == 0)
+                    highestScore = results.results[0].correctAnswerCount * 1000
+                else
+                    highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
                 foreach (var item in results.results)
                 {
                     usersList.Items.Add(item.username + " - " + item.correctAnswerCount + " - " + item.averageAnswerTime);
                     if (item.correctAnswerCount * 1000 + 250 / item.averageAnswerTime > highestScore)
                     {
-                        highestScore = item.correctAnswerCount * 1000 + 250 / item.averageAnswerTime;
+                        if (results.results[0].averageAnswerTime == 0)
+                            highestScore = results.results[0].correctAnswerCount * 1000
+                        else
+                            highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
                         winnerUsername = item.username;
                     }
                 }

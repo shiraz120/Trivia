@@ -12,11 +12,11 @@ public:
 
 	void removeUser(const LoggedUser user);
 	bool checkIfGameOver(const LoggedUser user);
-	void updateUserData(const LoggedUser user, const GameData data);
+	void updateUserData(const LoggedUser user, const GameData data, const bool updateOnDB);
 	vector<PlayerResults> getAllPlayersData(const GameData data, const LoggedUser user);
-	
-private:
 	Game& getGameByUser(const LoggedUser user);
+
+private:
 	IDatabase* m_database;
 	vector<Game> m_games;
 	std::mutex m_gameMutex;

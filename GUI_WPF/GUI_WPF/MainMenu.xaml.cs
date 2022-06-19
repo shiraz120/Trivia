@@ -97,5 +97,13 @@ namespace GUI_WPF
             this.Close();
             newStatsWindow.Show();
         }
+
+        private void clickMeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Communicator.sendData(Communicator.GET_RANDOM_MASSAGE_REQUEST + "\0\0\0\0");
+            Communicator.GetMessageTypeCode();
+            randomMassageResponse response = desirializer.deserializeRequest<randomMassageResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+            MessageBox.Show(response.massage);
+        }
     }
 }

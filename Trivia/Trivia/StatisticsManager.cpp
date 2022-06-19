@@ -38,7 +38,7 @@ std::map<string, int> StatisticsManager::getHighScore() const
 	}
 	std::sort(score.begin(), score.end(), [](auto& left, auto& right) {return left.second > right.second;});
 	std::map<string, int> scoreAsMap;
-	for (int i = 0; i < AMOUNT_OF_USERS; i++)
+	for (int i = 0; i < AMOUNT_OF_USERS && i < score.size(); i++)
 	{
 		scoreAsMap[score[i].first] = score[i].second;
 	}

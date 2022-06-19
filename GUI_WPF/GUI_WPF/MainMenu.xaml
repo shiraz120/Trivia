@@ -6,7 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:GUI_WPF"
         mc:Ignorable="d"
-        Title="MainMenu" Height="550" Width="450"
+        Title="MainMenu" Height="620" Width="450"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{x:Null}"
         AllowsTransparency="True"
@@ -29,7 +29,8 @@
                         </StackPanel>
                     </StackPanel>
                 </materialDesign:PopupBox>
-
+                <Button Margin="30 20 0 0" HorizontalAlignment="Left"  x:Name="clickMeButton" Style="{StaticResource MaterialDesignFlatMidBgButton}" materialDesign:ShadowAssist.ShadowDepth="Depth0" Height="50" Width="100" materialDesign:ButtonAssist.CornerRadius="10" FontSize="14" Content="CLICK ME" Click="clickMeButton_Click"/>
+                
                 <Image Margin="0 30 0 5" Source="Logo.png" Height="100"/>
 
                 <TextBlock Margin="0 30 0 5" HorizontalAlignment="Center" FontSize="28" FontWeight="Bold" Text="Main Menu"/>

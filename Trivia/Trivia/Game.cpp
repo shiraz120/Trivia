@@ -39,18 +39,9 @@ output: currentQuestion
 */
 Question Game::getQuestionForUser(const LoggedUser user) 
 {
-	if (m_players[user].currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
+	if (m_players.find(user)->second.currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
 		throw statusException(STATUS_NO_MORE_QUESTIONS);
-	Question currentQuestion = m_players[user].currentQuestion;
-	for (int i = 0; i < m_questions.size(); i++ )
-	{
-		if (m_questions[i].getQuestion() == m_players[user].currentQuestion.getQuestion())
-		{
-			if ((i + 1) < m_questions.size())
-				m_players[user].currentQuestion = m_questions[i + 1];
-		}
-	}
-	return currentQuestion;
+	return m_players.find(user)->second.currentQuestion;
 }
 
 /*
@@ -61,9 +52,17 @@ output: none
 void Game::submitAnswer(const LoggedUser user, const string answer)
 {
 	if (m_players[user].currentQuestion.getCorrentAnswer() == answer)
-		m_players[user].correctAnswerCount += 1;
+		m_players.find(user)->second.correctAnswerCount += 1;
 	else
-		m_players[user].wrongAnswerCount += 1;
+		m_players.find(user)->second.wrongAnswerCount += 1;
+	for (int i = 0; i < m_questions.size(); i++)
+	{
+		if (m_questions[i].getQuestion() == m_players[user].currentQuestion.getQuestion() && (i + 1) < m_questions.size())
+		{
+			m_players.find(user)->second.currentQuestion = m_questions[i + 1];
+			return;
+		}
+	}
 }
 
 /*
@@ -134,27 +133,6 @@ output: none
 */
 void Game::updateUserData(const LoggedUser user, const GameData data)
 {
-	for (auto it : m_players)
-	{
-		if (it.first.getUsername() == user.getUsername())
-		{
-			it.second = data;
-			return;
-		}
-	}
+	m_players.find(user)->second = data;
 }
 
-/*
-this function will copy all the data from one room to another
-input: other
-output: updated current room
-*/
-Game& Game::operator=(const Game& other)
-{
-	if (this != &other)
-	{
-		this->m_players = other.m_players;
-		this->m_questions = other.m_questions;
-	}
-	return *this;
-}

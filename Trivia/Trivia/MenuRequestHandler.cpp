@@ -24,7 +24,7 @@ output: bool - is relevant or not
 */
 bool MenuRequestHandler::isRequestRelevant(const RequestInfo request) const
 {
-	if (CREATE_ROOM_REQUEST == request.id || request.id == JOIN_ROOM_REQUEST || request.id == GET_ROOMS_REQUEST || request.id == GET_PLAYERS_IN_ROOM_REQUEST || request.id == GET_PERSONAL_STATS_REQUEST || request.id == GET_HIGH_SCORE_REQUEST || request.id == SIGN_OUT_REQUEST)
+	if (GET_RANDOM_MASSAGE_REQUEST == request.id || CREATE_ROOM_REQUEST == request.id || request.id == JOIN_ROOM_REQUEST || request.id == GET_ROOMS_REQUEST || request.id == GET_PLAYERS_IN_ROOM_REQUEST || request.id == GET_PERSONAL_STATS_REQUEST || request.id == GET_HIGH_SCORE_REQUEST || request.id == SIGN_OUT_REQUEST)
 		return true;
 	return false;
 }
@@ -59,7 +59,20 @@ RequestResult MenuRequestHandler::handleRequest(const RequestInfo request)
 	case GET_HIGH_SCORE_REQUEST:
 		return getHighScore(request);
 		break;
+	case GET_RANDOM_MASSAGE_REQUEST:
+		return getRandomMassage(request);
+		break;
 	}
+}
+
+RequestResult MenuRequestHandler::getRandomMassage(const RequestInfo request) const
+{
+	RequestResult data;
+	getRandomMassageResponse response;
+	response.massage = "hello world";
+	data.response = JsonResponsePacketSerializer::serializeResponse<getRandomMassageResponse>(response, GET_RANDOM_MASSAGE_RESPONSE);
+	data.newHandler = m_handlerFactory.createMenuRequestHandler(m_user);
+	return data;
 }
 
 /*

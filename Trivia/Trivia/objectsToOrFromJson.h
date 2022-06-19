@@ -23,6 +23,7 @@ void to_json(json& jsonLeaveGameResponse, const LeaveGameResponse& leaveGame);
 void to_json(json& jsonGetQuestionResponse, const GetQuestionResponse& getQuestion);
 void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitAnswer);
 void to_json(json& jsonGetGameResultsResponse, const GetGameResultsResponse& getGameResults);
+void to_json(json& jsonGetRandomMassageResponse, const getRandomMassageResponse& getRandomMassage);
 
 /* Request */
 void from_json(const json& jsonLoginRequest, loginRequest& login);

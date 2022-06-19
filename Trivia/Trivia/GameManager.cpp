@@ -66,7 +66,7 @@ void GameManager::deleteGame(const LoggedUser userInRoom)
 		if (std::count(players.begin(), players.end(), userInRoom.getUsername()))
 		{
 			std::unique_lock<std::mutex> gameLock(m_gameMutex);
-			m_games.erase(m_games.begin(), m_games.begin() + i);
+			m_games.erase(m_games.begin() + i);
 			gameLock.unlock();
 		}
 	}
@@ -77,14 +77,17 @@ this function will update the user data in the data base and in the vector of ga
 input: user, data
 output: none
 */
-void GameManager::updateUserData(const LoggedUser user, const GameData data)
+void GameManager::updateUserData(const LoggedUser user, const GameData data, const bool updateOnDB)
 {
 	string username = user.getUsername();
 	getGameByUser(user).updateUserData(user, data);
-	m_database->updateNumOfCorrectAnswers(username, data.correctAnswerCount);
-	m_database->updateNumOfPlayersGames(username);
-	m_database->updateNumOfIncorrectAnswers(username, data.wrongAnswerCount);
-	m_database->updatePlayerAverageAnswerTime(username, data.averageAnswerTime);
+	if (updateOnDB)
+	{
+		m_database->updateNumOfCorrectAnswers(username, data.correctAnswerCount);
+		m_database->updateNumOfPlayersGames(username);
+		m_database->updateNumOfIncorrectAnswers(username, data.wrongAnswerCount);
+		m_database->updatePlayerAverageAnswerTime(username, data.averageAnswerTime);
+	}
 }
 
 /*
@@ -133,5 +136,3 @@ Game& GameManager::getGameByUser(const LoggedUser user)
 			return m_games[i];
 	}
 }
-
-

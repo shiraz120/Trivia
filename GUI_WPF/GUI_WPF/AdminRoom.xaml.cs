@@ -127,9 +127,9 @@ namespace GUI_WPF
             if(error == "")
             {
                 createRoomResponse createRoomResponse = desirializer.deserializeRequest<createRoomResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                GameWindow newStatsWindow = new GameWindow();
+                GameWindow newGame = new GameWindow(this);
                 this.Close();
-                newStatsWindow.Show();
+                newGame.Show();
             }
             else
                 Application.Current.Shutdown();

@@ -62,7 +62,7 @@ namespace GUI_WPF
                     /* MOVE TO GAME WINDOW */
                     keepRunning = false;
                     Application.Current.Dispatcher.Invoke(() => {
-                        GameWindow newRoomListWindow = new GameWindow();
+                        GameWindow newRoomListWindow = new GameWindow(this);
                         this.Close();
                         newRoomListWindow.Show();
                     });

@@ -5,24 +5,8 @@ this function will create a new GameHandler object
 input: user, handlerFactory
 output: none
 */
-GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername()), m_lastTimeAnswered(clock())
+GameHandler::GameHandler(const LoggedUser user, RequestHandlerFactory& handlerFactory) : m_handlerFactory(handlerFactory), m_gameManager(handlerFactory.getGameManager()), m_user(user.getUsername()), m_lastTimeAnswered(std::chrono::system_clock::to_time_t(std::chrono::system_clock::now())), m_game(handlerFactory.getGameManager().getGameByUser(user))
 {
-	std::vector<RoomData> rooms = m_handlerFactory.getRoomManager().getRooms();
-	std::vector<string> players;
-	for (RoomData room : rooms)
-	{
-		try
-		{
-			players = m_handlerFactory.getRoomManager().getAllUsersFromSpecificRoom(room.id);
-		}
-		catch (statusException&)
-		{
-		}
-		if (std::count(players.begin(), players.end(), user.getUsername()) == 1)
-		{
-			m_game = m_gameManager.createGame(Room(room, LoggedUser(players[0])));
-		}
-	}
 }
 
 /*
@@ -112,6 +96,11 @@ RequestResult GameHandler::getQuestion(const RequestInfo request)
 	catch (statusException& e)
 	{
 		data.status = e.statusRet();
+		data.answers[0] = "";
+		data.answers[1] = "";
+		data.answers[2] = "";
+		data.answers[3] = "";
+		data.question = "";
 	}
 	response.response = JsonResponsePacketSerializer::serializeResponse<GetQuestionResponse>(data, GET_QUESTION_RSPONSE);
 	response.newHandler = m_handlerFactory.createGameRequestHandler(m_user);
@@ -128,21 +117,22 @@ RequestResult GameHandler::submitAnswer(const RequestInfo request)
 	RequestResult response;
 	SubmitAnswerResponse data;
 	SubmitAnswerRequest userData = JsonRequestPacketDeserializer::deserializeRequest<SubmitAnswerRequest>(request.buffer);
-	clock_t timeNow = clock();
+	clock_t timeNow = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 	data.status = STATUS_SUCCESS;
 	try
 	{
-		vector<string> answers = m_game.getQuestionForUser(m_user).getPossibleAnswers();
-		string correctAnswer = m_game.getQuestionForUser(m_user).getCorrentAnswer();
-		m_game.submitAnswer(m_user, m_game.getQuestionForUser(m_user).getPossibleAnswers()[userData.answerId]);
+		Question question = m_game.getQuestionForUser(m_user);
+		vector<string> answers = question.getPossibleAnswers();
+		string correctAnswer = question.getCorrentAnswer();
 		for (int i = 0; i < answers.size(); i++)
 		{
 			if (answers[i] == correctAnswer)
 				data.correctAnswerId = i;
 		}
+		m_game.submitAnswer(m_user, question.getPossibleAnswers()[userData.answerId]);
 		m_game.updateAvgTime(m_user, float(timeNow - m_lastTimeAnswered));
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user), false);
 		m_lastTimeAnswered = timeNow;
-		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user));
 	}
 	catch (statusException& e)
 	{
@@ -166,7 +156,8 @@ RequestResult GameHandler::getGameResults(const RequestInfo request) const
 	if (m_gameManager.checkIfGameOver(m_user))
 	{
 		data.status = STATUS_GAME_OVER;
-		data.results = m_gameManager.getAllPlayersData(m_game.getPlayerGameData(m_user), m_user);
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user), true); // update user game results when the game is over
+		data.results = m_gameManager.getAllPlayersData(m_game.getPlayerGameData(m_user), m_user); 
 		m_gameManager.deleteGame(m_user);
 		m_handlerFactory.getRoomManager().deleteRoom(getRoomId());
 	}
@@ -195,14 +186,7 @@ RequestResult GameHandler::leaveGame(const RequestInfo request) const
 	data.status = STATUS_SUCCESS;
 	try
 	{
-		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user)); // puts in another try because even if there is a problem with the data base the user still needs to get deleted from the room
-	}
-	catch (statusException& e)
-	{
-		data.status = e.statusRet();
-	}
-	try
-	{
+		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user), true); // update user game results when the user leaves the game
 		m_gameManager.removeUser(m_user);
 		m_handlerFactory.getRoomManager().removeUserFromARoom(getRoomId(), m_user);
 	}

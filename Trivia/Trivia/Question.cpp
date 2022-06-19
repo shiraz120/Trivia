@@ -19,7 +19,7 @@ Question::Question(const string question, const string correctAnswer, const stri
 	vector<string> temp = { firstIncorrect, secondIncorrect, thirdIncorrect };
 	int amountOfAnswers = MAX - std::count(temp.begin(), temp.end(), "");
 	int counter = 0;
-	m_possibleAnswers.resize(amountOfAnswers + 1);
+	m_possibleAnswers.resize(MAX + 1);
 	m_possibleAnswers[rand() % (amountOfAnswers - MIN + 1) + MIN] = correctAnswer;
 	for (int i = 0; i < m_possibleAnswers.size(); i++)
 	{
@@ -68,21 +68,4 @@ output: m_correctAnswer
 string Question::getCorrentAnswer() const
 {
 	return m_correctAnswer;
-}
-
-/*
-this function will copy another Question object variables to the current Question object
-input: other
-output: refrence to the new current Question object
-*/
-Question& Question::operator=(const Question& other)
-{
-	if (this != &other)
-	{
-		this->m_question = other.m_question;
-		this->m_correctAnswer = other.m_correctAnswer;
-		for (auto it : other.getPossibleAnswers())
-			this->m_possibleAnswers.push_back(it);
-	}
-	return *this;
 }

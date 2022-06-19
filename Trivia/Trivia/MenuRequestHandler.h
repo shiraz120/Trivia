@@ -15,6 +15,7 @@ private:
 	RoomManager& m_roomManager;
 	StatisticsManager& m_statisticsManager;
 	RequestHandlerFactory& m_handlerFactory;
+	RequestResult getRandomMassage(const RequestInfo request) const;
 	RequestResult signout(const RequestInfo request) const;
 	RequestResult getRooms(const RequestInfo request) const;
 	RequestResult getPlayersInRoom(const RequestInfo request) const;

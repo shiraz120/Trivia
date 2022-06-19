@@ -57,7 +57,12 @@ void to_json(json& jsonLeaveGameResponse, const LeaveGameResponse& leaveGame)
 
 void to_json(json& jsonGetQuestionResponse, const GetQuestionResponse& getQuestion)
 {
-	jsonGetQuestionResponse = json{ { "question", getQuestion.question }, {"answers", getQuestion.answers}, {"status", getQuestion.status} };
+	vector<unsigned int> answersIndex;
+	for (auto it : getQuestion.answers)
+	{
+		answersIndex.push_back(it.first);
+	}
+	jsonGetQuestionResponse = json{ { "question", getQuestion.question }, {"answers", {{std::to_string(answersIndex[0]), getQuestion.answers.find(answersIndex[0])->second}, {std::to_string(answersIndex[1]), getQuestion.answers.find(answersIndex[1])->second}, {std::to_string(answersIndex[2]), getQuestion.answers.find(answersIndex[2])->second}, {std::to_string(answersIndex[3]), getQuestion.answers.find(answersIndex[3])->second}}}, {"status", getQuestion.status}};
 }
 
 void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitAnswer)
@@ -68,6 +73,11 @@ void to_json(json& jsonSubmitAnswerResponse, const SubmitAnswerResponse& submitA
 void to_json(json& jsonGetGameResultsResponse, const GetGameResultsResponse& getGameResults)
 {
 	jsonGetGameResultsResponse = json{ { "status", getGameResults.status }, {"results", getGameResults.results} };
+}
+
+void to_json(json& jsonGetRandomMassageResponse, const getRandomMassageResponse& getRandomMassage)
+{
+	jsonGetRandomMassageResponse = json{ {"massage", getRandomMassage.massage}};
 }
 
 void to_json(json& jsonLogoutResponse, const LogoutResponse& logout)

@@ -16,7 +16,6 @@ public:
 	string getQuestion() const;
 	vector<string> getPossibleAnswers() const;
 	string getCorrentAnswer() const;
-	Question& operator=(const Question& other);
 
 private:
 	string m_correctAnswer;

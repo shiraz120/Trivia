@@ -27,6 +27,8 @@
 #define GET_QUESTION_RSPONSE 'q'
 #define GET_GAME_RESULTS_RSPONSE 'r'
 
+#define GET_RANDOM_MASSAGE_RESPONSE 'z'
+
 using std::string;
 using json = nlohmann::json;
 
@@ -137,4 +139,9 @@ struct GetGameResultsResponse
 {
 	unsigned int status;
 	std::vector<PlayerResults> results;
+};
+
+struct getRandomMassageResponse
+{
+	string massage;
 };
