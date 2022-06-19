@@ -11,6 +11,6 @@ namespace GUI_WPF
         public string username;
         public int correctAnswerCount;
         public int wrongAnswerCount;
-        public int averageAnswerTime;
+        public double averageAnswerTime;
     }
 }

@@ -28,7 +28,7 @@ namespace GUI_WPF
         public ScoreboardWindow()
         {
             InitializeComponent();
-            int highestScore = 0;
+            double highestScore = 0;
             string winnerUsername = "";
             string request = Convert.ToString(Communicator.GET_GAME_RESULTS_REQUEST) + "\0\0\0\0";
             Communicator.sendData(request);
@@ -38,16 +38,16 @@ namespace GUI_WPF
                 getGameResultsResponse results = desirializer.deserializeRequest<getGameResultsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
                 winnerUsername = results.results[0].username;
                 if (results.results[0].averageAnswerTime == 0)
-                    highestScore = results.results[0].correctAnswerCount * 1000
+                    highestScore = results.results[0].correctAnswerCount * 1000;
                 else
-                    highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
+                    highestScore = results.results[0].correctAnswerCount * 1000.0 + (250.0 / results.results[0].averageAnswerTime);
                 foreach (var item in results.results)
                 {
                     usersList.Items.Add(item.username + " - " + item.correctAnswerCount + " - " + item.averageAnswerTime);
                     if (item.correctAnswerCount * 1000 + 250 / item.averageAnswerTime > highestScore)
                     {
                         if (results.results[0].averageAnswerTime == 0)
-                            highestScore = results.results[0].correctAnswerCount * 1000
+                            highestScore = results.results[0].correctAnswerCount * 1000;
                         else
                             highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
                         winnerUsername = item.username;
