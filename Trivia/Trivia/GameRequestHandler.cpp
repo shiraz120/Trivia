@@ -148,7 +148,7 @@ this function will receive a request and return the game results if the game is 
 input: request
 output: RequestResult
 */
-RequestResult GameHandler::getGameResults(const RequestInfo request) const
+RequestResult GameHandler::getGameResults(const RequestInfo request) 
 {
 	RequestResult response;
 	GetGameResultsResponse data;
@@ -157,9 +157,14 @@ RequestResult GameHandler::getGameResults(const RequestInfo request) const
 	{
 		data.status = STATUS_GAME_OVER;
 		m_gameManager.updateUserData(m_user, m_game.getPlayerGameData(m_user), true); // update user game results when the game is over
-		data.results = m_gameManager.getAllPlayersData(m_game.getPlayerGameData(m_user), m_user); 
-		m_gameManager.deleteGame(m_user);
-		m_handlerFactory.getRoomManager().deleteRoom(getRoomId());
+		data.results = m_gameManager.getAllPlayersData(m_game.getPlayerGameData(m_user), m_user);
+		//m_gameManager.deleteGame(m_user);
+		try
+		{
+			m_handlerFactory.getRoomManager().deleteRoom(getRoomId());
+		}
+		catch(statusException&) // only catching and not changing the data status, even if the room doesnt exist its not relevant for the user so there is no point on giving the user that information
+		{ }
 	}
 	else
 	{
@@ -179,7 +184,7 @@ this function will receive a request and remove a m_user from the room and from 
 input: request
 output: RequestResult
 */
-RequestResult GameHandler::leaveGame(const RequestInfo request) const
+RequestResult GameHandler::leaveGame(const RequestInfo request)
 {
 	RequestResult response;
 	LeaveGameResponse data;

@@ -172,7 +172,8 @@ namespace GUI_WPF
                 System.Environment.Exit(1);
                 Communicator.closeStream();
             }
-            return convertStringToInt(System.Text.Encoding.UTF8.GetString(buffer));
+            int size = convertStringToInt(System.Text.Encoding.UTF8.GetString(buffer));
+            return size;
         }
     }
 }

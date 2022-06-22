@@ -21,6 +21,7 @@ namespace GUI_WPF
     /// </summary>
     public partial class GameWindow : Window
     {
+        private const int thereAreStillQuestions = 1;
         public GameWindow(Window windowToClose)
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace GUI_WPF
             if (error == "")
             {
                 getQuestionResponse getQuestionResponse = desirializer.deserializeRequest<getQuestionResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                if(getQuestionResponse.status == 1)
+                if(getQuestionResponse.status == thereAreStillQuestions)
                 {
                     questionText.Text = getQuestionResponse.question;
                     answerOne.Content = getQuestionResponse.answers[0];
@@ -94,29 +95,32 @@ namespace GUI_WPF
 
         private void handleAnswerClick(int index, Button btn)
         {
-            submitAnswerRequest request = new submitAnswerRequest();
-            request.answerId = index;
-            Communicator.sendData(serializer.serializeResponse<submitAnswerRequest>(request, Communicator.SUBMIT_ANSWER_REQUEST));
-            string error = checkServerResponse.checkIfErrorResponse();
-            if(error == "")
+            if(Convert.ToString(btn.Content) != "")
             {
-                submitAnswerResponse response = desirializer.deserializeRequest<submitAnswerResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                if (response.correctAnswerId != index)
-                    btn.Background = Brushes.Red;
-                if (response.correctAnswerId == 0)
-                    answerOne.Background = Brushes.Green;
-                else if(response.correctAnswerId == 1)
-                    answerTwo.Background = Brushes.Green;
-                else if(response.correctAnswerId == 2)
-                    answerThree.Background = Brushes.Green;
-                else if(response.correctAnswerId == 3)
-                    answerFour.Background = Brushes.Green;
-                GameWindow newQuestion = new GameWindow(this);
-            }
-            else
-            {
-                MessageBox.Show(error);
-                Application.Current.Shutdown();
+                submitAnswerRequest request = new submitAnswerRequest();
+                request.answerId = index;
+                Communicator.sendData(serializer.serializeResponse<submitAnswerRequest>(request, Communicator.SUBMIT_ANSWER_REQUEST));
+                string error = checkServerResponse.checkIfErrorResponse();
+                if(error == "")
+                {
+                    submitAnswerResponse response = desirializer.deserializeRequest<submitAnswerResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                    if (response.correctAnswerId != index)
+                        btn.Background = Brushes.Red;
+                    if (response.correctAnswerId == 0)
+                        answerOne.Background = Brushes.Green;
+                    else if(response.correctAnswerId == 1)
+                        answerTwo.Background = Brushes.Green;
+                    else if(response.correctAnswerId == 2)
+                        answerThree.Background = Brushes.Green;
+                    else if(response.correctAnswerId == 3)
+                        answerFour.Background = Brushes.Green;
+                    GameWindow newQuestion = new GameWindow(this);
+                }
+                else
+                {
+                    MessageBox.Show(error);
+                    Application.Current.Shutdown();
+                }
             }
         }
         

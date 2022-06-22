@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,6 +21,7 @@ namespace GUI_WPF
     /// </summary>
     public partial class ScoreboardWindow : Window
     {
+        private const int gameNotOver = 0;
         /*
         this function prints the scoreboard and initialize the window
         input: none
@@ -28,44 +30,9 @@ namespace GUI_WPF
         public ScoreboardWindow()
         {
             InitializeComponent();
-            double highestScore = 0;
-            string winnerUsername = "";
-            string request = Convert.ToString(Communicator.GET_GAME_RESULTS_REQUEST) + "\0\0\0\0";
-            Communicator.sendData(request);
-            string error = checkServerResponse.checkIfErrorResponse();
-            if (error == "")
-            {
-                getGameResultsResponse results = desirializer.deserializeRequest<getGameResultsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
-                winnerUsername = results.results[0].username;
-                if (results.results[0].averageAnswerTime == 0)
-                    highestScore = results.results[0].correctAnswerCount * 1000;
-                else
-                    highestScore = results.results[0].correctAnswerCount * 1000.0 + (250.0 / results.results[0].averageAnswerTime);
-                foreach (var item in results.results)
-                {
-                    usersList.Items.Add(item.username + " - " + item.correctAnswerCount + " - " + item.averageAnswerTime);
-                    if (item.correctAnswerCount * 1000 + 250 / item.averageAnswerTime > highestScore)
-                    {
-                        if (results.results[0].averageAnswerTime == 0)
-                            highestScore = results.results[0].correctAnswerCount * 1000;
-                        else
-                            highestScore = results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime;
-                        winnerUsername = item.username;
-                    }
-                }
-                winner.Text = "Winner: " + winnerUsername;
-            }
-            else if (error == "Error: request isnt relevant for the current handler.")
-            {
-                Application.Current.Shutdown();
-            }
-            else
-            {
-                highScoreDataText.Foreground = System.Windows.Media.Brushes.Red;
-                highScoreDataText.Text = error;
-            }
+            Thread getResults = new Thread(updateGameResults);
+            getResults.Start();
         }
-
         /*
         this function toggles the theme
         input: sender and event
@@ -95,6 +62,47 @@ namespace GUI_WPF
         private void mainMenuButton_Click(object sender, RoutedEventArgs e)
         {
             sharedFunctionsBetweenWindows.moveToMenu(this);
+        }
+
+        private void updateGameResults()
+        {
+            string request = "";
+            string error = "";
+            getGameResultsResponse results;
+            do
+            {
+                request = Convert.ToString(Communicator.GET_GAME_RESULTS_REQUEST) + "\0\0\0\0";
+                Communicator.sendData(request);
+                error = checkServerResponse.checkIfErrorResponse();
+                if (error != "")
+                {
+                    MessageBox.Show(error);
+                    Application.Current.Shutdown();
+                }
+                results = desirializer.deserializeRequest<getGameResultsResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(checkServerResponse.MAX_DATA_SIZE)));
+                Thread.Sleep(3000);
+            } while (results.status == gameNotOver);
+            int highestScore = 0;
+            string winnerUsername = "";
+            highScoreDataText.Dispatcher.Invoke(() => { highScoreDataText.Text = ""; });
+            winnerUsername = results.results[0].username;
+            if (results.results[0].averageAnswerTime == 0)
+                highestScore = results.results[0].correctAnswerCount * 1000;
+            else
+                highestScore = Convert.ToInt32(results.results[0].correctAnswerCount * 1000.0 + (250.0 / results.results[0].averageAnswerTime));
+            foreach (var item in results.results)
+            {
+                usersList.Dispatcher.Invoke(() => { usersList.Items.Add(item.username + " - " + item.correctAnswerCount + " - " + item.averageAnswerTime); } );
+                if (item.correctAnswerCount * 1000 + 250 / item.averageAnswerTime > highestScore)
+                {
+                    if (results.results[0].averageAnswerTime == 0)
+                        highestScore = results.results[0].correctAnswerCount * 1000;
+                    else
+                        highestScore = Convert.ToInt32(results.results[0].correctAnswerCount * 1000 + 250 / results.results[0].averageAnswerTime);
+                    winnerUsername = item.username;
+                }
+            }
+            winner.Dispatcher.Invoke(() => { winner.Text = "Winner: " + winnerUsername; });
         }
 
         /*

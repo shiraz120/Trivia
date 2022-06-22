@@ -64,7 +64,7 @@ void GameManager::deleteGame(const LoggedUser userInRoom)
 	{
 		vector<string> players = m_games[i].getPlayersInRoom();
 		if (std::count(players.begin(), players.end(), userInRoom.getUsername()))
-		{
+		{			
 			std::unique_lock<std::mutex> gameLock(m_gameMutex);
 			m_games.erase(m_games.begin() + i);
 			gameLock.unlock();

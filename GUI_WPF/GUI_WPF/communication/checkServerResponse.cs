@@ -113,7 +113,8 @@ namespace GUI_WPF
         */
         static public string checkIfErrorResponse()
         {
-            if (Communicator.GetMessageTypeCode() == Convert.ToString(ERROR_RESPONSE))
+            string messageTypeCode = Communicator.GetMessageTypeCode();
+            if (messageTypeCode == Convert.ToString(ERROR_RESPONSE))
             {
                 ErrorResponse errorResponse = desirializer.deserializeRequest<ErrorResponse>(Communicator.GetStringPartFromSocket(Communicator.getSizePart(MAX_DATA_SIZE)));
                 return errorResponse.message;

@@ -3,10 +3,10 @@
 #include "LoggedUser.h"
 #include "statusException.h"
 #include "Response.h"
-#include <ctime>
 #include <iostream>
 #include <vector>
 #include <map>
+#include <mutex>
 #define NO_MORE_QUESTIONS "GameError: NO MORE QUESTIONS"
 #define STATUS_NO_MORE_QUESTIONS 0
 #define STATUS_THERE_ARE_STILL_QUESTIONS 1
@@ -19,17 +19,20 @@ class Game
 {
 public:
 	Game();
+	Game(const Game& game);
 	Game(const vector<string> players, const vector<Question> questions);
 	~Game();
 	Question getQuestionForUser(const LoggedUser user);
 	void submitAnswer(const LoggedUser user, const string answer);
 	void removeUser(const LoggedUser user);
 
-	vector<string> getPlayersInRoom() const;
-	GameData getPlayerGameData(const LoggedUser user) const;
+	vector<string> getPlayersInRoom();
+	GameData getPlayerGameData(const LoggedUser user);
 	void updateAvgTime(const LoggedUser user, const float time);
 	void updateUserData(const LoggedUser user, const GameData data);
+	Game& operator=(const Game& other);
 private:
+	std::mutex m_playersMutex;
 	vector<Question> m_questions;
 	map<LoggedUser, GameData> m_players;
 };

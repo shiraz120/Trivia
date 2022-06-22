@@ -20,8 +20,8 @@ private:
 	RequestHandlerFactory& m_handlerFactory;
 	RequestResult getQuestion(const RequestInfo request);
 	RequestResult submitAnswer(const RequestInfo request);
-	RequestResult getGameResults(const RequestInfo request) const;
-	RequestResult leaveGame(const RequestInfo request) const;
+	RequestResult getGameResults(const RequestInfo request);
+	RequestResult leaveGame(const RequestInfo request);
 
 	unsigned int getRoomId() const;
 	clock_t m_lastTimeAnswered;

@@ -10,6 +10,16 @@ Game::Game()
 }
 
 /*
+this function will create game object by copying all values from another game object
+input: game
+output: none
+*/
+Game::Game(const Game& game)
+{
+	*this = game;
+}
+
+/*
 this function will create a game object
 input: players, questions
 output: none
@@ -39,6 +49,7 @@ output: currentQuestion
 */
 Question Game::getQuestionForUser(const LoggedUser user) 
 {
+	std::lock_guard<std::mutex> playersLock(m_playersMutex);
 	if (m_players.find(user)->second.currentQuestion.getQuestion() == NO_MORE_QUESTIONS)
 		throw statusException(STATUS_NO_MORE_QUESTIONS);
 	return m_players.find(user)->second.currentQuestion;
@@ -51,12 +62,15 @@ output: none
 */
 void Game::submitAnswer(const LoggedUser user, const string answer)
 {
+	std::unique_lock<std::mutex> playersLock(m_playersMutex);
 	if (m_players[user].currentQuestion.getCorrentAnswer() == answer)
 		m_players.find(user)->second.correctAnswerCount += 1;
 	else
 		m_players.find(user)->second.wrongAnswerCount += 1;
+	playersLock.unlock();
 	for (int i = 0; i < m_questions.size(); i++)
 	{
+		std::lock_guard<std::mutex> playersLock(m_playersMutex);
 		if (m_questions[i].getQuestion() == m_players[user].currentQuestion.getQuestion() && (i + 1) < m_questions.size())
 		{
 			m_players.find(user)->second.currentQuestion = m_questions[i + 1];
@@ -75,6 +89,7 @@ void Game::removeUser(const LoggedUser user)
 	for (auto it : m_players)
 		if (it.first.getUsername() == user.getUsername())
 		{
+			std::lock_guard<std::mutex> playersLock(m_playersMutex);
 			m_players.erase(it.first);
 			return;
 		}
@@ -85,11 +100,12 @@ this function will return all the players in the room
 input: none
 output: players
 */
-vector<string> Game::getPlayersInRoom() const
+vector<string> Game::getPlayersInRoom()
 {
 	vector<string> players;
 	for (auto it = m_players.begin(); it != m_players.end(); ++it)
 	{
+		std::lock_guard<std::mutex> playersLock(m_playersMutex);
 		players.push_back(it->first.getUsername());
 	}
 	return players;
@@ -102,11 +118,14 @@ output: none
 */
 void Game::updateAvgTime(const LoggedUser user, const float time)
 {
-	for (auto& playersData : m_players) {
+	for (auto& playersData : m_players) 
+	{
+		std::lock_guard<std::mutex> playersLock(m_playersMutex);
 		if (playersData.first.getUsername() == user.getUsername())
 		{
 			int amountOfQuestionsAnswered = playersData.second.correctAnswerCount + playersData.second.wrongAnswerCount;
 			playersData.second.averageAnswerTime = ((playersData.second.averageAnswerTime * (amountOfQuestionsAnswered - 1)) + time) / (amountOfQuestionsAnswered);
+			float check = playersData.second.averageAnswerTime;
 		}
 	}
 }
@@ -116,10 +135,12 @@ this function will return a requested user game data
 input: user
 output: playerData
 */
-GameData Game::getPlayerGameData(const LoggedUser user) const
+GameData Game::getPlayerGameData(const LoggedUser user)
 {
 	GameData playerData;
-	for (const auto& playersData : m_players) {
+	for (const auto& playersData : m_players) 
+	{
+		std::lock_guard<std::mutex> playersLock(m_playersMutex);
 		if (playersData.first.getUsername() == user.getUsername())
 			playerData = playersData.second;
 	}
@@ -134,5 +155,20 @@ output: none
 void Game::updateUserData(const LoggedUser user, const GameData data)
 {
 	m_players.find(user)->second = data;
+}
+
+/*
+this function will be used as operator = and copy all variables from other to this
+input: other
+output: the new this object
+*/
+Game& Game::operator=(const Game& other)
+{
+	if (this != &other)
+	{
+		this->m_players = other.m_players;
+		this->m_questions = other.m_questions;
+	}
+	return *this;
 }
 
